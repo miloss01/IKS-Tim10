@@ -9,11 +9,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 import { RegisterAccountComponent } from './components/register-account/register-account.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterAccountComponent
+    RegisterAccountComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
