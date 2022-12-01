@@ -1,0 +1,20 @@
+.toolbar_color {
+  background-color: black;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.white-text {
+  color: white;
+}
+
+.red-text {
+  color: red;
+}
+
+.center-text {
+  margin: 0 auto;
+  /* text-align: center; */
+}
