@@ -13,13 +13,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 import { RegisterAccountComponent } from './components/register-account/register-account.component';
+import { HomeComponent } from './components/home/home.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterAccountComponent
+    RegisterAccountComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
