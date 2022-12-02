@@ -10,12 +10,14 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 import { RegisterAccountComponent } from './components/register-account/register-account.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterAccountComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,
