@@ -16,14 +16,16 @@ import { RegisterAccountComponent } from './components/register-account/register
 import { HomeComponent } from './components/home/home.component';
 
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterAccountComponent,
-    HomeComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    LandingPageComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
