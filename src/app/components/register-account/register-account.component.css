@@ -1,0 +1,29 @@
+form {
+    margin: 45px;
+  }
+
+::ng-deep div.mat-grid-tile-content{
+    display: block !important;
+    margin: 5vw;
+  }
+
+button {
+    margin:auto !important;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24vw;
+  height: 2.5em !important;
+}
+
+.app-reg-col > * {
+    width: 80% !important;
+    margin-left: 4vw !important;
+    margin-right: 4vw !important;
+}
+
+.app-reg-col {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+}
