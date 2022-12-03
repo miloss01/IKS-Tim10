@@ -1,5 +1,5 @@
 form {
-    margin: 45px;
+    margin: 55px;
   }
 
 ::ng-deep div.mat-grid-tile-content{
@@ -9,11 +9,14 @@ form {
 
 button {
     margin:auto !important;
+    margin-top: 5vh !important;
+    margin-bottom: 2vh !important;
     display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 24vw;
-  height: 2.5em !important;
+    justify-content: center;
+    align-items: center;
+    width: 24vw;
+    height: 2.75em !important;
+    background-color: black !important;
 }
 
 .app-reg-col > * {
@@ -26,4 +29,27 @@ button {
     width: 50%;
     display: inline-block;
     vertical-align: top;
+}
+
+.app-reg-instruction {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+p {
+  font-weight: 500;
+}
+
+h2 {
+  margin-top: 10vh;
+  font-size: x-large;
+}
+
+button:hover {
+  background-color: #405241 !important;
+}
+
+a {
+  color: #070707;
 }
