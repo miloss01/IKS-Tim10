@@ -50,6 +50,7 @@ button:hover {
   background-color: #405241 !important;
 }
 
-a {
-  color: #070707;
+.app-page-padding-bottom {
+  padding-bottom: 10vh;
+  display: block;
 }
