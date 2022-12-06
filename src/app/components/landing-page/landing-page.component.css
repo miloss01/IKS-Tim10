@@ -1,0 +1,57 @@
+
+body {
+  background-color: #EAECE9;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: white;
+  border-radius: 5px;
+}
+
+.form-title {
+  text-transform: uppercase;
+  font-size: larger;
+  margin-bottom: 30px;
+}
+
+.main-landing {
+  display: flex;
+  flex-direction: row;
+  /* background-color: aqua; */
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin: 10vh 0 0 0;
+}
+
+.right-form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 30px;
+}
+
+.calculated-data {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* background-color: red; */
+}
+
+.data {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.form-params {
+  display: flex;
+  flex-direction: column;
+}
+
+.move-right {
+  text-align: end;
+}
+
+.input-icon {
+  margin-right: 10px;
+}
