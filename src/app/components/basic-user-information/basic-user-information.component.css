@@ -1,0 +1,55 @@
+
+.container {
+    position: relative;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Make the image responsive */
+  .container img {
+    max-width: 100%;
+    height: auto;
+  }
+  .oneLine{
+    display: block;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+  
+  .container .icon {
+    position: absolute;
+    top: 90%;
+    left: 90%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #555;
+    color: white;
+    padding: 2px 4px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .container .icon:hover {
+    background-color: black;
+  }
+
+  .toTheright {
+    margin-left: 12%;
+  }
+
+  a {
+    display: block;
+    width: fit-content;
+    color: black;
+    margin-bottom: 1vh;
+  }
+
+  button {
+    background-color: black;
+    color: white;
+  }
+
+  

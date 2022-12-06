@@ -17,6 +17,9 @@ import { HomeComponent } from './components/home/home.component';
 
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { BasicUserInformationComponent } from './components/basic-user-information/basic-user-information.component';
+import { PassengerUserInfoComponent } from './components/passenger-user-info/passenger-user-info.component';
+import { PassengerOtherAccInfoComponent } from './components/passenger-other-acc-info/passenger-other-acc-info.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
     RegisterAccountComponent,
     ToolbarComponent,
     LandingPageComponent,
-    HomeComponent
+    HomeComponent,
+    BasicUserInformationComponent,
+    PassengerUserInfoComponent,
+    PassengerOtherAccInfoComponent
   ],
   imports: [
     BrowserModule,
