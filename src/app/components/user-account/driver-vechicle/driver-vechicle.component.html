@@ -1,6 +1,33 @@
 <div class="container">
-    <h2>Vehicle</h2>
-    <img src={{imageSrc}} alt="profilePicture">
-    <mat-icon class="icon" onclick="changePicture()">edit</mat-icon>
-    <!--<button class="btn">Button</button>-->
+    <div class="flex-elem">
+        <h2>Vehicle</h2>
+        <img src={{imageSrc}} alt="vechiclePicture">
+    </div>
+    <div class="flex-elem2">
+        <form [formGroup]="changingInformationForm" class="oneElementPerRow">
+
+            <mat-form-field class="oneLine">
+                <mat-label>Name</mat-label>
+                <input matInput type="text" name="carName" formControlName="carName"/>
+            </mat-form-field>
+            
+            <mat-form-field class="oneLine">
+                <mat-label>Last name</mat-label>
+                <input matInput type="text" name="lisencePlate" formControlName="lisencePlate" />
+            </mat-form-field>
+            
+            <mat-form-field class="oneLine">
+                <mat-label>Telephone number</mat-label>
+                <input matInput type="number" name="numberOfSeats" formControlName="numberOfSeats"/>
+            </mat-form-field>
+            
+        </form>
+        <p>Average mark: {{averageGrade}}<mat-icon>star</mat-icon></p>
+        <mat-checkbox labelPosition="before" [checked]="babySeat" class="oneLine">Baby seat available</mat-checkbox>
+        <mat-checkbox labelPosition="before" [checked]="petsAllowed" class="oneLine">Pets allowed</mat-checkbox>
+        <button mat-raised-button onclick="submitChanges">Save changes</button>
+       
+    </div>
+    
+    
 </div>
