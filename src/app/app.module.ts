@@ -17,9 +17,12 @@ import { HomeComponent } from './components/home/home.component';
 
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
-import { BasicUserInformationComponent } from './components/basic-user-information/basic-user-information.component';
-import { PassengerUserInfoComponent } from './components/passenger-user-info/passenger-user-info.component';
-import { PassengerOtherAccInfoComponent } from './components/passenger-other-acc-info/passenger-other-acc-info.component';
+import { BasicUserInformationComponent } from './components/user-account/basic-user-information/basic-user-information.component';
+import { PassengerUserInfoComponent } from './components/user-account/passenger-user-info/passenger-user-info.component';
+import { PassengerOtherAccInfoComponent } from './components/user-account/passenger-other-acc-info/passenger-other-acc-info.component';
+import { DriverUserInfoComponent } from './components/user-account/driver-user-info/driver-user-info.component';
+import { DriverVechicleComponent } from './components/user-account/driver-vechicle/driver-vechicle.component';
+import { DriverDocumentsComponent } from './components/user-account/driver-documents/driver-documents.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import { PassengerOtherAccInfoComponent } from './components/passenger-other-acc
     HomeComponent,
     BasicUserInformationComponent,
     PassengerUserInfoComponent,
-    PassengerOtherAccInfoComponent
+    PassengerOtherAccInfoComponent,
+    DriverUserInfoComponent,
+    DriverVechicleComponent,
+    DriverDocumentsComponent
   ],
   imports: [
     BrowserModule,

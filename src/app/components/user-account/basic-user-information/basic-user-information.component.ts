@@ -10,6 +10,7 @@ export class BasicUserInformationComponent implements OnInit {
   imageSrc: string;
 
   constructor() {
+    //this.imageSrc = "http://t3.gstatic.com/licensed-image?q=tbn:ANd9GcS-OZTPpZNsnOchlOMmYsSeMprn5sYU4kdOZGPL0_ksM2nHGegFrzLhGlQMBF-amQqPRFs4DzbLrI_o5gA";
     this.imageSrc = "https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg.jpg?resize=768,512";
     this.changingInformationForm.setValue({
       name: "Sandra",
