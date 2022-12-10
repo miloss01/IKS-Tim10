@@ -1,34 +1,46 @@
-<form [formGroup]="registerAccountForm" (ngSubmit)="registerAccount()" fxLayout="column">
-    <div class="app-reg-col" >
-        <p>Personal</p>
-        <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input matInput type="text" name="name" formControlName="name" />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Last Name</mat-label>
-            <input matInput type="text" name="lastName" formControlName="lastName" />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Phone Number</mat-label>
-            <input matInput type="text" name="phone" formControlName="phone" />
-          </mat-form-field>
-    </div>
-    
-    <div class="app-reg-col">
-        <p>Account credentials</p>
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input matInput type="text" name="email" formControlName="email" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Password</mat-label>
-          <input matInput type="password" name="password" formControlName="password" />
-        </mat-form-field>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="space-between end">
-      <button color="primary" type="submit" mat-raised-button>Create account</button>
-    </div>
+<div class="app-page-padding-bottom">
 
-  </form>
+  <div class="app-reg-instruction"> 
+    <h2>Welcome to UBER</h2>
+  </div>
+  <div class="app-reg-instruction"> 
+    <p>MAKE A NEW ACCOUNT</p>
+  </div>
   
+  <form [formGroup]="registerAccountForm" (ngSubmit)="registerAccount()" fxLayout="column">
+      <div class="app-reg-col" >
+          <p>Personal</p>
+          <mat-form-field>
+              <mat-label>Name</mat-label>
+              <input matInput type="text" name="name" formControlName="name" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Last Name</mat-label>
+              <input matInput type="text" name="lastName" formControlName="lastName" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Phone Number</mat-label>
+              <input matInput type="text" name="phone" formControlName="phone" />
+            </mat-form-field>
+      </div>
+      
+      <div class="app-reg-col">
+          <p>Account credentials</p>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput type="text" name="email" formControlName="email" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput type="password" name="password" formControlName="password" />
+          </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between end">
+        <button color="primary" type="submit" mat-raised-button>CREATE ACCOUNT</button>
+      </div>
+      <a class="app-reg-instruction" routerLink="/login" routerLinkActive="active">ALREADY HAVE AN ACCOUNT? LOG IN HERE</a>
+  
+    </form>
+  
+    
+</div>
