@@ -1,3 +1,75 @@
-<div>
-  <p>asdasd</p>
+<div class="main-content">
+  
+  <div class="left-part">
+    <div>
+      <img src="assets/map.png" alt="nesto">
+    </div>
+    <div class="estimated-data">
+      <div class="data">
+        <p>Estimated time: 80min</p>
+      </div>
+      <div class="data">
+        <p>Estimated price: $80</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-part">
+    <div class="form-part">
+      <mat-form-field appearance="outline" class="target">
+        <mat-label>Departure</mat-label>
+        <mat-icon matPrefix class="input-icon">location_on</mat-icon>
+        <input matInput>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Destination</mat-label>
+        <mat-icon matPrefix class="input-icon">flag</mat-icon>
+        <input matInput>
+      </mat-form-field>
+    </div>
+
+    <div class="params-part">
+      <div class="param">
+        <!-- <p>Car type</p> -->
+        <div></div>
+        <mat-form-field appearance="outline" class="select-and-date">
+          <mat-label>Car type</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let food of foods" [value]="food.value">
+              {{food.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="param">
+        <p>Pets</p>
+        <mat-checkbox color="primary"></mat-checkbox>
+      </div>
+
+      <div class="param">
+        <p>Kids</p>
+        <mat-checkbox color="primary"></mat-checkbox>
+      </div>
+
+      <!-- <div class="param">
+        <div></div>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <input matInput type="date">
+        </mat-form-field>
+      </div> -->
+
+      <div class="param">
+        <div></div>
+        <mat-form-field appearance="outline" class="select-and-date">
+          <mat-label>Book time</mat-label>
+          <input matInput type="datetime-local" placeholder="Book time">
+        </mat-form-field>
+      </div>
+
+      <button mat-button id="inv-btn" (click)="invite()">Invite friends</button>
+      <button mat-button id="book-btn">BOOK</button>
+    </div>
+  </div>
+
 </div>

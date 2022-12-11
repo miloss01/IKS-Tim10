@@ -18,6 +18,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { BookRideComponent } from './components/book-ride/book-ride.component';
+import { InviteDialogComponent } from './components/dialogs/invite-dialog/invite-dialog.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { BookRideComponent } from './components/book-ride/book-ride.component';
     ToolbarComponent,
     LandingPageComponent,
     HomeComponent,
-    BookRideComponent
+    BookRideComponent,
+    InviteDialogComponent
   ],
   imports: [
     BrowserModule,
