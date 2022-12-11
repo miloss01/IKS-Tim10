@@ -17,6 +17,7 @@ import { HomeComponent } from './components/home/home.component';
 
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { BookRideComponent } from './components/book-ride/book-ride.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
     RegisterAccountComponent,
     ToolbarComponent,
     LandingPageComponent,
-    HomeComponent
+    HomeComponent,
+    BookRideComponent
   ],
   imports: [
     BrowserModule,
