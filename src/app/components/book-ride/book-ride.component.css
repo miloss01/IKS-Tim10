@@ -17,6 +17,12 @@ body {
   /* justify-content: space-between; */
 }
 
+.map-container {
+  width: 100%;
+  min-width: 600px;
+  height: 60vh;
+}
+
 .estimated-data {
   display: flex;
   flex-direction: row;
