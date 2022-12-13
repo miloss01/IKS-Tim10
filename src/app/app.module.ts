@@ -24,6 +24,9 @@ import { DriverUserInfoComponent } from './components/user-account/driver-user-i
 import { DriverVechicleComponent } from './components/user-account/driver-vechicle/driver-vechicle.component';
 import { DriverDocumentsComponent } from './components/user-account/driver-documents/driver-documents.component';
 
+import { HttpClientModule } from '@angular/common/http';
+import { UserServiceService } from './components/user-account/services/user.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,9 +48,10 @@ import { DriverDocumentsComponent } from './components/user-account/driver-docum
     NoopAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    HttpClientModule
   ],
-  providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
+  providers: [UserServiceService, {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

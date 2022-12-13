@@ -1,5 +1,5 @@
 <div class="container">
-    <img src={{imageSrc}} alt="profilePicture">
+    <img src={{user.profilePicture}} alt="profilePicture">
     <mat-icon class="icon" onclick="changePicture()">edit</mat-icon>
     <!--<button class="btn">Button</button>-->
 </div>
@@ -7,25 +7,25 @@
 
     <mat-form-field class="oneLine">
         <mat-label>Name</mat-label>
-        <input matInput type="text" name="name" formControlName="name"/>
+        <input matInput type="text" name="name" formControlName="name" value={{user.name}}/>
     </mat-form-field>
     
     <mat-form-field class="oneLine">
         <mat-label>Last name</mat-label>
-        <input matInput type="text" name="lastName" formControlName="lastName" />
+        <input matInput type="text" name="lastName" formControlName="lastName" value={{user.surname}}/>
     </mat-form-field>
     
     <mat-form-field class="oneLine">
         <mat-label>Telephone number</mat-label>
-        <input matInput type="text" name="telephone" formControlName="telephone"/>
+        <input matInput type="text" name="telephone" formControlName="telephone" value={{user.telephoneNumber}}/>
     </mat-form-field>
     <mat-form-field class="oneLine">
         <mat-label>Email</mat-label>
-        <input matInput type="email" name="email" formControlName="email"/>
+        <input matInput type="email" name="email" formControlName="email" value={{user.email}}/>
     </mat-form-field>
     <mat-form-field class="oneLine">
         <mat-label>Address</mat-label>
-        <input matInput type="text" name="adress" formControlName="adress"/>
+        <input matInput type="text" name="adress" formControlName="adress" value={{user.address}}/>
     </mat-form-field>
     <div class="toTheright">
         <a href="">Change Password</a>

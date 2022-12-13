@@ -1,30 +1,30 @@
 <div class="container">
     <div class="flex-elem">
         <h2>Vehicle</h2>
-        <img src={{imageSrc}} alt="vechiclePicture">
+        <img src="https://www.magazinauto.com/wp-content/uploads/2020/09/IMG_3305-e1600082024266-680x365.jpg" alt="vechiclePicture">
     </div>
     <div class="flex-elem2">
         <form [formGroup]="changingInformationForm" class="oneElementPerRow">
 
             <mat-form-field class="oneLine">
                 <mat-label>Name</mat-label>
-                <input matInput type="text" name="carName" formControlName="carName"/>
+                <input matInput type="text" name="carName" formControlName="carName" value={{vehicle.model}}/>
             </mat-form-field>
             
             <mat-form-field class="oneLine">
-                <mat-label>Last name</mat-label>
-                <input matInput type="text" name="lisencePlate" formControlName="lisencePlate" />
+                <mat-label>Registration</mat-label>
+                <input matInput type="text" name="lisencePlate" formControlName="lisencePlate"  value={{vehicle.licenseNumber}}/>
             </mat-form-field>
             
             <mat-form-field class="oneLine">
-                <mat-label>Telephone number</mat-label>
-                <input matInput type="number" name="numberOfSeats" formControlName="numberOfSeats"/>
+                <mat-label>Passenger number</mat-label>
+                <input matInput type="number" name="numberOfSeats" formControlName="numberOfSeats" value={{vehicle.passengerSeats}}/>
             </mat-form-field>
             
         </form>
-        <p>Average mark: {{averageGrade}}<mat-icon>star</mat-icon></p>
-        <mat-checkbox labelPosition="before" [checked]="babySeat" class="oneLine">Baby seat available</mat-checkbox>
-        <mat-checkbox labelPosition="before" [checked]="petsAllowed" class="oneLine">Pets allowed</mat-checkbox>
+        <p>Average mark: 4.5<mat-icon>star</mat-icon></p>
+        <mat-checkbox labelPosition="before" [checked]="vehicle.babyTransport" class="oneLine">Baby seat available</mat-checkbox>
+        <mat-checkbox labelPosition="before" [checked]="vehicle.petTransport" class="oneLine">Pets allowed</mat-checkbox>
         <button mat-raised-button onclick="submitChanges">Save changes</button>
        
     </div>
