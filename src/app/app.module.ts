@@ -17,15 +17,18 @@ import { HomeComponent } from './components/home/home.component';
 
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { RegisterDriverComponent } from './components/register-driver/register-driver.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterAccountComponent,
+    RegisterDriverComponent,
     ToolbarComponent,
     LandingPageComponent,
-    HomeComponent
+    HomeComponent,
+    RegisterDriverComponent
   ],
   imports: [
     BrowserModule,

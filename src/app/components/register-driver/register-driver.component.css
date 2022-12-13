@@ -37,6 +37,10 @@ button {
   align-items: center;
 }
 
+p {
+  font-weight: 500;
+}
+
 h2 {
   margin-top: 10vh;
   font-size: x-large;

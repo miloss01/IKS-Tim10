@@ -9,7 +9,10 @@
   
   <form [formGroup]="registerAccountForm" (ngSubmit)="registerAccount()" fxLayout="column">
       <div class="app-reg-col" >
-          <p>Personal</p>
+        <div class="app-form-sectioning"> 
+          <p>Personal information</p>
+          <mat-divider></mat-divider>
+        </div>
           <mat-form-field>
               <mat-label>Name</mat-label>
               <input matInput type="text" name="name" formControlName="name" />
@@ -25,7 +28,10 @@
       </div>
       
       <div class="app-reg-col">
+        <div class="app-form-sectioning">
           <p>Account credentials</p>
+          <mat-divider></mat-divider>
+        </div>
           <mat-form-field>
             <mat-label>Email</mat-label>
             <input matInput type="text" name="email" formControlName="email" />
