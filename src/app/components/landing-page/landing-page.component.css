@@ -34,6 +34,15 @@ body {
   margin: 0 30px;
 }
 
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.submit-btn {
+  background-color: #24ED80;
+}
+
 .calculated-data {
   margin-top: auto;
   display: flex;

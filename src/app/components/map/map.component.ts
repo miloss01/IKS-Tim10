@@ -1,5 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import * as L from 'leaflet';
+import 'leaflet-routing-machine';
 
 @Component({
   selector: 'app-map',
@@ -9,6 +10,7 @@ import * as L from 'leaflet';
 export class MapComponent implements AfterViewInit {
 
   private map: any;
+  private routeControl: any;
 
   private initMap(): void {
     this.map = L.map('map', {
@@ -23,6 +25,19 @@ export class MapComponent implements AfterViewInit {
     });
 
     tiles.addTo(this.map);
+  }
+
+  drawRoute(depLat: number, depLon: number, desLat: number, desLon: number): any {
+    this.routeControl = L.Routing.control({
+      waypoints: [L.latLng(depLat, depLon), L.latLng(desLat, desLon)]
+    }).addTo(this.map);
+
+    // kod da se skloni prozor gde se prikazuju informacije o ruti
+    // let routingControlContainer = this.routeControl.getContainer();
+    // let controlContainerParent = routingControlContainer.parentNode;
+    // controlContainerParent.removeChild(routingControlContainer);
+
+    return this.routeControl;
   }
 
   constructor() { }
