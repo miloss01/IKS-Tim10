@@ -3,6 +3,11 @@ body {
   background-color: #EAECE9;
 }
 
+.map-container {
+  width: 60%;
+  height: 70vh;
+}
+
 .mat-form-field-appearance-outline .mat-form-field-outline {
   background-color: white;
   border-radius: 5px;
@@ -27,6 +32,15 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0 30px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.submit-btn {
+  background-color: #24ED80;
 }
 
 .calculated-data {

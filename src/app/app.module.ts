@@ -20,6 +20,9 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { RegisterDriverComponent } from './components/register-driver/register-driver.component';
 import { AppUserComponent } from './appUser/app-user/app-user.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { BookRideComponent } from './components/book-ride/book-ride.component';
+import { InviteDialogComponent } from './components/dialogs/invite-dialog/invite-dialog.component';
+import { MapComponent } from './components/map/map.component';
 import { BasicUserInformationComponent } from './components/user-account/basic-user-information/basic-user-information.component';
 import { PassengerUserInfoComponent } from './components/user-account/passenger-user-info/passenger-user-info.component';
 import { PassengerOtherAccInfoComponent } from './components/user-account/passenger-other-acc-info/passenger-other-acc-info.component';
@@ -39,6 +42,9 @@ import { DriverDocumentsComponent } from './components/user-account/driver-docum
     HomeComponent,
     RegisterDriverComponent,
     AppUserComponent,
+    BookRideComponent,
+    InviteDialogComponent,
+    MapComponent,
     BasicUserInformationComponent,
     PassengerUserInfoComponent,
     PassengerOtherAccInfoComponent,
