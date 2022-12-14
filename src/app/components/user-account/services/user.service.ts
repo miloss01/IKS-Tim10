@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AppUser } from '../basic-user-information/basic-user-information.component';
+import { DocumentDTO } from '../driver-documents/driver-documents.component';
 import { Vehicle } from '../driver-vechicle/driver-vechicle.component';
 
 @Injectable({
@@ -19,8 +20,9 @@ export class UserServiceService {
   }
 
   getUser(): Observable<AppUser> {
-    return this.http.get<AppUser>(environment.apiHost + "passenger/1");
+    return this.http.get<AppUser>(environment.apiHost + "passenger/2");
   }
+  
   getVechicle():Observable<Vehicle> {
     return this.http.get<Vehicle>(environment.apiHost + "driver/1/vehicle");
   }
@@ -31,10 +33,21 @@ export class UserServiceService {
     };
 
     return this.http.put<string>(
-      environment.apiHost + 'passenger/1',
-      user,
+      environment.apiHost + 'passenger/2',
+      {
+        name: user.name,
+        surname: user.surname,
+        telephoneNumber: user.telephoneNumber,
+        email: user.email,
+        address: user.address,
+        profilePicture: user.profilePicture
+      },
       options
     );
+  }
+
+  getDriverDocuments(): Observable<DocumentDTO[]> {
+    return this.http.get<DocumentDTO[]>(environment.apiHost + 'driver/1/documents');
   }
 
 }

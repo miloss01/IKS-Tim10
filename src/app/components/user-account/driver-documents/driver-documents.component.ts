@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { UserServiceService } from '../services/user.service';
 
 @Component({
   selector: 'app-driver-documents',
@@ -8,11 +10,29 @@ import { Component, OnInit } from '@angular/core';
 
 
 export class DriverDocumentsComponent implements OnInit {
-  //documents: Array(Documet);
+  documents: DocumentDTO[] = [];
 
-  constructor() { }
+  constructor(
+    private route:ActivatedRoute,
+    private userService: UserServiceService
+  ) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.userService
+      .getDriverDocuments()
+      .subscribe((fetchedDocuments:DocumentDTO[]) => {
+        this.documents =fetchedDocuments;
+        console.log(fetchedDocuments);
+        })
+    });
   }
 
+}
+
+export interface DocumentDTO{
+  id: number,
+  name: string,
+  documentImage: string,
+  driverId: number
 }

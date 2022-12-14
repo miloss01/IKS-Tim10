@@ -25,7 +25,6 @@ import { DriverVechicleComponent } from './components/user-account/driver-vechic
 import { DriverDocumentsComponent } from './components/user-account/driver-documents/driver-documents.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import { UserServiceService } from './components/user-account/services/user.service';
 
 @NgModule({
   declarations: [
@@ -51,7 +50,7 @@ import { UserServiceService } from './components/user-account/services/user.serv
     MaterialModule,
     HttpClientModule
   ],
-  providers: [UserServiceService, {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
+  providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -44,17 +44,25 @@ export class BasicUserInformationComponent implements OnInit {
       .getUser()
       .subscribe((fetchedUser:AppUser) => {
         this.user =fetchedUser; 
-        /*this.changingInformationForm.setValue({
-          name: fetchedUser.name,
-          lastName: fetchedUser.surname,
-          telephone: fetchedUser.telephoneNumber,
-          email: fetchedUser.email,
-          adress: fetchedUser.address
-        });*/})
+        })
     });
   }
 
   submitChanges(): void{
+    if (this.changingInformationForm.get('name')?.value){
+      this.user.name = this.changingInformationForm.get('name')?.value;
+    }
+    if (this.changingInformationForm.get('lastName')?.value){
+      this.user.surname = this.changingInformationForm.get('lastName')?.value;    }
+    if (this.changingInformationForm.get('telephone')?.value){
+      this.user.telephoneNumber = this.changingInformationForm.get('telephone')?.value;
+    }
+    if (this.changingInformationForm.get('email')?.value){
+      this.user.email = this.changingInformationForm.get('email')?.value;
+    }
+    if (this.changingInformationForm.get('adress')?.value){
+      this.user.address = this.changingInformationForm.get('adress')?.value;
+    }
     this.userService
     .saveChanges(this.user)
     .subscribe((res: any) => {
