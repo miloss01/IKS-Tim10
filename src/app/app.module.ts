@@ -17,6 +17,9 @@ import { HomeComponent } from './components/home/home.component';
 
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { BookRideComponent } from './components/book-ride/book-ride.component';
+import { InviteDialogComponent } from './components/dialogs/invite-dialog/invite-dialog.component';
+import { MapComponent } from './components/map/map.component';
 import { BasicUserInformationComponent } from './components/user-account/basic-user-information/basic-user-information.component';
 import { PassengerUserInfoComponent } from './components/user-account/passenger-user-info/passenger-user-info.component';
 import { PassengerOtherAccInfoComponent } from './components/user-account/passenger-other-acc-info/passenger-other-acc-info.component';
@@ -34,6 +37,9 @@ import { HttpClientModule } from '@angular/common/http';
     ToolbarComponent,
     LandingPageComponent,
     HomeComponent,
+    BookRideComponent,
+    InviteDialogComponent,
+    MapComponent,
     BasicUserInformationComponent,
     PassengerUserInfoComponent,
     PassengerOtherAccInfoComponent,

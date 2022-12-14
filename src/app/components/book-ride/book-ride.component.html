@@ -1,0 +1,78 @@
+<div class="main-content">
+  
+  <div class="left-part">
+    <div class="map-container">
+      <app-map></app-map>
+    </div>
+    <div class="estimated-data">
+      <div class="data">
+        <p>Estimated time: {{estimated_time}}min</p>
+      </div>
+      <div class="data">
+        <p>Estimated price: ${{estimated_price}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-part">
+    <div class="form-part">
+      <form [formGroup]="estimateDataFormGroup" class="form-container" (ngSubmit)="estimate()">
+        <mat-form-field appearance="outline" class="target">
+          <mat-label>Departure</mat-label>
+          <mat-icon matPrefix class="input-icon">location_on</mat-icon>
+          <input matInput name="departure" formControlName="departure">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Destination</mat-label>
+          <mat-icon matPrefix class="input-icon">flag</mat-icon>
+          <input matInput name="destination" formControlName="destination">
+        </mat-form-field>
+        <button mat-button type="submit" id="estimate-btn">Estimate</button>
+      </form>
+    </div>
+
+    <div class="params-part">
+      <div class="param">
+        <!-- <p>Car type</p> -->
+        <div></div>
+        <mat-form-field appearance="outline" class="select-and-date">
+          <mat-label>Car type</mat-label>
+          <mat-select [(value)]="vehicleType">
+            <mat-option *ngFor="let type of vehicleTypes" [value]="type.value">
+              {{type.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="param">
+        <p>Pets</p>
+        <mat-checkbox color="primary" [(ngModel)]="petsTransport"></mat-checkbox>
+      </div>
+
+      <div class="param">
+        <p>Kids</p>
+        <mat-checkbox color="primary" [(ngModel)]="babyTransport"></mat-checkbox>
+      </div>
+
+      <!-- <div class="param">
+        <div></div>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <input matInput type="date">
+        </mat-form-field>
+      </div> -->
+
+      <div class="param">
+        <div></div>
+        <mat-form-field appearance="outline" class="select-and-date">
+          <mat-label>Book time</mat-label>
+          <input matInput type="datetime-local" placeholder="Book time">
+        </mat-form-field>
+      </div>
+
+      <button mat-button id="inv-btn" (click)="invite()">Invite friends</button>
+      <button mat-button id="book-btn">BOOK</button>
+    </div>
+  </div>
+
+</div>
