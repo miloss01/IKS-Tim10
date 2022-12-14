@@ -20,6 +20,13 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { RegisterDriverComponent } from './components/register-driver/register-driver.component';
 import { AppUserComponent } from './appUser/app-user/app-user.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { BasicUserInformationComponent } from './components/user-account/basic-user-information/basic-user-information.component';
+import { PassengerUserInfoComponent } from './components/user-account/passenger-user-info/passenger-user-info.component';
+import { PassengerOtherAccInfoComponent } from './components/user-account/passenger-other-acc-info/passenger-other-acc-info.component';
+import { DriverUserInfoComponent } from './components/user-account/driver-user-info/driver-user-info.component';
+import { DriverVechicleComponent } from './components/user-account/driver-vechicle/driver-vechicle.component';
+import { DriverDocumentsComponent } from './components/user-account/driver-documents/driver-documents.component';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +38,13 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     LandingPageComponent,
     HomeComponent,
     RegisterDriverComponent,
-    AppUserComponent
+    AppUserComponent,
+    BasicUserInformationComponent,
+    PassengerUserInfoComponent,
+    PassengerOtherAccInfoComponent,
+    DriverUserInfoComponent,
+    DriverVechicleComponent,
+    DriverDocumentsComponent
   ],
   imports: [
     BrowserModule,
