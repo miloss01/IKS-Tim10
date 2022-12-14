@@ -29,6 +29,8 @@ import { PassengerOtherAccInfoComponent } from './components/user-account/passen
 import { DriverUserInfoComponent } from './components/user-account/driver-user-info/driver-user-info.component';
 import { DriverVechicleComponent } from './components/user-account/driver-vechicle/driver-vechicle.component';
 import { DriverDocumentsComponent } from './components/user-account/driver-documents/driver-documents.component';
+import { ManageAccountsComponent } from './components/manage-accounts/manage-accounts.component';
+import { BlockDialogComponent } from './components/dialogs/block-dialog/block-dialog.component';
 
 
 @NgModule({
@@ -50,7 +52,9 @@ import { DriverDocumentsComponent } from './components/user-account/driver-docum
     PassengerOtherAccInfoComponent,
     DriverUserInfoComponent,
     DriverVechicleComponent,
-    DriverDocumentsComponent
+    DriverDocumentsComponent,
+    ManageAccountsComponent,
+    BlockDialogComponent
   ],
   imports: [
     BrowserModule,
