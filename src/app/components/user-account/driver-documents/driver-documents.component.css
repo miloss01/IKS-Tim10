@@ -1,0 +1,19 @@
+h2{
+    font-size: 4vh;
+    margin-bottom: 4vh;
+  }
+.alignDiv{
+  margin-left: 8%;
+  margin-top: 15vh;
+}
+
+a{
+  color: black;
+  margin-left: 4vh;
+}
+
+@media (max-width: 850px){
+  .alignDiv{
+    margin-left: 13%;
+  }
+}

@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './infrastructure/material/material.module';
-import { HttpClientModule } from '@angular/common/http';
 
 import { LoginComponent } from './components/login/login.component';
 import { RouterModule } from '@angular/router';
@@ -21,6 +20,14 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { BookRideComponent } from './components/book-ride/book-ride.component';
 import { InviteDialogComponent } from './components/dialogs/invite-dialog/invite-dialog.component';
 import { MapComponent } from './components/map/map.component';
+import { BasicUserInformationComponent } from './components/user-account/basic-user-information/basic-user-information.component';
+import { PassengerUserInfoComponent } from './components/user-account/passenger-user-info/passenger-user-info.component';
+import { PassengerOtherAccInfoComponent } from './components/user-account/passenger-other-acc-info/passenger-other-acc-info.component';
+import { DriverUserInfoComponent } from './components/user-account/driver-user-info/driver-user-info.component';
+import { DriverVechicleComponent } from './components/user-account/driver-vechicle/driver-vechicle.component';
+import { DriverDocumentsComponent } from './components/user-account/driver-documents/driver-documents.component';
+
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -32,7 +39,13 @@ import { MapComponent } from './components/map/map.component';
     HomeComponent,
     BookRideComponent,
     InviteDialogComponent,
-    MapComponent
+    MapComponent,
+    BasicUserInformationComponent,
+    PassengerUserInfoComponent,
+    PassengerOtherAccInfoComponent,
+    DriverUserInfoComponent,
+    DriverVechicleComponent,
+    DriverDocumentsComponent
   ],
   imports: [
     BrowserModule,
