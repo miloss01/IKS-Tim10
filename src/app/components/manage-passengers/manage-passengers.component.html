@@ -1,0 +1,29 @@
+<div class="app-manacc-page">
+    <h2>Managing passenger accounts</h2>
+    <mat-divider></mat-divider>
+    <div class="grid">
+        <div *ngFor="let acc of accounts">
+            <mat-card>
+                <mat-card-header>
+                    <div class="app-reg-col-name">
+                        <mat-card-title><a [routerLink]="['../passenger-account', acc.id]"> {{acc.name}} {{acc.surname}} </a></mat-card-title>
+                        <mat-card-subtitle>passenger</mat-card-subtitle>
+                    </div>
+                    <div class="app-reg-col-pic">
+                        <img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >
+                    </div>
+                  <mat-card-title-group>
+                </mat-card-title-group>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content>
+                    <p>{{acc.email}}</p>
+                    <p>{{acc.telephoneNumber}}</p>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button mat-button (click)="blockUser(acc.id)" >BLOCK</button>
+                  </mat-card-actions>
+              </mat-card>
+        </div>
+    </div>
+</div>

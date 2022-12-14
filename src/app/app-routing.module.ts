@@ -9,6 +9,7 @@ import { RegisterDriverComponent } from './components/register-driver/register-d
 import { PassengerUserInfoComponent } from './components/user-account/passenger-user-info/passenger-user-info.component';
 import { DriverUserInfoComponent } from './components/user-account/driver-user-info/driver-user-info.component';
 import { ManageAccountsComponent } from './components/manage-accounts/manage-accounts.component';
+import { ManagePassengersComponent } from './components/manage-passengers/manage-passengers.component';
 
 const routes: Routes = [
   {path:'register-account', component: RegisterAccountComponent},
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: "driver-account", component: DriverUserInfoComponent},
   {path: 'book-ride', component: BookRideComponent},
   {path: 'manage-accounts', component: ManageAccountsComponent},
+  {path: 'manage-passengers', component: ManagePassengersComponent},
   {path: '**', component: LandingPageComponent }
 ];
 

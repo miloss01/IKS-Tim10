@@ -31,6 +31,7 @@ import { DriverVechicleComponent } from './components/user-account/driver-vechic
 import { DriverDocumentsComponent } from './components/user-account/driver-documents/driver-documents.component';
 import { ManageAccountsComponent } from './components/manage-accounts/manage-accounts.component';
 import { BlockDialogComponent } from './components/dialogs/block-dialog/block-dialog.component';
+import { ManagePassengersComponent } from './components/manage-passengers/manage-passengers.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { BlockDialogComponent } from './components/dialogs/block-dialog/block-di
     DriverVechicleComponent,
     DriverDocumentsComponent,
     ManageAccountsComponent,
-    BlockDialogComponent
+    BlockDialogComponent,
+    ManagePassengersComponent
   ],
   imports: [
     BrowserModule,
