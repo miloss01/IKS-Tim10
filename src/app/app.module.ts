@@ -17,6 +17,9 @@ import { HomeComponent } from './components/home/home.component';
 
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { RegisterDriverComponent } from './components/register-driver/register-driver.component';
+import { AppUserComponent } from './appUser/app-user/app-user.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BookRideComponent } from './components/book-ride/book-ride.component';
 import { InviteDialogComponent } from './components/dialogs/invite-dialog/invite-dialog.component';
 import { MapComponent } from './components/map/map.component';
@@ -27,16 +30,18 @@ import { DriverUserInfoComponent } from './components/user-account/driver-user-i
 import { DriverVechicleComponent } from './components/user-account/driver-vechicle/driver-vechicle.component';
 import { DriverDocumentsComponent } from './components/user-account/driver-documents/driver-documents.component';
 
-import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterAccountComponent,
+    RegisterDriverComponent,
     ToolbarComponent,
     LandingPageComponent,
     HomeComponent,
+    RegisterDriverComponent,
+    AppUserComponent,
     BookRideComponent,
     InviteDialogComponent,
     MapComponent,
