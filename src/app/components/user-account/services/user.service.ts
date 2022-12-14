@@ -20,11 +20,11 @@ export class UserServiceService {
   }
 
   getUser(): Observable<AppUser> {
-    return this.http.get<AppUser>(environment.apiHost + "passenger/2");
+    return this.http.get<AppUser>(environment.apiHost + "api/passenger/2");
   }
   
   getVechicle():Observable<Vehicle> {
-    return this.http.get<Vehicle>(environment.apiHost + "driver/1/vehicle");
+    return this.http.get<Vehicle>(environment.apiHost + "api/driver/1/vehicle");
   }
 
   saveChanges(user: AppUser): Observable<any> {
@@ -33,7 +33,7 @@ export class UserServiceService {
     };
 
     return this.http.put<string>(
-      environment.apiHost + 'passenger/2',
+      environment.apiHost + 'api/passenger/2',
       {
         name: user.name,
         surname: user.surname,
@@ -47,7 +47,7 @@ export class UserServiceService {
   }
 
   getDriverDocuments(): Observable<DocumentDTO[]> {
-    return this.http.get<DocumentDTO[]>(environment.apiHost + 'driver/1/documents');
+    return this.http.get<DocumentDTO[]>(environment.apiHost + 'api/driver/1/documents');
   }
 
 }
