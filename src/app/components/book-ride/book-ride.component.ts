@@ -5,6 +5,7 @@ import { InviteDialogComponent } from '../dialogs/invite-dialog/invite-dialog.co
 import { Location, DepartureDestination, EstimateDataDTO } from 'src/app/models/models';
 import { HttpClient } from '@angular/common/http';
 import { MapComponent } from '../map/map.component';
+import { map, mergeMap, Observable } from 'rxjs';
 
 interface VehicleType {
   value: string;
@@ -39,6 +40,18 @@ export class BookRideComponent implements OnInit {
   petsTransport: boolean = false;
   babyTransport: boolean = false;
 
+  departure: Location = {
+    address: '',
+    latitude: 0,
+    longitude: 0
+  }
+
+  destination: Location = {
+    address: '',
+    latitude: 0,
+    longitude: 0
+  }
+
   constructor(public invDialog: MatDialog, private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -48,65 +61,84 @@ export class BookRideComponent implements OnInit {
     const dialogRef = this.invDialog.open(InviteDialogComponent);
   }
 
-  estimate() {
+  getLatLong(address: string): Observable<any> {
+    return this.http.get("https://nominatim.openstreetmap.org/search?format=json&q=" + address);
+  }
 
-    let departure: Location = {
-      address: this.estimateDataFormGroup.value.departure,
-      latitude: 0,
-      longitude: 0
-    };
-
-    let destination: Location = {
-      address: this.estimateDataFormGroup.value.destination,
-      latitude: 0,
-      longitude: 0
-    }
-
-    let departureDestination: DepartureDestination = {
-      departure: departure,
-      destination: destination
-    };
+  postRequest(departureAddress: string, 
+              destinationAddress: string, 
+              vehicleType: string,
+              petsTransport: boolean,
+              babyTransport: boolean): Observable<any> {
 
     let req: EstimateDataDTO = {
-      locations: [departureDestination],
-      vehicleType: this.vehicleType,
-      petTransport: this.petsTransport,
-      babyTransport: this.babyTransport
-    };
+      locations: [
+        {
+          departure: {
+            address: departureAddress,
+            latitude: 0,
+            longitude: 0
+          },
+          destination: {
+            address: destinationAddress,
+            latitude: 0,
+            longitude: 0
+          }
+        }
+      ],
+      vehicleType: vehicleType,
+      petTransport: petsTransport,
+      babyTransport: babyTransport
+    }
 
-    this.http.get("https://nominatim.openstreetmap.org/search?format=json&q=" + this.estimateDataFormGroup.value.departure)
-    .subscribe((res: any) => {
-      console.log(res);
-      req.locations[0].departure.latitude = res[0].lat;
-      req.locations[0].departure.longitude = res[0].lon;
-
-      this.http.get("https://nominatim.openstreetmap.org/search?format=json&q=" + this.estimateDataFormGroup.value.destination)
-      .subscribe((res: any) => {
+    return this.getLatLong(departureAddress)
+    .pipe(
+      map((res: any) => {
         console.log(res);
-        req.locations[0].destination.latitude = res[0].lat;
-        req.locations[0].destination.longitude = res[0].lon;
+        // ovo se mora setovati kao promenljiva u servisu koju prati promenljiva u book ride komponenti
+        this.departure.address = departureAddress;
+        this.departure.latitude = res[0].lat;
+        this.departure.longitude = res[0].lon;
+      }),
 
-        this.http.post<string>("http://localhost:8080/api/unregisteredUser", req)
-        .subscribe((res: any) => {
-          // this.estimated_time = res.estimatedTimeInMinutes;
-          this.estimated_price = res.estimatedCost;
+      mergeMap(() => this.getLatLong(destinationAddress)),
+      map((res: any) => {
+        console.log(res);
+        this.destination.address = destinationAddress;
+        this.destination.latitude = res[0].lat;
+        this.destination.longitude = res[0].lon;
+      }),
 
-          let routeControl = this.map?.drawRoute(
-            req.locations[0].departure.latitude,
-            req.locations[0].departure.longitude,
-            req.locations[0].destination.latitude,
-            req.locations[0].destination.longitude
-          );
+      mergeMap(() => this.http.post<string>("http://localhost:8080/api/unregisteredUser", req))
+    )
+  }
 
-          routeControl.on('routesfound', (e: any) => {
-            this.estimated_time = Math.trunc(e.routes[0].summary.totalTime / 60);
-          })
+  estimate() {
 
-        });
+    this.postRequest(this.estimateDataFormGroup.value.departure, 
+                    this.estimateDataFormGroup.value.destination,
+                    this.vehicleType,
+                    this.petsTransport,
+                    this.babyTransport)
+    .subscribe((res: any) => {
+      console.log(res)
 
+      this.estimated_price = res.estimatedCost;
+      
+      let routeControl = this.map?.drawRoute(
+        // ovi podaci se moraju dobiti iz servisa
+        this.departure.latitude,
+        this.departure.longitude,
+        this.destination.latitude,
+        this.destination.longitude
+      );
+
+      routeControl.on('routesfound', (e: any) => {
+        this.estimated_time = Math.trunc(e.routes[0].summary.totalTime / 60);
       })
 
     })
+
   }
 
 }
