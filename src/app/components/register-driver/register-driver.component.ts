@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AppUserService } from 'src/app/services/app-user.service';
 
 @Component({
   selector: 'app-register-driver',
@@ -16,13 +18,18 @@ export class RegisterDriverComponent implements OnInit {
     password: new FormControl()
   })
 
-  constructor() { }
+  constructor(private router: Router, private appUserService: AppUserService) { }
 
   ngOnInit(): void {
   }
 
   registerDriver(): void {
-    
+    console.log("Value of form: " + JSON.stringify(this.registerDriverForm.value));
+      this.appUserService
+      .addPassenger(this.registerDriverForm.value)
+      .subscribe((res: any) => {
+        console.log(JSON.stringify(res));
+      });
   }
 
 }
