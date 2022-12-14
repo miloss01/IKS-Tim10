@@ -1,0 +1,54 @@
+.container {
+    position: relative;
+    width: 85%;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Make the image responsive */
+  .container img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  h2{
+    font-size: 4vh;
+    margin-bottom: 4vh;
+  }
+
+  .flex-elem{
+    width: 40%;
+    margin-bottom: 5vh;
+  }
+  
+  .flex-elem2{
+    width: 50%;
+    padding-left: 4vh;
+    margin-top: 5vh;
+  }
+  
+  .oneLine{
+    width: 100%;
+  }
+
+  button{
+    position: absolute;
+    top: 100%;
+    left: 79%;background-color: black;
+    color: white;
+  }
+  button:hover {
+    background-color: #6A7A9E;
+  }
+
+  @media (max-width: 850px){
+    .container {
+      position: relative;
+      width: 75%;
+      display: flex;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+  }
