@@ -25,12 +25,20 @@ export class MapComponent implements AfterViewInit {
     });
 
     tiles.addTo(this.map);
+
+    this.routeControl = L.Routing.control({})
   }
 
   drawRoute(depLat: number, depLon: number, desLat: number, desLon: number): any {
-    this.routeControl = L.Routing.control({
-      waypoints: [L.latLng(depLat, depLon), L.latLng(desLat, desLon)]
-    }).addTo(this.map);
+
+    this.routeControl.setWaypoints(
+      [
+        L.latLng(depLat, depLon),
+        L.latLng(desLat, desLon)
+      ]
+    )
+
+    this.routeControl.addTo(this.map);
 
     // kod da se skloni prozor gde se prikazuju informacije o ruti
     // let routingControlContainer = this.routeControl.getContainer();

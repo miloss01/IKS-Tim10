@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MapComponent } from '../map/map.component';
+import { Location, DepartureDestination, EstimateDataDTO } from 'src/app/models/models';
 
 @Component({
   selector: 'app-landing-page',
@@ -28,25 +29,26 @@ export class LandingPageComponent implements OnInit {
 
   estimate() {
 
-    let req: any = {
-      "locations": [
-        {
-          "departure": {
-            "address": this.estimateDataFormGroup.value.departure,
-            "latitude": 2,
-            "longitude": 2
-          },
-          "destination": {
-            "address": this.estimateDataFormGroup.value.destination,
-            "latitude": 2,
-            "longitude": 2
-          }
-        }
-      ],
-      "vehicleType": null,
-      "babyTransport": null,
-      "petTransport": null
+    let departure: Location = {
+      address: this.estimateDataFormGroup.value.departure,
+      latitude: 0,
+      longitude: 0
+    };
+
+    let destination: Location = {
+      address: this.estimateDataFormGroup.value.destination,
+      latitude: 0,
+      longitude: 0
     }
+
+    let departureDestination: DepartureDestination = {
+      departure: departure,
+      destination: destination
+    };
+
+    let req: EstimateDataDTO = {
+      locations: [departureDestination]
+    };
 
     this.http.get("https://nominatim.openstreetmap.org/search?format=json&q=" + this.estimateDataFormGroup.value.departure)
     .subscribe((res: any) => {

@@ -49,6 +49,11 @@ body {
   flex-direction: column;
 }
 
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .params-part {
   display: flex;
   flex-direction: column;
@@ -69,6 +74,11 @@ body {
 }
 
 #book-btn {
+  background-color: #24ED80;
+}
+
+#estimate-btn {
+  margin-bottom: 10px;
   background-color: #24ED80;
 }
 
