@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { InviteDialogComponent } from '../dialogs/invite-dialog/invite-dialog.component';
+import { InviteDialogComponent } from '../../layout/dialogs/invite-dialog/invite-dialog.component';
 import { Location, DepartureDestination, EstimateDataDTO } from 'src/app/models/models';
 import { HttpClient } from '@angular/common/http';
-import { MapComponent } from '../map/map.component';
+import { MapComponent } from 'src/app/modules/layout/map/map.component';
 import { map, mergeMap, Observable } from 'rxjs';
 
 interface VehicleType {
