@@ -2,21 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { AppUserService } from 'src/app/services/app-user.service';
-import { BlockDialogComponent } from '../dialogs/block-dialog/block-dialog.component';
-import { AppUser } from '../user-account/basic-user-information/basic-user-information.component';
+import { AppUser } from 'src/app/modules/app-user/account/basic-user-information/basic-user-information.component';
+import { BlockDialogComponent } from 'src/app/modules/layout/dialogs/block-dialog/block-dialog.component';
 
 @Component({
-  selector: 'app-manage-passengers',
-  templateUrl: './manage-passengers.component.html',
-  styleUrls: ['./manage-passengers.component.css']
+  selector: 'app-manage-drivers',
+  templateUrl: './manage-drivers.component.html',
+  styleUrls: ['./manage-drivers.component.css']
 })
-export class ManagePassengersComponent implements OnInit {
+export class ManageDriversComponent implements OnInit {
 
   accounts: AppUser[] = [];
 
   constructor(
     public blockDialog: MatDialog,
-    private route: ActivatedRoute,
+    private route:ActivatedRoute,
     private appUserService: AppUserService
   ) { }
 

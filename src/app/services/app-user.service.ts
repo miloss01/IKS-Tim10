@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AppUser } from '../appUser/app-user/app-user.component';
-import { accountsDTO } from '../components/manage-accounts/manage-accounts.component';
+import { AppUser } from '../modules/app-user/account/basic-user-information/basic-user-information.component';
+import { accountsDTO } from '../modules/app-user/manage-passengers/manage-passengers.component';
 
 @Injectable({
   providedIn: 'root'
