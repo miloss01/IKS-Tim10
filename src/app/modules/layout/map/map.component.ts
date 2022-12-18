@@ -27,6 +27,10 @@ export class MapComponent implements AfterViewInit {
     tiles.addTo(this.map);
 
     this.routeControl = L.Routing.control({})
+
+    L.Marker.prototype.options.icon = L.icon({
+      iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png'
+    })
   }
 
   drawRoute(depLat: number, depLon: number, desLat: number, desLon: number): any {

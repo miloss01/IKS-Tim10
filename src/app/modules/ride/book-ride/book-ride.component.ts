@@ -6,6 +6,7 @@ import { Location, DepartureDestination, EstimateDataDTO } from 'src/app/models/
 import { HttpClient } from '@angular/common/http';
 import { MapComponent } from 'src/app/modules/layout/map/map.component';
 import { map, mergeMap, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 interface VehicleType {
   value: string;
@@ -109,7 +110,7 @@ export class BookRideComponent implements OnInit {
         this.destination.longitude = res[0].lon;
       }),
 
-      mergeMap(() => this.http.post<string>("http://localhost:8080/api/unregisteredUser", req))
+      mergeMap(() => this.http.post<string>(environment.apiHost + "unregisteredUser", req))
     )
   }
 
