@@ -110,7 +110,7 @@ export class BookRideComponent implements OnInit {
         this.destination.longitude = res[0].lon;
       }),
 
-      mergeMap(() => this.http.post<string>(environment.apiHost + "unregisteredUser", req))
+      mergeMap(() => this.http.post<string>(environment.apiHost + "api/unregisteredUser", req))
     )
   }
 

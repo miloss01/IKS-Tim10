@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MapComponent } from '../map/map.component';
 import { Location, DepartureDestination, EstimateDataDTO } from 'src/app/models/models';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-landing-page',
@@ -62,7 +63,7 @@ export class LandingPageComponent implements OnInit {
         req.locations[0].destination.latitude = res[0].lat;
         req.locations[0].destination.longitude = res[0].lon;
 
-        this.http.post<string>("http://localhost:8080/api/unregisteredUser", req)
+        this.http.post<string>(environment.apiHost + "api/unregisteredUser", req)
         .subscribe((res: any) => {
           // this.estimated_time = res.estimatedTimeInMinutes;
           this.estimated_price = res.estimatedCost;

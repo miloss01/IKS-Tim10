@@ -9,6 +9,7 @@ import { PassengerUserInfoComponent } from '../modules/app-user/account/passenge
 import { DriverUserInfoComponent } from '../modules/app-user/account/driver-user-info/driver-user-info.component';
 import { ManagePassengersComponent } from '../modules/app-user/manage-passengers/manage-passengers.component';
 import { ManageDriversComponent } from '../modules/app-user/manage-drivers/manage-drivers.component';
+import { RideRequestComponent } from '../modules/ride/ride-request/ride-request.component';
 
 const routes: Routes = [
   {path:'register-account', component: RegisterAccountComponent},
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path: 'book-ride', component: BookRideComponent},
   {path: 'manage-drivers', component: ManageDriversComponent},
   {path: 'manage-passengers', component: ManagePassengersComponent},
+  {path: "ride-request", component:RideRequestComponent},
   {path: '**', component: LandingPageComponent }
 ];
 

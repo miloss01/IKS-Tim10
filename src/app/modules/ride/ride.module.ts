@@ -8,9 +8,10 @@ import { MaterialModule } from 'src/app/infrastructure/material/material.module'
 import { LayoutModule } from '../layout/layout.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ObserversModule } from '@angular/cdk/observers';
+import { RideRequestComponent } from './ride-request/ride-request.component';
 
 @NgModule({
-  declarations: [BookRideComponent],
+  declarations: [BookRideComponent, RideRequestComponent],
   imports: [
     CommonModule,
     AppRoutingModule,
