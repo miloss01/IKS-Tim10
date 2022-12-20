@@ -3,14 +3,14 @@
         <app-map class="map-container"></app-map>
     </div>
     <div class="right-part">
-        <p> <mat-icon class="inline-icon">location_on</mat-icon>Neka lokacija</p>
-        <p> <mat-icon class="inline-icon">flag</mat-icon>Neka lokacija</p>
-        <p>Request time:<span>2w232</span></p>
-        <p>Estimated time:<span>2ws232</span></p>
-        <p>Distance:<span>2wdd232</span></p>
+        <p> <mat-icon class="inline-icon">location_on</mat-icon>{{ride.locations[0].departure.address}}</p>
+        <p> <mat-icon class="inline-icon">flag</mat-icon>{{ride.locations[0].destination.address}}</p>
+        <p>Request time:<span>{{ride.startTime}}</span></p>
+        <p>Estimated time:<span>{{ride.estimatedTimeInMinutes}}</span></p>
+        <p>Distance:<span>2000</span></p>
 
         <div class="align">
-            <button class="green-button" (click)="startRide()">Start</button>
+            <button class="green-button" (click)="acceptRide()">Accept</button>
             <button class="red-button" (click)="declineRide()">Decline</button>
         </div>
     </div>
