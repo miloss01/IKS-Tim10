@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MapComponent } from '../map/map.component';
-import { Location, DepartureDestination, EstimateDataDTO } from 'src/app/models/models';
-import { environment } from 'src/environments/environment';
+import { map, mergeMap } from 'rxjs';
+import { MapService } from '../services/map.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -23,67 +23,60 @@ export class LandingPageComponent implements OnInit {
   estimated_time: number | undefined = 0;
   estimated_price: number = 0;
 
-  constructor(private http: HttpClient) { }
+  forRouteControl = {
+    depLat: 0,
+    depLon: 0,
+    desLat: 0,
+    desLon: 0
+  };
+
+  constructor(private http: HttpClient, private mapService: MapService) { }
 
   ngOnInit(): void {
   }
 
   estimate() {
 
-    let departure: Location = {
-      address: this.estimateDataFormGroup.value.departure,
-      latitude: 0,
-      longitude: 0
-    };
+    this.mapService.postRequest(
+      this.estimateDataFormGroup.value.departure, 
+      this.estimateDataFormGroup.value.destination,
+      undefined,
+      undefined,
+      undefined)
+    .pipe(
+      map((res: any) => {
+        console.log(res)
+        this.estimated_price = res.estimatedCost;
+      }),
 
-    let destination: Location = {
-      address: this.estimateDataFormGroup.value.destination,
-      latitude: 0,
-      longitude: 0
-    }
 
-    let departureDestination: DepartureDestination = {
-      departure: departure,
-      destination: destination
-    };
+      mergeMap(() => this.mapService.departureState),
+      map((res: any) => {
+        this.forRouteControl.depLat = res.latitude;
+        this.forRouteControl.depLon = res.longitude;
+      }),
 
-    let req: EstimateDataDTO = {
-      locations: [departureDestination]
-    };
 
-    this.http.get("https://nominatim.openstreetmap.org/search?format=json&q=" + this.estimateDataFormGroup.value.departure)
-    .subscribe((res: any) => {
-      console.log(res);
-      req.locations[0].departure.latitude = res[0].lat;
-      req.locations[0].departure.longitude = res[0].lon;
-
-      this.http.get("https://nominatim.openstreetmap.org/search?format=json&q=" + this.estimateDataFormGroup.value.destination)
-      .subscribe((res: any) => {
-        console.log(res);
-        req.locations[0].destination.latitude = res[0].lat;
-        req.locations[0].destination.longitude = res[0].lon;
-
-        this.http.post<string>(environment.apiHost + "api/unregisteredUser", req)
-        .subscribe((res: any) => {
-          // this.estimated_time = res.estimatedTimeInMinutes;
-          this.estimated_price = res.estimatedCost;
-
-          let routeControl = this.map?.drawRoute(
-            req.locations[0].departure.latitude,
-            req.locations[0].departure.longitude,
-            req.locations[0].destination.latitude,
-            req.locations[0].destination.longitude
-          );
-
-          routeControl.on('routesfound', (e: any) => {
-            this.estimated_time = Math.trunc(e.routes[0].summary.totalTime / 60);
-          })
-
-        });
-
+      mergeMap(() => this.mapService.destinationState),
+      map((res: any) => {
+        this.forRouteControl.desLat = res.latitude;
+        this.forRouteControl.desLon = res.longitude;
       })
+    )
+    .subscribe((res: any) => {
+      let routeControl = this.map?.drawRoute(
+        // ovi podaci se moraju dobiti iz servisa
+        this.forRouteControl.depLat,
+        this.forRouteControl.depLon,
+        this.forRouteControl.desLat,
+        this.forRouteControl.desLon
+      );
 
+      routeControl.on('routesfound', (e: any) => {
+        this.estimated_time = Math.trunc(e.routes[0].summary.totalTime / 60);
+      })
     })
+    
   }
 
   // String jsonn = "{\n  \"coordinates\": {\n    \"lat\": 23,\n    \"long\": 53\n  }\n}";

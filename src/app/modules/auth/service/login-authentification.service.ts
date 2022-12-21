@@ -21,7 +21,9 @@ export class LoginAuthentificationService {
   }
 
   login(auth: any): Observable<any> {
-    return this.http.post<any>(environment.apiHost + "api/user/login", auth);
+
+    return this.http.post<string>(environment.apiHost + "user/login", auth);
+
   }
 
   getRole(): any {

@@ -13,21 +13,21 @@ export class AppUserService {
   constructor(private http: HttpClient) { }
   
   getAll(): Observable<accountsDTO> {
-    return this.http.get<accountsDTO>(environment.apiHost + 'api/passenger');
+    return this.http.get<accountsDTO>(environment.apiHost + 'passenger');
   }
   
   addPassenger(appUser: any): Observable<any> {
     const options: any = {
       responseType: 'text',
     };
-    return this.http.post<string>(environment.apiHost + 'api/passenger', appUser, options);
+    return this.http.post<string>(environment.apiHost + 'passenger', appUser, options);
   }
   
   addDriver(appUser: any): Observable<any> {
     const options: any = {
       responseType: 'text',
     };
-    return this.http.post<string>(environment.apiHost + 'api/driver', appUser, options);
+    return this.http.post<string>(environment.apiHost + 'driver', appUser, options);
   }
   
   blockUser(id: number): Observable<any> {

@@ -18,25 +18,25 @@ export class RideServiceService {
   }
 
   getRideById(id: number): Observable<Ride> {
-    return this.http.get<Ride>(environment.apiHost + "api/ride/" + id);
+    return this.http.get<Ride>(environment.apiHost + "ride/" + id);
   }
   
   endRideById(id: number): Observable<any> {
     const options: any = {
       responseType: 'text',
     };
-    return this.http.put<string>(environment.apiHost + "api/ride/" + id + '/end', {}, options);
+    return this.http.put<string>(environment.apiHost + "ride/" + id + '/end', {}, options);
   }
 
   acceptRideById(id: number): Observable<any> {
     const options: any = {
       responseType: 'text',
     };
-    return this.http.put<string>(environment.apiHost + "api/ride/" + id + '/accept', {}, options);
+    return this.http.put<string>(environment.apiHost + "ride/" + id + '/accept', {}, options);
   }
 
   withdrawRideById(id: number): Observable<Ride> {
-    return this.http.get<Ride>(environment.apiHost + "api/ride/" + id + '/withdraw');
+    return this.http.get<Ride>(environment.apiHost + "ride/" + id + '/withdraw');
   }
 
   cancelRide(reasonDto: ReasonDTO, id: number): Observable<any> {
@@ -45,7 +45,7 @@ export class RideServiceService {
     };
 
     return this.http.put<string>(
-      environment.apiHost + 'api/ride/' + id + '/cancel',
+      environment.apiHost + 'ride/' + id + '/cancel',
       {
         reason: reasonDto.reason
       },
