@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { MapComponent } from 'src/app/modules/layout/map/map.component';
 import { map, mergeMap, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { MapService } from '../../layout/services/map.service';
 
 interface VehicleType {
   value: string;
@@ -41,19 +42,14 @@ export class BookRideComponent implements OnInit {
   petsTransport: boolean = false;
   babyTransport: boolean = false;
 
-  departure: Location = {
-    address: '',
-    latitude: 0,
-    longitude: 0
-  }
+  forRouteControl = {
+    depLat: 0,
+    depLon: 0,
+    desLat: 0,
+    desLon: 0
+  };
 
-  destination: Location = {
-    address: '',
-    latitude: 0,
-    longitude: 0
-  }
-
-  constructor(public invDialog: MatDialog, private http: HttpClient) { }
+  constructor(public invDialog: MatDialog, private mapService: MapService) { }
 
   ngOnInit(): void {
   }
@@ -62,82 +58,46 @@ export class BookRideComponent implements OnInit {
     const dialogRef = this.invDialog.open(InviteDialogComponent);
   }
 
-  getLatLong(address: string): Observable<any> {
-    return this.http.get("https://nominatim.openstreetmap.org/search?format=json&q=" + address);
-  }
-
-  postRequest(departureAddress: string, 
-              destinationAddress: string, 
-              vehicleType: string,
-              petsTransport: boolean,
-              babyTransport: boolean): Observable<any> {
-
-    let req: EstimateDataDTO = {
-      locations: [
-        {
-          departure: {
-            address: departureAddress,
-            latitude: 0,
-            longitude: 0
-          },
-          destination: {
-            address: destinationAddress,
-            latitude: 0,
-            longitude: 0
-          }
-        }
-      ],
-      vehicleType: vehicleType,
-      petTransport: petsTransport,
-      babyTransport: babyTransport
-    }
-
-    return this.getLatLong(departureAddress)
-    .pipe(
-      map((res: any) => {
-        console.log(res);
-        // ovo se mora setovati kao promenljiva u servisu koju prati promenljiva u book ride komponenti
-        this.departure.address = departureAddress;
-        this.departure.latitude = res[0].lat;
-        this.departure.longitude = res[0].lon;
-      }),
-
-      mergeMap(() => this.getLatLong(destinationAddress)),
-      map((res: any) => {
-        console.log(res);
-        this.destination.address = destinationAddress;
-        this.destination.latitude = res[0].lat;
-        this.destination.longitude = res[0].lon;
-      }),
-
-      mergeMap(() => this.http.post<string>(environment.apiHost + "unregisteredUser", req))
-    )
-  }
-
   estimate() {
 
-    this.postRequest(this.estimateDataFormGroup.value.departure, 
-                    this.estimateDataFormGroup.value.destination,
-                    this.vehicleType,
-                    this.petsTransport,
-                    this.babyTransport)
-    .subscribe((res: any) => {
-      console.log(res)
+    this.mapService.postRequest(
+      this.estimateDataFormGroup.value.departure, 
+      this.estimateDataFormGroup.value.destination,
+      this.vehicleType,
+      this.petsTransport,
+      this.babyTransport)
+    .pipe(
+      map((res: any) => {
+        console.log(res)
+        this.estimated_price = res.estimatedCost;
+      }),
 
-      this.estimated_price = res.estimatedCost;
-      
+      mergeMap(() => this.mapService.departureState),
+      map((res: any) => {
+        console.log(res);
+        this.forRouteControl.depLat = res.latitude;
+        this.forRouteControl.depLon = res.longitude;
+      }),
+
+      mergeMap(() => this.mapService.destinationState),
+      map((res: any) => {
+        console.log(res);
+        this.forRouteControl.desLat = res.latitude;
+        this.forRouteControl.desLon = res.longitude;
+      })
+    )
+    .subscribe((res: any) => {
       let routeControl = this.map?.drawRoute(
         // ovi podaci se moraju dobiti iz servisa
-        this.departure.latitude,
-        this.departure.longitude,
-        this.destination.latitude,
-        this.destination.longitude
+        this.forRouteControl.depLat,
+        this.forRouteControl.depLon,
+        this.forRouteControl.desLat,
+        this.forRouteControl.desLon
       );
 
       routeControl.on('routesfound', (e: any) => {
         this.estimated_time = Math.trunc(e.routes[0].summary.totalTime / 60);
       })
-
     })
 
   }

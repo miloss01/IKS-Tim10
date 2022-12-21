@@ -55,7 +55,12 @@ export class MapComponent implements AfterViewInit {
   constructor() { }
 
   ngAfterViewInit(): void {
-    this.initMap();
+    // kako da sredim ovo? probao sam OnViewChecked hook
+    setTimeout(() => {
+      if (this.map == undefined) {
+        this.initMap();
+      }
+    }, 1000)
   }
 
 }
