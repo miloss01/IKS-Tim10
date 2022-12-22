@@ -11,6 +11,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { BlockDialogComponent } from './dialogs/block-dialog/block-dialog.component';
 import { InviteDialogComponent } from './dialogs/invite-dialog/invite-dialog.component';
+import { CancelDialogComponent } from './dialogs/cancel-dialog/cancel-dialog.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { InviteDialogComponent } from './dialogs/invite-dialog/invite-dialog.com
     ToolbarComponent, 
     MapComponent,
     BlockDialogComponent,
-    InviteDialogComponent],
+    InviteDialogComponent,
+    CancelDialogComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

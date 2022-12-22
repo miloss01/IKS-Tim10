@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MapComponent } from '../map/map.component';
-import { Location, DepartureDestination, EstimateDataDTO } from 'src/app/models/models';
-import { environment } from 'src/environments/environment';
 import { map, mergeMap } from 'rxjs';
 import { MapService } from '../services/map.service';
 
@@ -51,11 +49,13 @@ export class LandingPageComponent implements OnInit {
         this.estimated_price = res.estimatedCost;
       }),
 
+
       mergeMap(() => this.mapService.departureState),
       map((res: any) => {
         this.forRouteControl.depLat = res.latitude;
         this.forRouteControl.depLon = res.longitude;
       }),
+
 
       mergeMap(() => this.mapService.destinationState),
       map((res: any) => {
