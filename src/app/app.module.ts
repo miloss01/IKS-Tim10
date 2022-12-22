@@ -13,6 +13,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { LayoutModule } from './modules/layout/layout.module';
 import { AppUserModule } from './modules/app-user/app-user.module';
 import { RideModule } from './modules/ride/ride.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Interceptor } from './infrastructure/interceptor/interceptor.interceptor';
 
 
 @NgModule({
@@ -29,7 +31,19 @@ import { RideModule } from './modules/ride/ride.module';
     AppUserModule,
     RideModule
   ],
-  providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, 
+      useValue: {
+        appearance: 'outline'
+      }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: Interceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
