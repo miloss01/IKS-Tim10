@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginAuthentificationService } from '../../auth/service/login-authentification.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -7,12 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ToolbarComponent implements OnInit {
 
- 
+  user: any;
+
+  constructor(private authService: LoginAuthentificationService) {}
 
   ngOnInit(): void {
+    this.authService.userState$.subscribe((res: any) => {
+      this.user = res;
+      console.log(this.user);
+    })
   }
 
-  openLogin(): void {
-    }
+  logout(): void {
+    this.authService.logout();
+  }
 
 }

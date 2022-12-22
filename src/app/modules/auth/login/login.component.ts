@@ -27,6 +27,10 @@ export class LoginComponent implements OnInit {
       "password": this.loginForm.value.password
     }).subscribe((res: any) => {
       console.log(res);
+      localStorage.setItem('user', JSON.stringify(res.accessToken));
+      this.authService.setUser();
+      console.log(this.authService.getRole());
+      this.router.navigate(['/']);
     });
   }
 

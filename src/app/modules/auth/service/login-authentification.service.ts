@@ -9,11 +9,15 @@ import { environment } from 'src/environments/environment';
 })
 export class LoginAuthentificationService {
 
-  user$ = new BehaviorSubject(null);
+  user$ = new BehaviorSubject({});
   userState$ = this.user$.asObservable();
 
   constructor(private http: HttpClient) {
-    this.user$.next(this.getRole());
+    this.user$.next({
+      "email": this.getEmail(),
+      "role": this.getRole(),
+      "id": this.getId()
+    });
   }
 
   getUserDetails(){
@@ -25,12 +29,35 @@ export class LoginAuthentificationService {
   }
 
   getRole(): any {
-    // if (this.isLoggedIn()) {
-    //   const accessToken: any = localStorage.getItem('user');
-    //   const helper = new JwtHelperService();
-    //   const role = helper.decodeToken(accessToken).role[0].authority;
-    //   return role;
-    // }
+    if (this.isLoggedIn()) {
+      console.log("logovan")
+      const accessToken: any = localStorage.getItem('user');
+      const helper = new JwtHelperService();
+      const role = helper.decodeToken(accessToken).role;
+      return role;
+    }
+    return null;
+  }
+
+  getEmail(): any {
+    if (this.isLoggedIn()) {
+      console.log("logovan")
+      const accessToken: any = localStorage.getItem('user');
+      const helper = new JwtHelperService();
+      const email = helper.decodeToken(accessToken).sub;
+      return email;
+    }
+    return null;
+  }
+
+  getId(): any {
+    if (this.isLoggedIn()) {
+      console.log("logovan")
+      const accessToken: any = localStorage.getItem('user');
+      const helper = new JwtHelperService();
+      const id = helper.decodeToken(accessToken).id;
+      return id;
+    }
     return null;
   }
 
@@ -42,7 +69,16 @@ export class LoginAuthentificationService {
   }
 
   setUser(): void {
-    this.user$.next(this.getRole());
+    this.user$.next({
+      "email": this.getEmail(),
+      "role": this.getRole(),
+      "id": this.getId()
+    });
+  }
+
+  logout(): void {
+    localStorage.removeItem("user");
+    this.user$.next({});
   }
 
 }
