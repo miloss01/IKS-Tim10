@@ -11,20 +11,21 @@
     <div class="app-ride-col-middle app-ride-details">
         
         <div class="app-ride-details-panic">
-            <button id="panic-ride-btn" mat-raised-button>PANIC</button>
+            <button mat-button id="panic-ride-btn" mat-raised-button (click)="panicRide()">PANIC</button>
+
         </div>
 
         <div class="app-ride-details-col-left">
-            <p class="app-ride-details"> <mat-icon>location_on</mat-icon> Destination</p>
-            <p class="app-ride-details"> Time Elapsed: </p>
-            <p> Estimated <span>12</span> minutes left </p>
-            <p class="app-ride-details"> Kilometers travelled:  </p>
+            <p class="app-ride-details"> <mat-icon>location_on</mat-icon> Destination: {{destination}}</p>
+            <p class="app-ride-details"> Time Elapsed: {{time_elapsed}} </p>
+            <p> Estimated {{estimated_minutes_left}} minutes left </p>
+            <p class="app-ride-details"> Kilometers travelled: {{kilometers_travelled}} </p>
 
         </div>
         <div class="app-ride-details-col-right">
-            <p class="app-ride-details">18:20:00</p>
+            <p class="app-ride-details">{{estimated_price}} RSD</p>
         </div>
-        <button id="end-ride-btn" mat-raised-button>END RIDE</button>
+        <button mat-button id="end-ride-btn" mat-raised-button (click)="endRide()">END RIDE</button>
     </div>
 
 </div>
