@@ -7,23 +7,20 @@
                 <mat-card-content>
                     <div class="app-ride-details-col-left">
                         <p class="app-ridehistory-location">Strazilovska 15, Novi Sad{{ride.locations[0].departure.address}}</p>
-                        <p class="app-ridehistory-time">{{ride.startTime}} </p>
+                        <p class="app-ridehistory-time">11:30232{{ride.startTime}} </p>
                         <p class="app-ridehistory-location">Mise Dimitrijevica 22, Novi Sad{{ride.locations[0].destination.address}}</p>
-                        <p class="app-ridehistory-time"> {{ride.endTime}}</p>
+                        <p class="app-ridehistory-time">22.21.2.2 11:0 {{ride.endTime}}</p>
                         <p class="app-ridehistory-price">{{ride.totalCost}} RSD </p>
                     </div>
                     <div class="app-ride-details-col-right">
                         <p class="app-ridehistory-user">Goran Goranovic{{ride.driver.email}}</p>
+                        <p class="app-ridehistory-time">driver</p>
                         <img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >
-                        <div *ngFor="let passenger of ride.passengers">
-                            <p class="app-ridehistory-user">Sime Simic{{passenger.email}}</p>
-                        </div>
-
                     </div>
                 </mat-card-content>
                 <mat-divider></mat-divider>
                 <mat-card-actions>
-                    <button mat-button>VIEW MAP</button>
+                    <button mat-button (click)="viewRideDetails(ride)">VIEW MAP</button>
                     <button mat-button >RIDE AGAIN</button>
                   </mat-card-actions>
               </mat-card>

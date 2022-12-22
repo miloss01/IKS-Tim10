@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Ride } from 'src/app/models/models';
 import { RideServiceService } from '../service/ride-service.service';
+import { RideDetailsDialogComponent } from './ride-details/ride-details-dialog/ride-details-dialog.component';
 
 @Component({
   selector: 'app-ride-history',
@@ -13,7 +15,8 @@ export class RideHistoryComponent implements OnInit {
   rides: Ride[] = [];
 
   constructor(private route: ActivatedRoute,
-    private rideService: RideServiceService) { }
+    private rideService: RideServiceService,
+    public rideDetailsDialog: MatDialog,) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -22,6 +25,14 @@ export class RideHistoryComponent implements OnInit {
       .subscribe((res:ridesDTO) => {
         this.rides = res.results;
         })
+    });
+  }
+
+  viewRideDetails(ride : Ride) {
+    const rideDetailsDialog = this.rideDetailsDialog.open(RideDetailsDialogComponent, {
+      width: '900px',
+      height: '500px',
+      data: { ride: ride }
     });
   }
 
