@@ -1,11 +1,15 @@
 <mat-toolbar class="toolbar_color">
   <!--<span class="white-text">UBER</span>-->
   <button mat-button class="white-text bigger-text" [routerLink]="['/']">
-    UBER
-  </button>
+    UBER - {{this.user.id + ": " + this.user.email + " - " + this.user.role}}
+  </button> 
   <span class="example-spacer"></span>
-  <button mat-button class="white-text" [routerLink]="['/login']">
+  <button mat-button class="white-text" [routerLink]="['/login']" *ngIf="this.user.email == null">
     Log in
+    <mat-icon>favorite</mat-icon>
+  </button>
+  <button mat-button class="white-text" routerLink="/" (click)="logout()" *ngIf="this.user.email != null">
+    Log out
     <mat-icon>favorite</mat-icon>
   </button>
 </mat-toolbar>
