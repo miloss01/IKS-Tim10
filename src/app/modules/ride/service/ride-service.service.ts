@@ -52,6 +52,37 @@ export class RideServiceService {
       options
     );
   }
+
+  getActiveDriverRide(id: number) : Observable<Ride> {
+    return this.http.get<Ride>(environment.apiHost + "ride/driver/" + id + "/active");
+  }
+
+  endRide(id: number) : Observable<any> {
+    const options: any = {
+      responseType: 'text',
+    };
+    return this.http.put<string>(
+      environment.apiHost + "ride/" + id + "/end",
+      {
+        id: id
+      },
+      options
+      );
+  }
+
+  raisePanic(id: number) : Observable<any> {
+    const options: any = {
+      responseType: 'text',
+    };
+    return this.http.put<string>(
+      environment.apiHost + "ride/" + id + "/panic",
+      {
+        id: id
+      },
+      options
+      );
+  }
+
 }
 
 
