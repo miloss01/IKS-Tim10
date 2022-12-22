@@ -83,6 +83,10 @@ export class RideServiceService {
       );
   }
 
+  getAllPassengerRides(id: number) : Observable<any> {
+    return this.http.get<Ride>(environment.apiHost + "passenger/" + id + "/ride");
+  }
+
 }
 
 
