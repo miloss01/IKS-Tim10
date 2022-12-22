@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('user', JSON.stringify(res.accessToken));
       this.authService.setUser();
       console.log(this.authService.getRole());
-      this.router.navigate(['/']);
+      this.router.navigate(['/book-ride']);
     });
   }
 
