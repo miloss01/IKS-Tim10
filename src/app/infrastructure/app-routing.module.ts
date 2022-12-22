@@ -10,6 +10,7 @@ import { DriverUserInfoComponent } from '../modules/app-user/account/driver-user
 import { ManagePassengersComponent } from '../modules/app-user/manage-passengers/manage-passengers.component';
 import { ManageDriversComponent } from '../modules/app-user/manage-drivers/manage-drivers.component';
 import { RideRequestComponent } from '../modules/ride/ride-request/ride-request.component';
+import { CurrentRideComponent } from '../modules/ride/current-ride/current-ride.component';
 
 const routes: Routes = [
   {path:'register-account', component: RegisterAccountComponent},
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path: 'manage-drivers', component: ManageDriversComponent},
   {path: 'manage-passengers', component: ManagePassengersComponent},
   {path: "ride-request", component:RideRequestComponent},
+  {path: 'current-ride', component: CurrentRideComponent},
   {path: '**', component: LandingPageComponent }
 ];
 

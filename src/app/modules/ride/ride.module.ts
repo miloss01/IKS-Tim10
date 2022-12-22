@@ -9,9 +9,10 @@ import { LayoutModule } from '../layout/layout.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ObserversModule } from '@angular/cdk/observers';
 import { RideRequestComponent } from './ride-request/ride-request.component';
+import { CurrentRideComponent } from './current-ride/current-ride.component';
 
 @NgModule({
-  declarations: [BookRideComponent, RideRequestComponent],
+  declarations: [BookRideComponent, RideRequestComponent, CurrentRideComponent],
   imports: [
     CommonModule,
     AppRoutingModule,
