@@ -11,6 +11,7 @@ import { ManagePassengersComponent } from '../modules/app-user/manage-passengers
 import { ManageDriversComponent } from '../modules/app-user/manage-drivers/manage-drivers.component';
 import { RideRequestComponent } from '../modules/ride/ride-request/ride-request.component';
 import { CurrentRideComponent } from '../modules/ride/current-ride/current-ride.component';
+import { RideHistoryComponent } from '../modules/ride/ride-history/ride-history.component';
 
 const routes: Routes = [
   {path:'register-account', component: RegisterAccountComponent},
@@ -23,6 +24,7 @@ const routes: Routes = [
   {path: 'manage-passengers', component: ManagePassengersComponent},
   {path: "ride-request", component:RideRequestComponent},
   {path: 'current-ride', component: CurrentRideComponent},
+  {path: 'passenger-rides', component: RideHistoryComponent},
   {path: '**', component: LandingPageComponent }
 ];
 

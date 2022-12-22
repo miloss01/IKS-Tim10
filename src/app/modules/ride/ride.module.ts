@@ -10,9 +10,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { ObserversModule } from '@angular/cdk/observers';
 import { RideRequestComponent } from './ride-request/ride-request.component';
 import { CurrentRideComponent } from './current-ride/current-ride.component';
+import { RideHistoryComponent } from './ride-history/ride-history.component';
 
 @NgModule({
-  declarations: [BookRideComponent, RideRequestComponent, CurrentRideComponent],
+  declarations: [BookRideComponent, RideRequestComponent, CurrentRideComponent, RideHistoryComponent],
   imports: [
     CommonModule,
     AppRoutingModule,

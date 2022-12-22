@@ -34,11 +34,11 @@ p {
 }
 
 p.app-ride-details {
-font-size: 1.2em;
-font-weight: 425;
-margin-bottom: 0 !important;
-padding-bottom: 0.5vh;
-padding-top: 3vh;
+    font-size: 1.2em;
+    font-weight: 425;
+    margin-bottom: 0 !important;
+    padding-bottom: 0.5vh;
+    padding-top: 3vh;
 }
 
 div.app-ride-details {
