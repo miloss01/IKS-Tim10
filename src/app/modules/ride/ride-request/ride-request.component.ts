@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { map, mergeMap, Observable } from 'rxjs';
 import { Ride } from 'src/app/models/models';
-import { UserServiceService } from '../../app-user/account/services/user.service';
 import { CancelDialogComponent } from '../../layout/dialogs/cancel-dialog/cancel-dialog.component';
 import { MapComponent } from '../../layout/map/map.component';
+import { MapService } from '../../layout/services/map.service';
 import { RideServiceService } from '../service/ride-service.service';
 
 @Component({
@@ -27,11 +27,18 @@ export class RideRequestComponent implements OnInit {
     passengers: [],
     estimatedTimeInMinutes: 0
   }
+  forRouteControl = {
+    depLat: 0,
+    depLon: 0,
+    desLat: 0,
+    desLon: 0
+  };
 
   constructor(public declineDialog: MatDialog, private http: HttpClient,
     private route:ActivatedRoute,
     private rideService: RideServiceService,
-    private router: Router) { }
+    private router: Router,
+    private mapService: MapService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -41,12 +48,53 @@ export class RideRequestComponent implements OnInit {
         this.ride =fetcedRide; 
         })
     });
+
+    //drawRoutes();
+    this.mapService.postRequest(
+      this.ride.locations[0].departure.address, 
+      this.ride.locations[0].destination.address,
+      this.ride.vehicleType,
+      this.ride.petTransport,
+      this.ride.babyTransport)
+    .pipe(
+      map((res: any) => {
+        console.log(res)
+        //this.estimated_price = res.estimatedCost;
+      }),
+
+      mergeMap(() => this.mapService.departureState),
+      map((res: any) => {
+        console.log(res);
+        this.forRouteControl.depLat = this.ride.locations[0].departure.latitude;
+        this.forRouteControl.depLon = this.ride.locations[0].departure.longitude;
+      }),
+
+      mergeMap(() => this.mapService.destinationState),
+      map((res: any) => {
+        console.log(res);
+        this.forRouteControl.desLat = this.ride.locations[0].destination.latitude;
+        this.forRouteControl.desLon = this.ride.locations[0].destination.longitude;
+      })
+    )
+    .subscribe((res: any) => {
+      let routeControl = this.map?.drawRoute(
+        // ovi podaci se moraju dobiti iz servisa
+        this.forRouteControl.depLat,
+        this.forRouteControl.depLon,
+        this.forRouteControl.desLat,
+        this.forRouteControl.desLon
+      );
+
+      routeControl.on('routesfound', (e: any) => {
+        //this.estimated_time = Math.trunc(e.routes[0].summary.totalTime / 60);
+      })
+    })
   }
 
 
-  getLatLong(address: string): Observable<any> {
+  /*getLatLong(address: string): Observable<any> {
     return this.http.get("https://nominatim.openstreetmap.org/search?format=json&q=" + address);
-  }
+  }*/
 
   acceptRide(): void {
     this.rideService
@@ -64,3 +112,5 @@ export class RideRequestComponent implements OnInit {
   }
 
 }
+
+

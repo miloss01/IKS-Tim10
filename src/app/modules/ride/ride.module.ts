@@ -23,6 +23,6 @@ import { RideRequestComponent } from './ride-request/ride-request.component';
     AppUserModule,
     ObserversModule,
   ],
-  exports: [BookRideComponent]
+  exports: [BookRideComponent, RideRequestComponent]
 })
 export class RideModule { }
