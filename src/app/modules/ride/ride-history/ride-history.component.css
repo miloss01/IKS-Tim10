@@ -46,7 +46,7 @@ a {
 }
 
 .app-ridehistory-location {
-    font-size: 1.1em;
+    font-size: 1em;
     font-weight: 425;
     margin-bottom: 0 !important;
 }
@@ -62,7 +62,7 @@ a {
     font-weight: 425;
     margin-bottom: 0 !important;
     margin-top: 5vh;
-    color: #24ED80 ;
+    color: #217647 ;
 }
 
 .app-ride-details-col-left {
@@ -84,8 +84,8 @@ a {
 }
 
 img {
-    padding: 1vh;
+    padding: 0;
     margin-bottom: 3vh;
-    width: 40%;
+    width: 35%;
     height: 40%;
 }

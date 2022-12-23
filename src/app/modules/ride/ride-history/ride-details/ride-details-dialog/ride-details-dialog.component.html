@@ -1,0 +1,23 @@
+<div mat-dialog-content >
+    <div class="app-ride-map-container">
+        <app-map></app-map>
+    </div>
+    <div class="app-ride-details-col-left">
+        <p class="app-ridehistory-details"><mat-icon>location_on</mat-icon> Strazilovska 15, Novi Sad{{ride.locations[0].departure.address}}</p>
+        <p class="app-ridehistory-details"><mat-icon>location_searching</mat-icon> Mise Dimitrijevica 22, Novi Sad{{ride.locations[0].destination.address}}</p>
+    </div>
+    <div class="app-ride-details-col-right">
+        <p class="app-ridehistory-details">Total mileage: 5.46 km</p>
+    </div>
+
+    <div class="app-ride-passengers">
+        <h2>Passengers</h2>
+        <div class="grid">
+            <div *ngFor="let passenger of ride.passengers">
+                <p>{{passenger.email}} </p>
+            </div>
+        </div>
+    </div>
+
+
+</div>
