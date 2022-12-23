@@ -53,3 +53,28 @@ export interface AppUser {
 export interface ReasonDTO {
   reason: string;
 }
+
+export interface DocumentDTO{
+  id: number,
+  name: string,
+  documentImage: string,
+  driverId: number
+}
+
+export interface Vehicle {
+  id: number,
+  driverId: number,
+  vehicleType: string,
+  model: string,
+  licenseNumber: string,
+  currentLocation: LocationDTO,
+  passengerSeats: number;
+  babyTransport: boolean,
+  petTransport: boolean
+}
+
+export interface LocationDTO {
+  address: string,
+  latitude: number;
+  longitude: number;
+}

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Vehicle } from 'src/app/models/models';
+import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service';
 import { UserServiceService } from '../services/user.service';
 
 @Component({
@@ -33,7 +35,7 @@ export class DriverVechicleComponent implements OnInit {
   constructor(
     private route:ActivatedRoute,
     private userService: UserServiceService,
-  ) {
+    private userAuthentificationService: LoginAuthentificationService) {
     
    }
 
@@ -42,7 +44,7 @@ export class DriverVechicleComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.userService
-      .getVechicle()
+      .getVechicle(this.userAuthentificationService.getId())
       .subscribe((fetchedVechicle:Vehicle) => {
         this.vehicle =fetchedVechicle; 
         console.log(fetchedVechicle);})
@@ -51,22 +53,4 @@ export class DriverVechicleComponent implements OnInit {
 
   submitChanges(): void{}
 
-}
-
-export interface Vehicle {
-  id: number,
-  driverId: number,
-  vehicleType: string,
-  model: string,
-  licenseNumber: string,
-  currentLocation: LocationDTO,
-  passengerSeats: number;
-  babyTransport: boolean,
-  petTransport: boolean
-}
-
-export interface LocationDTO {
-  address: string,
-  latitude: number;
-  longitude: number;
 }

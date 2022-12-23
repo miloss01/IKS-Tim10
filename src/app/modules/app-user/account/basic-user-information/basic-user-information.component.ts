@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service';
 import { UserServiceService } from '../services/user.service';
 
 @Component({
@@ -23,8 +24,8 @@ export class BasicUserInformationComponent implements OnInit {
   constructor(
     private route:ActivatedRoute,
     private userService: UserServiceService,
-    private router: Router
-  ) {
+    private router: Router,
+    private userAuthentificationService: LoginAuthentificationService) {
     //this.imageSrc = "http://t3.gstatic.com/licensed-image?q=tbn:ANd9GcS-OZTPpZNsnOchlOMmYsSeMprn5sYU4kdOZGPL0_ksM2nHGegFrzLhGlQMBF-amQqPRFs4DzbLrI_o5gA";
     //this.imageSrc = "https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg.jpg?resize=768,512";
     
@@ -41,7 +42,7 @@ export class BasicUserInformationComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.userService
-      .getUser()
+      .getUser(this.userAuthentificationService.getId())
       .subscribe((fetchedUser:AppUser) => {
         this.user =fetchedUser; 
         })
@@ -49,6 +50,19 @@ export class BasicUserInformationComponent implements OnInit {
   }
 
   submitChanges(): void{
+    if (this.userAuthentificationService.getRole() == "PASSENGER") {
+      this.passengerSubmit();
+    }
+    else {
+      this.driverSubmit();
+    }
+  }
+
+  driverSubmit() {
+    throw new Error('Method not implemented.');
+  }
+
+  passengerSubmit() : void{
     if (this.changingInformationForm.get('name')?.value){
       this.user.name = this.changingInformationForm.get('name')?.value;
     }
@@ -64,12 +78,13 @@ export class BasicUserInformationComponent implements OnInit {
       this.user.address = this.changingInformationForm.get('adress')?.value;
     }
     this.userService
-    .saveChanges(this.user)
+    .saveChanges(this.user, this.userAuthentificationService.getId())
     .subscribe((res: any) => {
         console.log(res);
         this.router.navigate(['passenger-account']);
     });
   }
+  
 
   changePicture(): void {}
 
@@ -85,3 +100,5 @@ export interface AppUser {
   address: string,
   profilePicture: string
 }
+
+
