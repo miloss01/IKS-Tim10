@@ -3,6 +3,10 @@ mat-card {
     margin-bottom: 8px;
  }
 
+ table {
+    width: 100%;
+}
+
 .grid { 
     padding-top: 5vh;
     display: grid;
