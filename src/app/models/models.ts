@@ -53,3 +53,18 @@ export interface AppUser {
 export interface ReasonDTO {
   reason: string;
 }
+
+export interface RideReview {
+  vehicleReview : Review;
+  driverReview : Review;
+}
+
+export interface Review {
+  id : number;
+
+  rating : number;
+
+  comment : string;
+   
+  passenger : AppUserForRide;
+}

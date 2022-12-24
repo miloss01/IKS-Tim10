@@ -14,10 +14,14 @@
         <h2>Passengers</h2>
         <div class="grid">
             <div *ngFor="let passenger of ride.passengers">
-                <p>{{passenger.email}} </p>
+                <div *ngIf="passenger.email === review.driverReview.passenger.email">
+                    <p class="app-ride-user-name">Passenger Name</p>
+                    <p class="app-ride-user-details">{{passenger.email}} </p>
+                    <p><mat-icon>star</mat-icon>Passenger gave driver a rating of {{review.driverReview.rating}} and commented: {{review.driverReview.comment}} </p>
+                    <p><mat-icon>star</mat-icon>Passenger gave the vehicle a rating of {{review.vehicleReview.rating}} and commented: {{review.vehicleReview.comment}} </p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
-
 </div>
+

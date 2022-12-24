@@ -2,9 +2,10 @@ import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { map, mergeMap } from 'rxjs';
-import { Ride } from 'src/app/models/models';
+import { AppUser, AppUserForRide, Ride, RideReview } from 'src/app/models/models';
 import { MapComponent } from 'src/app/modules/layout/map/map.component';
 import { MapService } from 'src/app/modules/layout/services/map.service';
+import { ReviewService, RideReviewsDTO } from '../../review/service/review.service';
 
 @Component({
   selector: 'app-ride-details-dialog',
@@ -14,12 +15,27 @@ import { MapService } from 'src/app/modules/layout/services/map.service';
 export class RideDetailsDialogComponent implements OnInit {
 
   public ride : Ride;
+  review: RideReview = {
+    driverReview: {
+      id: -1,
+      rating: -1,
+      comment: "",
+      passenger: {id:-1, email: "YYYYYYYYYYYYY"}
+    },
+    vehicleReview: {
+      id: -1,
+      rating: -1,
+      comment: "",
+      passenger: {id:-1, email: "XXXXXXXXXXX"}
+    }
+  };
 
   @ViewChild(MapComponent, {static : true}) map : MapComponent | undefined;
 
   constructor(public dialogRef: MatDialogRef<RideDetailsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data: any,
     private mapService: MapService,
+    private reviewService : ReviewService,
     private route: ActivatedRoute) {
       this.ride = data["ride"];
   }
@@ -33,6 +49,16 @@ export class RideDetailsDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.initMap();
+    this.ride.passengers[0].email = "em@ail.com";
+    this.route.params.subscribe((params) => {
+      this.reviewService
+      .getReviews(this.ride.id)
+      .subscribe((fetchedReviews:RideReview[]) => {
+        console.log("evo ga reviewdto" + JSON.stringify(fetchedReviews));
+        this.review = fetchedReviews[0];
+        console.log("evo ga review" + JSON.stringify(this.review));
+        })
+    });
   }
   
   private initMap() {
@@ -71,3 +97,4 @@ export class RideDetailsDialogComponent implements OnInit {
   }
 
 }
+

@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { AppUser, Ride } from 'src/app/models/models';
 import { RideServiceService } from '../service/ride-service.service';
-import { RideDetailsDialogComponent } from './ride-details/ride-details-dialog/ride-details-dialog.component';
+import { RideDetailsDialogComponent } from './ride-details-dialog/ride-details-dialog.component';
 
 @Component({
   selector: 'app-ride-history',

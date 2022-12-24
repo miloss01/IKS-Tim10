@@ -1,18 +1,9 @@
-mat-card {
-    max-width: 500px;
-    margin-bottom: 8px;
- }
+tr.pointer {
+    cursor: pointer;
+}
 
  table {
     width: 100%;
-}
-
-.grid { 
-    padding-top: 5vh;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-    grid-gap: 30px;
-    align-items: stretch;
 }
 
 .app-ridehistory-page {
@@ -20,76 +11,8 @@ mat-card {
     padding-bottom: 10vh;
 }
 
-mat-card-title-group mat-card-title{
-    padding-right: 5vw;
-}
-
-.app-ridehistory-col-name {
-    width: 75%;
-    display: inline-block;
-    vertical-align: top;
-}
-
-mat-card-actions button {
-    color: white;
-    margin-right: 4vw;
-    background-color: black;
-}
-
-mat-card-actions {
-    padding-left: 15px;
-}
-
-mat-card-content {
-    padding-top: 2vh;
-}
 
 a {
     color: black;
     text-decoration: none;
-}
-
-.app-ridehistory-location {
-    font-size: 1em;
-    font-weight: 425;
-    margin-bottom: 0 !important;
-}
-
-.app-ridehistory-time {
-    font-size: 0.9em;
-    margin-bottom: 0 !important;
-    color: grey;
-}
-
-.app-ridehistory-price {
-    font-size: 1.1em;
-    font-weight: 425;
-    margin-bottom: 0 !important;
-    margin-top: 5vh;
-    color: #217647 ;
-}
-
-.app-ride-details-col-left {
-    width: 60%;
-    display: inline-block;
-    vertical-align: top;
-    padding-left: 2vw;
-}
-.app-ride-details-col-right {
-    width: 30%;
-    display: inline-block;
-    vertical-align: top;
-}
-
-.app-ridehistory-user {
-    font-size: 1em;
-    font-weight: 425;
-    margin-bottom: 0 !important;
-}
-
-img {
-    padding: 0;
-    margin-bottom: 3vh;
-    width: 35%;
-    height: 40%;
 }

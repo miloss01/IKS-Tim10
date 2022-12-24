@@ -1,0 +1,45 @@
+.app-ride-map-container {
+    padding: 2vh;
+    width: 800px;
+    height: 50vh;
+}
+
+.app-ride-user-name {
+    font-size: 1em;
+    font-weight: 425;
+    margin-bottom: 0 !important;
+}
+
+.app-ride-user-details {
+    font-size: 0.9em;
+    color: grey;
+}
+
+
+.mat-icon {
+    font-size: 0.85em;
+}
+
+.app-ride-passengers {
+    padding-left: 2vw;
+    margin-top: 4vh;
+}
+
+img {
+    padding: 0;
+    margin-bottom: 3vh;
+    width: 35%;
+    height: 40%;
+}
+
+.app-ride-details-col-left {
+    width: 60%;
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 2vw;
+}
+.app-ride-details-col-right {
+    width: 30%;
+    display: inline-block;
+    vertical-align: top;
+}
