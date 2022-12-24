@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, mergeMap, Observable } from 'rxjs';
 import { Location, DepartureDestination, EstimateDataDTO } from 'src/app/models/models';
@@ -31,6 +31,17 @@ export class MapService {
 
   public getLatLong(address: string): Observable<any> {
     return this.http.get("https://nominatim.openstreetmap.org/search?format=json&q=" + address);
+  }
+
+  public getAddressFromLatLong(lat: number, lon: number): Observable<any> {
+    return this.http.get(
+      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`, 
+      {
+        headers: new HttpHeaders({
+          'accept-language': 'sr-Latn'
+        })
+      }
+    );
   }
 
   postRequest(departureAddress: string, 
