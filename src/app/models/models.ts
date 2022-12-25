@@ -54,6 +54,7 @@ export interface ReasonDTO {
   reason: string;
 }
 
+
 export interface DocumentDTO{
   id: number,
   name: string,
@@ -76,10 +77,27 @@ export interface Vehicle {
 export interface LocationDTO {
   address: string,
   latitude: number;
-  longitude: number;
+  longitude: number
 }
 
 export interface ChangeRequest {
   userInfo: AppUser;
   vehicle: Vehicle;
+  date: String;
 }
+
+export interface RideReview {
+  vehicleReview : Review;
+  driverReview : Review;
+}
+
+export interface Review {
+  id : number;
+
+  rating : number;
+
+  comment : string;
+   
+  passenger : AppUserForRide;
+}
+

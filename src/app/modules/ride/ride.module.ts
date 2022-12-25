@@ -11,7 +11,7 @@ import { ObserversModule } from '@angular/cdk/observers';
 import { RideRequestComponent } from './ride-request/ride-request.component';
 import { CurrentRideComponent } from './current-ride/current-ride.component';
 import { RideHistoryComponent } from './ride-history/ride-history.component';
-import { RideDetailsDialogComponent } from './ride-history/ride-details/ride-details-dialog/ride-details-dialog.component';
+import { RideDetailsDialogComponent } from './ride-history/ride-details-dialog/ride-details-dialog.component';
 
 @NgModule({
   declarations: [BookRideComponent, RideRequestComponent, CurrentRideComponent, RideHistoryComponent, RideDetailsDialogComponent],

@@ -1,0 +1,54 @@
+<div mat-dialog-content >
+    <div class="app-ride-map-container">
+        <app-map></app-map>
+    </div>
+    <div class="app-ride-details-col-left">
+        <p class="app-ride-attribute"><mat-icon>location_on</mat-icon>{{ride.locations[0].departure.address}}</p>
+        <p class="app-ride-attribute"><mat-icon>location_searching</mat-icon>{{ride.locations[0].destination.address}}</p>
+    </div>
+    <div class="app-ride-details-col-right">
+        <p class="app-ride-attribute">Price: {{ride.totalCost}} RSD</p>
+    </div>
+    <button mat-button id="btn-ride-again">RIDE AGAIN</button>
+
+    <div class="app-ride-driver">
+        <h2>Driver</h2>
+        <mat-divider></mat-divider>
+        <div *ngIf="driverForDisplay != undefined">
+            <div id="app-ride-driver-picture">
+                <img src="https://material.angular.io/assets/img/examples/shiba2.jpg"/>
+            </div>
+            <div id="app-ride-driver-name">
+                <p class="app-ride-attribute">{{driverForDisplay.name}} {{driverForDisplay.surname}}</p>
+                <p class="app-ride-details">{{driverForDisplay.email}} </p>
+            </div>
+        </div>
+     </div>
+
+
+    <div class="app-ride-passengers">
+        <h2>Passengers</h2>
+        <mat-divider></mat-divider>
+        <div *ngFor="let passenger of passengersForDisplay">
+            <div>
+                <div id="app-ride-passenger-picture">
+                    <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" >
+                </div>
+                <div id="app-ride-passenger-name">
+                    <p class="app-ride-attribute">{{passenger.name}} {{passenger.surname}}</p>
+                    <p class="app-ride-details">{{passenger.email}} </p>
+                </div>
+                <div id="app-ride-passenger-reviewbtn">
+                    <button mat-button id="btn-show-reviews" (click)="displayReviews()">Show reviews</button>
+                </div>
+                <div class="app-ride-review" *ngIf="reviewsShow==true && passenger.email === review.driverReview.passenger.email && review.driverReview.id!=-1">
+                    <p><mat-icon>thumbs_up_down</mat-icon>Passenger gave driver rating <span class="rating">{{review.driverReview.rating}} </span>  and commented:</p>
+                    <p class="app-ride-review-comment"> {{review.driverReview.comment}}</p>
+                    <p><mat-icon>directions_car</mat-icon>Passenger gave the vehicle rating <span class="rating">{{review.vehicleReview.rating}} </span>  and commented:</p>
+                    <p class="app-ride-review-comment"> {{review.vehicleReview.comment}} </p>
+                </div>
+            </div>
+            </div>
+        </div>
+</div>
+

@@ -49,4 +49,8 @@ export class UserServiceService {
     return this.http.get<DocumentDTO[]>(environment.apiHost + 'driver/' + id + '/documents');
   }
 
+  getUserById(id: number): Observable<AppUser> {
+    return this.http.get<AppUser>(environment.apiHost + "passenger/" + id);
+  }
+
 }
