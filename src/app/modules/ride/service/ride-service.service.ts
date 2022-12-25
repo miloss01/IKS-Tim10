@@ -22,10 +22,7 @@ export class RideServiceService {
   }
 
   setbookAgainValue(locations: DepartureDestination[]) {
-    console.log(JSON.stringify(locations));
     this.bookAgainValue$.next(locations);
-    console.log("u ride service setbookagain" );
-    console.log(JSON.stringify(+ this.value$)); 
   }
 
   getRideById(id: number): Observable<Ride> {

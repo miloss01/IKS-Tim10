@@ -59,8 +59,6 @@ export class BookRideComponent implements OnInit {
   ngOnInit(): void {
     this.rideService.selectedBookAgainValue$.subscribe((value) => {
       this.locationsFromBookAgain = value;
-      console.log("EVO IH LOKACIJE -------------------");
-      console.log(JSON.stringify(this.locationsFromBookAgain));
     });
   }
 
