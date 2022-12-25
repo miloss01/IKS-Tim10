@@ -1,7 +1,7 @@
 import { MatDialog } from '@angular/material/dialog';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { AppUser, Ride } from 'src/app/models/models';
@@ -29,11 +29,9 @@ export class RideHistoryComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params) => {
       this.rideService
-      .getAllPassengerRides(1)
+      .getAllUserRides(1)
       .subscribe((res:ridesDTO) => {
         this.rides = res.results;
-        this.rides[0].locations[0].departure.address = "Mise Dimitrijevica";
-        console.log(this.rides);
 
         this.dataSource = new MatTableDataSource<Ride>(this.rides);
         this.dataSource.paginator = this.paginator;
@@ -49,8 +47,8 @@ export class RideHistoryComponent implements OnInit {
         };
         this.dataSource.sort = this.sort;
 
-        this.dataSource.sortData = this.sortData();
-
+        this.dataSource.sortData = this.enableSortByAnyColumn();
+        this.orderByDateDescending();
         })
     });
   }
@@ -72,7 +70,7 @@ export class RideHistoryComponent implements OnInit {
     return date;
   }
 
-  sortData() {
+  enableSortByAnyColumn() {
     let sortFunction = 
     (items: Ride[], sort: MatSort): Ride[] =>  {
       if (!sort.active || sort.direction === '') {
@@ -101,7 +99,18 @@ export class RideHistoryComponent implements OnInit {
     };
     return sortFunction;
    }
+
+   private orderByDateDescending() {
+    this.dataSource.sort = this.sort;
+
+    const sortState: Sort = {active: 'startTime', direction: 'asc'};
+    this.sort.active = sortState.active;
+    this.sort.direction = sortState.direction;
+    this.sort.sortChange.emit(sortState);
+   }
+
 }
+
 
 export interface ridesDTO{
   totalCount: number,

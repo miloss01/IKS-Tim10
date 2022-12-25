@@ -9,7 +9,9 @@
     <div class="app-ride-details-col-right">
         <p class="app-ride-attribute">Price: {{ride.totalCost}} RSD</p>
     </div>
-    <button mat-button id="btn-ride-again">RIDE AGAIN</button>
+    <div *ngIf="role == 'PASSENGER'">
+        <button mat-button id="btn-ride-again" (click)="onClickRideAgain()">RIDE AGAIN</button>
+    </div>
 
     <div class="app-ride-driver">
         <h2>Driver</h2>
@@ -39,7 +41,7 @@
                     <p class="app-ride-details">{{passenger.email}} </p>
                 </div>
                 <div id="app-ride-passenger-reviewbtn">
-                    <button mat-button id="btn-show-reviews" (click)="displayReviews()">Show reviews</button>
+                    <button mat-button id="btn-show-reviews" (click)="displayReviewsOnClick(passenger.email)">Show reviews</button>
                 </div>
                 <div class="app-ride-review" *ngIf="reviewsShow==true && passenger.email === review.driverReview.passenger.email && review.driverReview.id!=-1">
                     <p><mat-icon>thumbs_up_down</mat-icon>Passenger gave driver rating <span class="rating">{{review.driverReview.rating}} </span>  and commented:</p>

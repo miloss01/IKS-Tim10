@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ReasonDTO, Ride } from 'src/app/models/models';
+import { DepartureDestination, ReasonDTO, Ride } from 'src/app/models/models';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -11,10 +11,21 @@ export class RideServiceService {
   private value$ = new BehaviorSubject<any>({});
   selectedValue$ = this.value$.asObservable();
 
+  private bookAgainValue$ = new BehaviorSubject<any>({});
+  selectedBookAgainValue$ = this.bookAgainValue$.asObservable();
+
+
   constructor(private http: HttpClient) { }
 
   setValue(test: any) {
     this.value$.next(test);
+  }
+
+  setbookAgainValue(locations: DepartureDestination[]) {
+    console.log(JSON.stringify(locations));
+    this.bookAgainValue$.next(locations);
+    console.log("u ride service setbookagain" );
+    console.log(JSON.stringify(+ this.value$)); 
   }
 
   getRideById(id: number): Observable<Ride> {
@@ -85,6 +96,10 @@ export class RideServiceService {
 
   getAllPassengerRides(id: number) : Observable<any> {
     return this.http.get<Ride>(environment.apiHost + "passenger/" + id + "/ride");
+  }
+
+  getAllUserRides(id: number) : Observable<any> {
+    return this.http.get<Ride>(environment.apiHost + "user/" + id + "/ride");
   }
 
 }
