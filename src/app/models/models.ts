@@ -78,3 +78,8 @@ export interface LocationDTO {
   latitude: number;
   longitude: number;
 }
+
+export interface ChangeRequest {
+  userInfo: AppUser;
+  vehicle: Vehicle;
+}
