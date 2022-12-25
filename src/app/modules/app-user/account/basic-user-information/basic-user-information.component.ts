@@ -21,6 +21,8 @@ export class BasicUserInformationComponent implements OnInit {
     profilePicture: 'https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg.jpg?resize=768,512'
   }
 
+  role:string = ""
+
   constructor(
     private route:ActivatedRoute,
     private userService: UserServiceService,
@@ -47,10 +49,11 @@ export class BasicUserInformationComponent implements OnInit {
         this.user =fetchedUser; 
         })
     });
+    this.role = this.userAuthentificationService.getRole();
   }
 
   submitChanges(): void{
-    if (this.userAuthentificationService.getRole() == "PASSENGER") {
+    if (this.role == "PASSENGER") {
       this.passengerSubmit();
     }
     else {

@@ -2,3 +2,45 @@
     margin: 10vh;
     padding-bottom: 10vh;
 }
+
+mat-card {
+    margin-bottom: 4vh;
+}
+
+mat-card:hover {
+    cursor: pointer;
+    background-color: rgb(224, 224, 224);
+  }
+
+mat-card {
+    background-color: whitesmoke;
+}
+
+button {
+    width: 20vh;
+}
+
+.black-button{
+    background-color: black;
+    color: white;
+}
+.gray-button{
+    background-color: rgb(126, 126, 126);
+    color: white;
+}
+.margin-top{
+    padding-top: 2vh;
+}
+
+.app-reg-col-pic {
+    width: 30%;
+    /* display: inline-block; */
+    vertical-align: bottom;
+    float: right;
+    margin-left: 4vh;
+    margin-bottom: 1vh;
+}
+
+.padding-left{
+    padding-left: 5vh;
+}

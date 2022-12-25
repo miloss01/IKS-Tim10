@@ -81,9 +81,14 @@ export interface LocationDTO {
 }
 
 export interface ChangeRequest {
-  userInfo: AppUser;
-  vehicle: Vehicle;
+  userDTO: AppUser;
+  vehicleDTO: Vehicle;
   date: String;
+}
+
+export interface ChangeRequestResponce{
+  numberOfRequests: number;
+  requestDTOS: ChangeRequest[];
 }
 
 export interface RideReview {

@@ -51,6 +51,5 @@ export class DriverVechicleComponent implements OnInit {
     });
   }
 
-  submitChanges(): void{}
-
+  
 }
