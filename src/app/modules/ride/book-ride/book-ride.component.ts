@@ -8,6 +8,7 @@ import { MapComponent } from 'src/app/modules/layout/map/map.component';
 import { map, mergeMap, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { MapService } from '../../layout/services/map.service';
+import { RideServiceService } from '../service/ride-service.service';
 
 interface VehicleType {
   value: string;
@@ -49,9 +50,16 @@ export class BookRideComponent implements OnInit {
     desLon: 0
   };
 
-  constructor(public invDialog: MatDialog, private mapService: MapService) { }
+  locationsFromBookAgain : any | undefined;
+
+  constructor(public invDialog: MatDialog, 
+    private mapService: MapService,
+    private rideService: RideServiceService) { }
 
   ngOnInit(): void {
+    this.rideService.selectedBookAgainValue$.subscribe((value) => {
+      this.locationsFromBookAgain = value;
+    });
   }
 
   invite(): void {
