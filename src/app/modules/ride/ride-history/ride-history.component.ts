@@ -95,6 +95,7 @@ export class RideHistoryComponent implements OnInit {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
     this.pageIteration();
+    this.dataSource.sort = this.sort;
   }
 
   public getRides(){
