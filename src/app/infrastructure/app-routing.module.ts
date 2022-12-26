@@ -25,7 +25,7 @@ const routes: Routes = [
   {path: 'manage-passengers', component: ManagePassengersComponent},
   {path: "ride-request", component:RideRequestComponent},
   {path: 'current-ride', component: CurrentRideComponent},
-  {path: 'passenger-rides', component: RideHistoryComponent},
+  {path: 'ride-history', component: RideHistoryComponent},
   {path: 'driver-account-details', component: DriverAccountDetailsComponent},
   {path: '**', component: LandingPageComponent }
 ];

@@ -33,13 +33,12 @@ export class RideHistoryComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private rideService: RideServiceService,
-    private rideHistoryService: RideHistoryServiceService,
     private manageService: ManageDriversService,
     private authService: LoginAuthentificationService,
     public rideDetailsDialog: MatDialog,) { }
 
   ngOnInit() {
-    if(!this.manageService.isChangingEnabled()) {
+    if(this.authService.getRole() == 2) {
       this.manageService.selectedIdValue$.subscribe((value) => {
         this.userId = value;
         console.log("user id dobijen je iz manage service");

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service';
 import { ManageDriversService } from '../../manage-drivers/service/manage-drivers.service';
 import { UserServiceService } from '../services/user.service';
 
@@ -25,6 +26,7 @@ export class BasicUserInformationComponent implements OnInit {
     private route:ActivatedRoute,
     private userService: UserServiceService,
     private manageDrivers: ManageDriversService,
+    private authService: LoginAuthentificationService,
     private router: Router
   ) {
     //this.imageSrc = "http://t3.gstatic.com/licensed-image?q=tbn:ANd9GcS-OZTPpZNsnOchlOMmYsSeMprn5sYU4kdOZGPL0_ksM2nHGegFrzLhGlQMBF-amQqPRFs4DzbLrI_o5gA";
@@ -44,19 +46,28 @@ export class BasicUserInformationComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.userService.selectedValue$.subscribe((value) => {
-      this.user.id = value;
+    if (this.authService.getRole() == 2) {
+      this.userService.selectedValue$.subscribe((value) => {
+        this.user.id = value;
+        this.route.params.subscribe((params) => {
+          this.userService
+          .getUserById(this.user.id)
+          .subscribe((fetchedUser:AppUser) => {
+            this.user =fetchedUser; 
+            })
+          });
+          this.changingInformationForm.disable();
+          this.isDriverOrPassenger = false;
+        })
+    } else {
       this.route.params.subscribe((params) => {
-        console.log("BASIC USER INFO COMPONENT - USER ID" + this.user.id)
         this.userService
-        .getUserById(this.user.id)
+        .getUserById(this.authService.getId())
         .subscribe((fetchedUser:AppUser) => {
           this.user =fetchedUser; 
           })
-      });
-    })
-    this.isDriverOrPassenger = this.manageDrivers.isChangingEnabled();
-    if (!this.isDriverOrPassenger) this.changingInformationForm.disable();
+        });
+    }
   }
 
   submitChanges(): void{

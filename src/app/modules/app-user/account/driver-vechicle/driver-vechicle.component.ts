@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service';
 import { ManageDriversService } from '../../manage-drivers/service/manage-drivers.service';
 import { UserServiceService } from '../services/user.service';
 
@@ -34,7 +35,8 @@ export class DriverVechicleComponent implements OnInit {
   constructor(
     private route:ActivatedRoute,
     private userService: UserServiceService,
-    private manageDrivers: ManageDriversService
+    private manageDrivers: ManageDriversService,
+    private authService: LoginAuthentificationService
   ) {
     
    }
@@ -44,16 +46,26 @@ export class DriverVechicleComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.userService.selectedValue$.subscribe((value) => {
+    if (this.authService.getRole() == 2) {
+      this.userService.selectedValue$.subscribe((value) => {
+        this.route.params.subscribe((params) => {
+          this.userService
+          .getVehicleById(value)
+          .subscribe((fetchedVechicle:Vehicle) => {
+            this.vehicle =fetchedVechicle; 
+            console.log("DRIVER VEHICLE COMPONENT - Fetched Vehicle for User with id " + value +", " + JSON.stringify(fetchedVechicle));})
+        });
+      })
+      this.isDriver = false;
+    } else {
       this.route.params.subscribe((params) => {
         this.userService
-        .getVehicleById(value)
+        .getVehicleById(this.authService.getId())
         .subscribe((fetchedVechicle:Vehicle) => {
           this.vehicle =fetchedVechicle; 
-          console.log("DRIVER VEHICLE COMPONENT - Fetched Vehicle for User with id " + value +", " + JSON.stringify(fetchedVechicle));})
+          console.log("DRIVER VEHICLE COMPONENT - Fetched Vehicle for User with id " + this.authService.getId() +", " + JSON.stringify(fetchedVechicle));})
       });
-    })
-    this.isDriver = this.manageDrivers.isChangingEnabled();
+    }
   }
 
   submitChanges(): void{}
