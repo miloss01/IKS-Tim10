@@ -1,14 +1,21 @@
-<div class="app-page-padding-bottom">
+<div class="app-page">
 
-  <div class="app-reg-instruction"> 
-    <h2>Welcome to UBER</h2>
+  <div class="reg-header"> 
+    <div class="app-reg-col " >
+      <div class="app-reg-instruction"> 
+        <h2>Welcome to UBER Registration</h2>
+        <p>MAKE A NEW ACCOUNT</p>
+      </div>
+    </div>
+    <div class="app-reg-col" >
+      <img src="https://images.unsplash.com/photo-1619722087489-f0b1a6fdbc6d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8ZmVtYWxlJTIwZHJpdmVyfGVufDB8fDB8fA%3D%3D&w=1000&q=80"/>
+    </div>
   </div>
-  <div class="app-reg-instruction"> 
-    <p>MAKE A NEW ACCOUNT</p>
-  </div>
+
+  <mat-divider></mat-divider>
   
   <form [formGroup]="registerAccountForm" (ngSubmit)="registerAccount()" fxLayout="column">
-      <div class="app-reg-col" >
+    <div class="app-reg-col" >
         <div class="app-form-sectioning"> 
           <p>Personal information</p>
           <mat-divider></mat-divider>
@@ -32,6 +39,7 @@
       </div>
       
       <div class="app-reg-col">
+        
         <div class="app-form-sectioning">
           <p>Account credentials</p>
           <mat-divider></mat-divider>
@@ -52,7 +60,7 @@
       <div fxLayout="row" fxLayoutAlign="space-between end">
         <button color="primary" type="submit" mat-raised-button>CREATE ACCOUNT</button>
       </div>
-      <a class="app-reg-instruction" routerLink="/login" routerLinkActive="active">ALREADY HAVE AN ACCOUNT? LOG IN HERE</a>
+      <a id="already-have-account" routerLink="/login" routerLinkActive="active">ALREADY HAVE AN ACCOUNT? LOG IN HERE</a>
   
     </form>
   

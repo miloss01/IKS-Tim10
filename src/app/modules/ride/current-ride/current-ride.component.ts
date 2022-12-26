@@ -49,7 +49,7 @@ export class CurrentRideComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.rideService
-      .getRideById(1)
+      .getActiveDriverRide(1)
       .subscribe((ride:Ride) => {
         this.ride = ride; 
         this.initMap();
