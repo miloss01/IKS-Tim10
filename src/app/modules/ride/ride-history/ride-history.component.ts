@@ -1,7 +1,7 @@
 import { MatDialog } from '@angular/material/dialog';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { AppUser, Ride } from 'src/app/models/models';
@@ -22,37 +22,16 @@ export class RideHistoryComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  public currentPage = 0;
+  public pageSize:number = 10;
+  public length:number = 0;
+
   constructor(private route: ActivatedRoute,
     private rideService: RideServiceService,
     public rideDetailsDialog: MatDialog,) { }
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
-      this.rideService
-      .getAllPassengerRides(1)
-      .subscribe((res:ridesDTO) => {
-        this.rides = res.results;
-        this.rides[0].locations[0].departure.address = "Mise Dimitrijevica";
-        console.log(this.rides);
-
-        this.dataSource = new MatTableDataSource<Ride>(this.rides);
-        this.dataSource.paginator = this.paginator;
-
-        this.dataSource.sortingDataAccessor = (element, property) => {
-          switch(property) {
-            case 'departure': return element.locations[0].departure.address; 
-            case 'destination': return element.locations[0].destination.address; 
-            case 'startTime': return element.startTime;
-            case 'endTime': return element.endTime;            
-            default: return property;
-          }
-        };
-        this.dataSource.sort = this.sort;
-
-        this.dataSource.sortData = this.sortData();
-
-        })
-    });
+    this.getRides();    
   }
 
   viewRideDetails(ride : Ride) {
@@ -72,7 +51,7 @@ export class RideHistoryComponent implements OnInit {
     return date;
   }
 
-  sortData() {
+  enableSortByAnyColumn() {
     let sortFunction = 
     (items: Ride[], sort: MatSort): Ride[] =>  {
       if (!sort.active || sort.direction === '') {
@@ -96,12 +75,63 @@ export class RideHistoryComponent implements OnInit {
         comparatorResult = a.locations[0].destination.address.localeCompare(b.locations[0].destination.address);
         break;
        }
+       console.log(comparatorResult);
        return comparatorResult * (sort.direction == 'asc' ? 1 : -1);
       });
     };
     return sortFunction;
    }
+
+   private orderByDateDescending() {
+    this.dataSource.sort = this.sort;
+
+    const sortState: Sort = {active: 'startTime', direction: 'desc'};
+    this.sort.active = sortState.active;
+    this.sort.direction = sortState.direction;
+    this.sort.sortChange.emit(sortState);
+   }
+
+  public handlePage(event?:any) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.pageIteration();
+    this.dataSource.sort = this.sort;
+  }
+
+  public getRides(){
+  this.rideService
+    .getAllUserRides(1)
+    .subscribe((res:ridesDTO) => {
+      this.dataSource = new MatTableDataSource<Ride>(res.results);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sortingDataAccessor = (element, property) => {
+        switch(property) {
+          case 'departure': return element.locations[0].departure.address; 
+          case 'destination': return element.locations[0].destination.address; 
+          case 'startTime': return element.startTime;
+          case 'endTime': return element.endTime;            
+          default: return property;
+        }
+      };
+      this.dataSource.sortData = this.enableSortByAnyColumn();
+      this.rides = res.results;
+      this.length = this.rides.length;
+      this.pageIteration();
+      this.dataSource.sort = this.sort;
+      this.orderByDateDescending();
+      })
+  };
+
+  private pageIteration() {
+    const end = (this.currentPage + 1) * this.pageSize;
+    const start = this.currentPage * this.pageSize;
+    const part = this.rides.slice(start, end);
+    this.dataSource = new MatTableDataSource<Ride>(part);
+  }
+
 }
+
+
 
 export interface ridesDTO{
   totalCount: number,

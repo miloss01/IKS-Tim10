@@ -17,10 +17,7 @@ export class AppUserService {
   }
   
   addPassenger(appUser: any): Observable<any> {
-    const options: any = {
-      responseType: 'text',
-    };
-    return this.http.post<string>(environment.apiHost + 'passenger', appUser, options);
+    return this.http.post<string>(environment.apiHost + 'passenger', appUser);
   }
   
   addDriver(appUser: any): Observable<any> {

@@ -6,12 +6,15 @@
 
 .app-ride-attribute {
     font-size: 1.1em;
-    font-weight: 410;
+    font-weight: 400;
     margin-top: 1em;
     margin-bottom: 0 !important;
+    letter-spacing: 0.05em;
+    line-height: 1.1em;
 }
 
 .app-ride-details {
+    letter-spacing: 0.1em;
     font-size: 0.9em;
     color: grey;
 }
@@ -54,8 +57,10 @@ img {
 }
 
 h2{
-    font-size: 1.3em;
+    font-size: 1.5em;
     margin-bottom: 0vh !important;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
 }
 
 .app-ride-review-comment {
@@ -63,6 +68,11 @@ h2{
     padding-left: 1vw;
     font-style: italic;
     border-left: 3px solid black;
+}
+
+.app-ride-review {
+    margin-top: 2vh;
+    margin-left: 3vw;
 }
 
 span.rating {
@@ -95,6 +105,11 @@ p {
     vertical-align: top;
 }
 
+#btn-show-reviews {
+    letter-spacing: 0.1em;
+    font-weight: 400;
+}
+
 button {
     margin:auto !important;
     display: flex;
@@ -112,5 +127,6 @@ button {
     background-color: black !important;
     width: 30vw;
     height: 2.5em;
-
+    letter-spacing: 0.5em;
+    margin-top: 6vh !important;
 }

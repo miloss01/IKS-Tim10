@@ -1,13 +1,15 @@
 import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { map, mergeMap } from 'rxjs';
 import { AppUser, AppUserForRide, Ride, RideReview } from 'src/app/models/models';
 import { UserServiceService } from 'src/app/modules/app-user/account/services/user.service';
+import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service';
 import { MapComponent } from 'src/app/modules/layout/map/map.component';
 import { MapService } from 'src/app/modules/layout/services/map.service';
 import { ReviewService, RideReviewsDTO } from '../../review/service/review.service';
+import { RideServiceService } from '../../service/ride-service.service';
 
 @Component({
   selector: 'app-ride-details-dialog',
@@ -40,16 +42,22 @@ export class RideDetailsDialogComponent implements OnInit {
   
   @ViewChild(MapComponent, {static : true}) map : MapComponent | undefined;
 
+  // Property for hiding elements for driver and admin.
+  public role : String = "";
+
+
   constructor(public dialogRef: MatDialogRef<RideDetailsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data: any,
+    private router: Router,
     private mapService: MapService,
     private reviewService : ReviewService,
     private userService : UserServiceService,
+    private authService : LoginAuthentificationService,
     private snackBar: MatSnackBar,
+    private rideService : RideServiceService,
     private route: ActivatedRoute) {
       this.ride = data["ride"];
-      // SETTING EMAIL FOR DUMMY TESTING TODO - REMOVE
-      this.ride.passengers[0].email = "nana@DEsi.com";
+      this.role = authService.getRole();
   }
   
   forRouteControl = {
@@ -68,12 +76,11 @@ export class RideDetailsDialogComponent implements OnInit {
         this.review = fetchedReviews[0];
         // SETTING EMAIL FOR DUMMY TESTING TODO - REMOVE
         this.review.driverReview.passenger.email = "nana@DEsi.com";
+        this.review.vehicleReview.passenger.email = "nana@DEsi.com";
       });
 
       this.getDriverForDisplay();
       this.getPassengersForDisplay();
-
-
     })
   }
   
@@ -108,13 +115,16 @@ export class RideDetailsDialogComponent implements OnInit {
     })
   }
 
-  displayReviews() {
-    this.reviewsShow = true;
-    if (this.review.driverReview.id==-1) {
+  displayReviewsOnClick(email:String) {
+    if (this.review.driverReview.passenger.email == email) {
+      this.reviewsShow = true;
+    }
+    else {
       this.snackBar.open("Passenger didn't leave reviews.", "Close");
     }
   }
 
+  // Generates a list of passengers with details for displaying data such as name and profile picture.
   getPassengersForDisplay() {
     let user:AppUserForRide;
     for (let i = 0 ; i < this.ride.passengers.length ; i++) {
@@ -126,11 +136,17 @@ export class RideDetailsDialogComponent implements OnInit {
     }
   }
 
-  getDriverForDisplay() {
+  getDriverForDisplay() { 
     this.userService.getUserById(this.ride.driver.id)
       .subscribe((fetchedUser:AppUser) => {
         this.driverForDisplay = fetchedUser;
         })
+  }
+
+  onClickRideAgain() {
+    this.rideService.setbookAgainValue(this.ride.locations);
+    this.dialogRef.close();
+    this.router.navigate(['/book-ride']);
   }
 
 }

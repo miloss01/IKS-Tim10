@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { InviteDialogComponent } from '../../layout/dialogs/invite-dialog/invite-dialog.component';
@@ -8,6 +8,8 @@ import { MapComponent } from 'src/app/modules/layout/map/map.component';
 import { map, mergeMap, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { MapService } from '../../layout/services/map.service';
+import * as L from 'leaflet';
+import { RideServiceService } from '../service/ride-service.service';
 
 interface VehicleType {
   value: string;
@@ -20,7 +22,7 @@ interface VehicleType {
   styleUrls: ['./book-ride.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class BookRideComponent implements OnInit {
+export class BookRideComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MapComponent, {static : true}) map : MapComponent | undefined;
 
@@ -49,10 +51,30 @@ export class BookRideComponent implements OnInit {
     desLon: 0
   };
 
-  constructor(public invDialog: MatDialog, private mapService: MapService) { }
+
+  private departureMarker!: L.Marker;
+  private destinationMarker!: L.Marker;
+  private numOfMarkers: number = 0;
+
+  ngAfterViewInit(): void {
+    setTimeout(()=> {
+      this.registerOnClick();
+    }, 1000);
+  }
+
+  locationsFromBookAgain : any | undefined;
+
+  constructor(public invDialog: MatDialog, 
+    private mapService: MapService,
+    private rideService: RideServiceService) { }
 
   ngOnInit(): void {
+    this.rideService.selectedBookAgainValue$.subscribe((value) => {
+      this.locationsFromBookAgain = value;
+    });
   }
+
+  
 
   invite(): void {
     const dialogRef = this.invDialog.open(InviteDialogComponent);
@@ -87,6 +109,9 @@ export class BookRideComponent implements OnInit {
       })
     )
     .subscribe((res: any) => {
+      this.departureMarker.remove();
+      this.destinationMarker.remove();
+      this.numOfMarkers = 0;
       let routeControl = this.map?.drawRoute(
         // ovi podaci se moraju dobiti iz servisa
         this.forRouteControl.depLat,
@@ -100,6 +125,45 @@ export class BookRideComponent implements OnInit {
       })
     })
 
+  }
+
+  registerOnClick(): void {
+    this.map?.getMap().on('click', (e: any) => {
+      const coord = e.latlng;
+      const lat = coord.lat;
+      const lng = coord.lng;
+      this.mapService.getAddressFromLatLong(lat, lng).subscribe((res) => {
+
+        let rc = this.map?.getMap().routeControl;
+        console.log(rc);
+        if (rc) {
+          rc.removeFrom(this.map?.getMap());
+        }
+        
+        let street = res.address.road;
+        let houseNumber = res.address.house_number ? " " + res.address.house_number : "";
+        let city = res.address.city_district;
+
+        let full = `${street}${houseNumber}, ${city}`;
+        console.log(full);
+        
+        if (this.numOfMarkers == 0) {
+          this.departureMarker = new L.Marker([lat, lng]).addTo(this.map?.getMap());
+          this.estimateDataFormGroup.patchValue({ departure: full });
+        } else if (this.numOfMarkers == 1) {
+          this.destinationMarker = new L.Marker([lat, lng]).addTo(this.map?.getMap());
+          this.estimateDataFormGroup.patchValue({ destination: full });
+        } else {
+          this.departureMarker.removeFrom(this.map?.getMap());
+          this.destinationMarker.removeFrom(this.map?.getMap());
+          this.numOfMarkers = -1;
+        }
+
+        this.numOfMarkers += 1;
+        
+      });
+      
+    });
   }
 
 }

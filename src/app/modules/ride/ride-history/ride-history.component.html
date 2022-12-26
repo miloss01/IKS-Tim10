@@ -37,8 +37,12 @@
     
     </table>
     <mat-paginator
-        [pageSizeOptions]="[15, 25, 100]"
+        [length]="length"
+        [pageIndex]="currentPage"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[10, 25, 50]"
         showFirstLastButtons
+        (page)="handlePage($event)"
     ></mat-paginator>
 
 </div>
