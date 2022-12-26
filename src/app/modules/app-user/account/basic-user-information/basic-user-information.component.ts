@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ManageDriversService } from '../../manage-drivers/service/manage-drivers.service';
 import { UserServiceService } from '../services/user.service';
 
 @Component({
@@ -23,12 +24,16 @@ export class BasicUserInformationComponent implements OnInit {
   constructor(
     private route:ActivatedRoute,
     private userService: UserServiceService,
+    private manageDrivers: ManageDriversService,
     private router: Router
   ) {
     //this.imageSrc = "http://t3.gstatic.com/licensed-image?q=tbn:ANd9GcS-OZTPpZNsnOchlOMmYsSeMprn5sYU4kdOZGPL0_ksM2nHGegFrzLhGlQMBF-amQqPRFs4DzbLrI_o5gA";
     //this.imageSrc = "https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg.jpg?resize=768,512";
     
    }
+
+   isDriverOrPassenger = true;
+
 
   changingInformationForm = new FormGroup({
     name: new FormControl,
@@ -39,13 +44,19 @@ export class BasicUserInformationComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.userService
-      .getUser()
-      .subscribe((fetchedUser:AppUser) => {
-        this.user =fetchedUser; 
-        })
-    });
+    this.userService.selectedValue$.subscribe((value) => {
+      this.user.id = value;
+      this.route.params.subscribe((params) => {
+        console.log("BASIC USER INFO COMPONENT - USER ID" + this.user.id)
+        this.userService
+        .getUserById(this.user.id)
+        .subscribe((fetchedUser:AppUser) => {
+          this.user =fetchedUser; 
+          })
+      });
+    })
+    this.isDriverOrPassenger = this.manageDrivers.isChangingEnabled();
+    if (!this.isDriverOrPassenger) this.changingInformationForm.disable();
   }
 
   submitChanges(): void{

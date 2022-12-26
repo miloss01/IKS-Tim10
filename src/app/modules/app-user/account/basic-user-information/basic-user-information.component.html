@@ -1,6 +1,6 @@
 <div class="container">
     <img src={{user.profilePicture}} alt="profilePicture">
-    <mat-icon class="icon" onclick="changePicture()">edit</mat-icon>
+    <mat-icon *ngIf="isDriverOrPassenger" class="icon" onclick="changePicture()">edit</mat-icon>
     <!--<button class="btn">Button</button>-->
 </div>
 <form [formGroup]="changingInformationForm" (ngSubmit)="submitChanges()" class="oneElementPerRow">
@@ -27,8 +27,8 @@
         <mat-label>Address</mat-label>
         <input matInput type="text" name="adress" formControlName="adress" value={{user.address}}/>
     </mat-form-field>
-    <div class="toTheright">
+    <div *ngIf="isDriverOrPassenger" class="toTheright">
         <a href="">Change Password</a>
-        <button type="submit" mat-raised-button>Save changes</button>
+        <button  type="submit" mat-raised-button>Save changes</button>
     </div>
 </form>

@@ -18,6 +18,7 @@ import { UserServiceService } from './account/services/user.service';
 import { DriverUserInfoComponent } from './account/driver-user-info/driver-user-info.component';
 import { PassengerOtherAccInfoComponent } from './account/passenger-other-acc-info/passenger-other-acc-info.component';
 import { PassengerUserInfoComponent } from './account/passenger-user-info/passenger-user-info.component';
+import { DriverAccountDetailsComponent } from './manage-drivers/account-details/driver-account-details/driver-account-details.component';
 
 @NgModule({
   declarations: [RegisterAccountComponent, 
@@ -29,7 +30,9 @@ import { PassengerUserInfoComponent } from './account/passenger-user-info/passen
     DriverUserInfoComponent,
     BasicUserInformationComponent,
     PassengerOtherAccInfoComponent,
-    PassengerUserInfoComponent],
+    PassengerUserInfoComponent,
+    DriverAccountDetailsComponent
+  ],
   imports: [
     CommonModule,
     AppRoutingModule,

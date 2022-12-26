@@ -12,6 +12,7 @@ import { ManageDriversComponent } from '../modules/app-user/manage-drivers/manag
 import { RideRequestComponent } from '../modules/ride/ride-request/ride-request.component';
 import { CurrentRideComponent } from '../modules/ride/current-ride/current-ride.component';
 import { RideHistoryComponent } from '../modules/ride/ride-history/ride-history.component';
+import { DriverAccountDetailsComponent } from '../modules/app-user/manage-drivers/account-details/driver-account-details/driver-account-details.component';
 
 const routes: Routes = [
   {path:'register-account', component: RegisterAccountComponent},
@@ -25,6 +26,7 @@ const routes: Routes = [
   {path: "ride-request", component:RideRequestComponent},
   {path: 'current-ride', component: CurrentRideComponent},
   {path: 'passenger-rides', component: RideHistoryComponent},
+  {path: 'driver-account-details', component: DriverAccountDetailsComponent},
   {path: '**', component: LandingPageComponent }
 ];
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ManageDriversService } from '../../manage-drivers/service/manage-drivers.service';
 import { UserServiceService } from '../services/user.service';
 
 @Component({
@@ -33,20 +34,26 @@ export class DriverVechicleComponent implements OnInit {
   constructor(
     private route:ActivatedRoute,
     private userService: UserServiceService,
+    private manageDrivers: ManageDriversService
   ) {
     
    }
 
+  // Is component shown for driver viewing their own account
+  isDriver = true;
   
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.userService
-      .getVechicle()
-      .subscribe((fetchedVechicle:Vehicle) => {
-        this.vehicle =fetchedVechicle; 
-        console.log(fetchedVechicle);})
-    });
+    this.userService.selectedValue$.subscribe((value) => {
+      this.route.params.subscribe((params) => {
+        this.userService
+        .getVehicleById(value)
+        .subscribe((fetchedVechicle:Vehicle) => {
+          this.vehicle =fetchedVechicle; 
+          console.log("DRIVER VEHICLE COMPONENT - Fetched Vehicle for User with id " + value +", " + JSON.stringify(fetchedVechicle));})
+      });
+    })
+    this.isDriver = this.manageDrivers.isChangingEnabled();
   }
 
   submitChanges(): void{}

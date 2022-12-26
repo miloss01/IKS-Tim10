@@ -32,10 +32,11 @@ mat-card-title-group mat-card-title{
     vertical-align: bottom;
 }
 
-mat-card-actions button {
-    background-color: rgba(255, 70, 37, 0.941);
-    color: white;
-    margin-right: 4vw;
+button {
+    background-color: rgb(249, 249, 249);
+    color: rgb(43, 43, 43);
+    margin-bottom: 2vh;
+    width: 100%;
 }
 
 mat-card-actions {

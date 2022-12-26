@@ -18,14 +18,16 @@ export class DriverDocumentsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.userService
-      .getDriverDocuments()
-      .subscribe((fetchedDocuments:DocumentDTO[]) => {
-        this.documents =fetchedDocuments;
-        console.log(fetchedDocuments);
-        })
-    });
+    this.userService.selectedValue$.subscribe((value) => {
+      this.route.params.subscribe((params) => {
+        this.userService
+        .getDriverDocuments()
+        .subscribe((fetchedDocuments:DocumentDTO[]) => {
+          this.documents =fetchedDocuments;
+          console.log("DRIVER DOCUMENTS COMPONENT - Fetched Documents for User with id " + value +", " + JSON.stringify(this.documents));
+          })
+      });
+    })
   }
 
 }
