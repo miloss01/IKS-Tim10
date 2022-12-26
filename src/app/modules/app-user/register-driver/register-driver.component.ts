@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AppUser, DriverDTO, VehicleDTO, VehicleType } from 'src/app/models/models';
 import { AppUserService } from 'src/app/services/app-user.service';
@@ -28,12 +29,12 @@ export class RegisterDriverComponent implements OnInit {
     model: new FormControl(),
     registrationPlate: new FormControl(),
     type: new FormControl(this.vehicleTypes[0].value),
-    seats: new FormControl(),
-    pets: new FormControl(),
-    kids: new FormControl()
+    seats: new FormControl(0),
+    pets: new FormControl(false),
+    kids: new FormControl(false)
   })
 
-  constructor(private router: Router, private appUserService: AppUserService) { }
+  constructor(private appUserService: AppUserService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
@@ -63,9 +64,9 @@ export class RegisterDriverComponent implements OnInit {
         latitude: 45.2501342,
         longitude: 19.8480507
       },
-      passengerSeats: this.registerDriverForm.value.seats,
-      babyTransport: this.registerDriverForm.value.kids,
-      petTransport: this.registerDriverForm.value.pets
+      passengerSeats: this.registerDriverForm.value.seats!,
+      babyTransport: this.registerDriverForm.value.kids!,
+      petTransport: this.registerDriverForm.value.pets!
     }
 
     console.log(driver);
@@ -75,6 +76,7 @@ export class RegisterDriverComponent implements OnInit {
       console.log(res);
       this.appUserService.setDriverVehicle(Number(res.id), vehicle).subscribe((res: any) => {
         console.log(res);
+        this.snackBar.open(`Successfully added driver: ${driver.name} with vehicle (${res.id}) ${res.model}`, "Close");
       });
     });
 

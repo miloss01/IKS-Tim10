@@ -88,6 +88,6 @@ export interface VehicleDTO {
   licenseNumber: string,
   currentLocation: Location,
   passengerSeats: number,
-  babyTransport: number,
-  petTransport: number
+  babyTransport: boolean,
+  petTransport: boolean
 }
