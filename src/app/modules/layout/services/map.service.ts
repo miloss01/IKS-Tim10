@@ -92,4 +92,63 @@ export class MapService {
     )
   }
 
+  postRequestRideDetails(departureAddress: string, 
+    destinationAddress: string, 
+    vehicleType: string | undefined,
+    petsTransport: boolean | undefined,
+    babyTransport: boolean | undefined): Observable<any> {
+
+    let req: EstimateDataDTO = {
+      locations: [
+        {
+          departure: {
+            address: departureAddress,
+            latitude: 0,
+            longitude: 0
+          },
+          destination: {
+            address: destinationAddress,
+            latitude: 0,
+            longitude: 0
+          }
+        }
+      ],
+      vehicleType: vehicleType,
+      petTransport: petsTransport,
+      babyTransport: babyTransport
+    }
+
+    return this.getLatLong(departureAddress)
+    .pipe(
+      map((res: any) => {
+        console.log(res);
+
+        let ret: Location = {
+          address: departureAddress,
+          latitude: res[0].lat,
+          longitude: res[0].lon
+        }
+
+        this.departure$.next(ret);
+        req.locations[0].departure = ret;
+      }),
+
+      mergeMap(() => this.getLatLong(destinationAddress)),
+      map((res: any) => {
+        console.log(res);
+
+        let ret: Location = {
+          address: destinationAddress,
+          latitude: res[0].lat,
+          longitude: res[0].lon
+        }
+
+        this.destination$.next(ret);
+        req.locations[0].destination = ret;
+      }),
+
+      mergeMap(() => this.http.post<string>(environment.apiHost + "passenger-rides", req))
+    )
+  }
+
 }
