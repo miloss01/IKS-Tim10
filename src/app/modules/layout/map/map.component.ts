@@ -1,6 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
+import { MapService } from '../services/map.service';
 
 @Component({
   selector: 'app-map',
@@ -11,6 +12,8 @@ export class MapComponent implements AfterViewInit {
 
   private map: any;
   private routeControl: any;
+
+  constructor(private mapService: MapService) { }
 
   private initMap(): void {
     this.map = L.map('map', {
@@ -52,13 +55,14 @@ export class MapComponent implements AfterViewInit {
     return this.routeControl;
   }
 
-  constructor() { }
+  public getMap(): any { return this.map; }
 
   ngAfterViewInit(): void {
     // kako da sredim ovo? probao sam OnViewChecked hook
     setTimeout(() => {
       if (this.map == undefined) {
         this.initMap();
+        // this.registerOnClick();
       }
     }, 1000)
   }
