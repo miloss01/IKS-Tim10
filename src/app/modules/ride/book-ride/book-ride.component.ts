@@ -9,6 +9,7 @@ import { map, mergeMap, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { MapService } from '../../layout/services/map.service';
 import * as L from 'leaflet';
+import { RideServiceService } from '../service/ride-service.service';
 
 interface VehicleType {
   value: string;
@@ -21,7 +22,7 @@ interface VehicleType {
   styleUrls: ['./book-ride.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class BookRideComponent implements AfterViewInit {
+export class BookRideComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MapComponent, {static : true}) map : MapComponent | undefined;
 
@@ -50,17 +51,30 @@ export class BookRideComponent implements AfterViewInit {
     desLon: 0
   };
 
+
   private departureMarker!: L.Marker;
   private destinationMarker!: L.Marker;
   private numOfMarkers: number = 0;
-
-  constructor(public invDialog: MatDialog, private mapService: MapService) { }
 
   ngAfterViewInit(): void {
     setTimeout(()=> {
       this.registerOnClick();
     }, 1000);
   }
+
+  locationsFromBookAgain : any | undefined;
+
+  constructor(public invDialog: MatDialog, 
+    private mapService: MapService,
+    private rideService: RideServiceService) { }
+
+  ngOnInit(): void {
+    this.rideService.selectedBookAgainValue$.subscribe((value) => {
+      this.locationsFromBookAgain = value;
+    });
+  }
+
+  
 
   invite(): void {
     const dialogRef = this.invDialog.open(InviteDialogComponent);
