@@ -65,3 +65,10 @@ button:hover {
   margin-bottom: 0 !important;
   padding-bottom: 0.5vh;
 }
+
+.param {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
