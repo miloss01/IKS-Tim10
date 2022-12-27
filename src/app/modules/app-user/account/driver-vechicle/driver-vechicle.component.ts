@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Vehicle } from 'src/app/models/models';
+import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service';
 import { UserServiceService } from '../services/user.service';
+import { Output, EventEmitter } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-driver-vechicle',
@@ -9,6 +13,7 @@ import { UserServiceService } from '../services/user.service';
   styleUrls: ['./driver-vechicle.component.css']
 })
 export class DriverVechicleComponent implements OnInit {
+  @Output() vehicleEvent = new EventEmitter<Vehicle>();
   vehicle:Vehicle = {
     id: 0,
     driverId: 0,
@@ -33,7 +38,7 @@ export class DriverVechicleComponent implements OnInit {
   constructor(
     private route:ActivatedRoute,
     private userService: UserServiceService,
-  ) {
+    private userAuthentificationService: LoginAuthentificationService) {
     
    }
 
@@ -42,31 +47,32 @@ export class DriverVechicleComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.userService
-      .getVechicle()
+      .getVechicle(this.userAuthentificationService.getId())
       .subscribe((fetchedVechicle:Vehicle) => {
         this.vehicle =fetchedVechicle; 
         console.log(fetchedVechicle);})
     });
   }
 
-  submitChanges(): void{}
+  toggle(event: MatCheckboxChange){
+    console.log(event.source.checked);
+    this.vehicle.babyTransport = event.source.checked;
+  }
 
-}
+  toggle2(event: MatCheckboxChange){
+    this.vehicle.petTransport = event.source.checked;
+  }
 
-export interface Vehicle {
-  id: number,
-  driverId: number,
-  vehicleType: string,
-  model: string,
-  licenseNumber: string,
-  currentLocation: LocationDTO,
-  passengerSeats: number;
-  babyTransport: boolean,
-  petTransport: boolean
-}
-
-export interface LocationDTO {
-  address: string,
-  latitude: number;
-  longitude: number;
+  saveChanges(): void {
+    if (this.changingInformationForm.get('carName')?.value){
+      this.vehicle.model = this.changingInformationForm.get('carName')?.value;
+    }
+    if (this.changingInformationForm.get('lisencePlate')?.value){
+      this.vehicle.licenseNumber = this.changingInformationForm.get('lisencePlate')?.value;    }
+    if (this.changingInformationForm.get('numberOfSeats')?.value){
+      this.vehicle.passengerSeats = this.changingInformationForm.get('numberOfSeats')?.value;
+    }
+    this.vehicleEvent.emit(this.vehicle);
+  }
+  
 }

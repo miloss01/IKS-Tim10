@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { DocumentDTO, Vehicle } from 'src/app/models/models';
 import { environment } from 'src/environments/environment';
 import { AppUser } from '../basic-user-information/basic-user-information.component';
-import { DocumentDTO } from '../driver-documents/driver-documents.component';
-import { Vehicle } from '../driver-vechicle/driver-vechicle.component';
 
 @Injectable({
   providedIn: 'root'
@@ -19,21 +18,21 @@ export class UserServiceService {
     this.value$.next(test);
   }
 
-  getUser(): Observable<AppUser> {
-    return this.http.get<AppUser>(environment.apiHost + "passenger/2");
+  getUser(id:number): Observable<AppUser> {
+    return this.http.get<AppUser>(environment.apiHost + "passenger/" + id);
   }
   
-  getVechicle():Observable<Vehicle> {
-    return this.http.get<Vehicle>(environment.apiHost + "driver/1/vehicle");
+  getVechicle(id:number):Observable<Vehicle> {
+    return this.http.get<Vehicle>(environment.apiHost + "driver/" + id + "/vehicle");
   }
 
-  saveChanges(user: AppUser): Observable<any> {
+  saveChanges(user: AppUser, id:number): Observable<any> {
     const options: any = {
       responseType: 'text',
     };
 
     return this.http.put<string>(
-      environment.apiHost + 'passenger/2',
+      environment.apiHost + 'passenger/' + id,
       {
         name: user.name,
         surname: user.surname,
@@ -46,8 +45,8 @@ export class UserServiceService {
     );
   }
 
-  getDriverDocuments(): Observable<DocumentDTO[]> {
-    return this.http.get<DocumentDTO[]>(environment.apiHost + 'driver/1/documents');
+  getDriverDocuments(id:number): Observable<DocumentDTO[]> {
+    return this.http.get<DocumentDTO[]>(environment.apiHost + 'driver/' + id + '/documents');
   }
 
   getUserById(id: number): Observable<AppUser> {

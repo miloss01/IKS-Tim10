@@ -43,7 +43,7 @@ export class CancelDialogComponent implements OnInit {
     .cancelRide(this.reason, this.rideId)
     .subscribe((res: any) => {
         console.log(res);
-        this.router.navigate(['book-ride']); //TODO chage navigation
+        this.router.navigate(['book-ride']);
     });
     this.dialogRef.close();
   }
