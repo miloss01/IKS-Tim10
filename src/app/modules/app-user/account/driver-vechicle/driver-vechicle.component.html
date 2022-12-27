@@ -4,10 +4,10 @@
         <img src="https://www.magazinauto.com/wp-content/uploads/2020/09/IMG_3305-e1600082024266-680x365.jpg" alt="vechiclePicture">
     </div>
     <div class="flex-elem2">
-        <p>Car name: {{vehicle.model}}</p>
+        <!-- <p>Car name: {{vehicle.model}}</p>
         <p>Lisence plate: {{vehicle.licenseNumber}}</p>
-        <p>Passenger number: {{vehicle.passengerSeats}}</p>
-        <!--<form [formGroup]="changingInformationForm" class="oneElementPerRow">
+        <p>Passenger number: {{vehicle.passengerSeats}}</p> -->
+        <form [formGroup]="changingInformationForm" class="oneElementPerRow">
 
             <mat-form-field class="oneLine">
                 <mat-label>Name</mat-label>
@@ -23,13 +23,11 @@
                 <mat-label>Passenger number</mat-label>
                 <input matInput type="number" name="numberOfSeats" formControlName="numberOfSeats" value={{vehicle.passengerSeats}}/>
             </mat-form-field>
-            
-        </form>-->
+        </form>
         <p>Average mark: 4.5<mat-icon>star</mat-icon></p>
-        <mat-checkbox labelPosition="before" [checked]="vehicle.babyTransport" class="oneLine">Baby seat available</mat-checkbox>
-        <mat-checkbox labelPosition="before" [checked]="vehicle.petTransport" class="oneLine">Pets allowed</mat-checkbox>
-        <button mat-raised-button onclick="submitChanges">Save changes</button>
-       
+        <mat-checkbox (change)="toggle($event)" labelPosition="before" [checked]="vehicle.babyTransport" class="oneLine">Baby seat available</mat-checkbox>
+        <mat-checkbox (change)="toggle2($event)" labelPosition="before" [checked]="vehicle.petTransport" class="oneLine">Pets allowed</mat-checkbox>
+        <button *ngIf="isDriver" mat-raised-button (click)="saveChanges()">Save changes</button>
     </div>
     
     

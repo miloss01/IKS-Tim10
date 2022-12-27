@@ -7,6 +7,9 @@ import { ActivatedRoute } from '@angular/router';
 import { AppUser, Ride } from 'src/app/models/models';
 import { RideServiceService } from '../service/ride-service.service';
 import { RideDetailsDialogComponent } from './ride-details-dialog/ride-details-dialog.component';
+import { RideHistoryServiceService } from './service/ride-history-service.service';
+import { ManageDriversService } from '../../app-user/manage-drivers/service/manage-drivers.service';
+import { LoginAuthentificationService } from '../../auth/service/login-authentification.service';
 
 @Component({
   selector: 'app-ride-history',
@@ -26,12 +29,25 @@ export class RideHistoryComponent implements OnInit {
   public pageSize:number = 10;
   public length:number = 0;
 
+  private userId = -1;
+
   constructor(private route: ActivatedRoute,
     private rideService: RideServiceService,
+    private manageService: ManageDriversService,
+    private authService: LoginAuthentificationService,
     public rideDetailsDialog: MatDialog,) { }
 
   ngOnInit() {
-    this.getRides();    
+    if(this.authService.getRole() == 2) {
+      this.manageService.selectedIdValue$.subscribe((value) => {
+        this.userId = value;
+        console.log("user id dobijen je iz manage service");
+      });
+    } else {
+      this.userId = this.authService.getId();
+      console.log("user id dobijen je iz login service");
+    }
+    this.getRides();
   }
 
   viewRideDetails(ride : Ride) {
@@ -100,8 +116,9 @@ export class RideHistoryComponent implements OnInit {
 
   public getRides(){
   this.rideService
-    .getAllUserRides(1)
+    .getAllUserRides(this.userId)
     .subscribe((res:ridesDTO) => {
+      console.log("Iz ride history comp user id je: " + this.userId);
       this.dataSource = new MatTableDataSource<Ride>(res.results);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sortingDataAccessor = (element, property) => {

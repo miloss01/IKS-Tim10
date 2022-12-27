@@ -55,7 +55,6 @@ export class BookRideComponent implements AfterViewInit, OnInit {
   private destinationMarker!: L.Marker;
   private numOfMarkers: number = 0;
 
-
   ngAfterViewInit(): void {
     setTimeout(()=> {
       this.registerOnClick();
@@ -73,6 +72,8 @@ export class BookRideComponent implements AfterViewInit, OnInit {
       this.locationsFromBookAgain = value;
     });
   }
+
+  
 
   invite(): void {
     const dialogRef = this.invDialog.open(InviteDialogComponent);

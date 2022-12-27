@@ -1,6 +1,5 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AppUserService } from 'src/app/services/app-user.service';
@@ -18,6 +17,10 @@ import { UserServiceService } from './account/services/user.service';
 import { DriverUserInfoComponent } from './account/driver-user-info/driver-user-info.component';
 import { PassengerOtherAccInfoComponent } from './account/passenger-other-acc-info/passenger-other-acc-info.component';
 import { PassengerUserInfoComponent } from './account/passenger-user-info/passenger-user-info.component';
+import { DriverAccountDetailsComponent } from './manage-drivers/account-details/driver-account-details/driver-account-details.component';
+import { PassengerAccountDetailsComponent } from './manage-passengers/account-details/passenger-account-details.component';
+import { ManageChangeRequestComponent } from './manage-change-request/manage-change-request.component';
+import { ChangeRequestInfoComponent } from './change-request-info/change-request-info.component';
 
 @NgModule({
   declarations: [RegisterAccountComponent, 
@@ -29,7 +32,11 @@ import { PassengerUserInfoComponent } from './account/passenger-user-info/passen
     DriverUserInfoComponent,
     BasicUserInformationComponent,
     PassengerOtherAccInfoComponent,
-    PassengerUserInfoComponent],
+    PassengerUserInfoComponent,
+    DriverAccountDetailsComponent,
+    PassengerAccountDetailsComponent,
+    ManageChangeRequestComponent,
+    ChangeRequestInfoComponent],
   imports: [
     CommonModule,
     AppRoutingModule,
