@@ -72,9 +72,13 @@ export class LandingPageComponent implements AfterViewInit {
       })
     )
     .subscribe((res: any) => {
-      this.departureMarker.remove();
-      this.destinationMarker.remove();
+      
+      if (this.departureMarker)
+        this.departureMarker.remove();
+      if (this.destinationMarker)
+        this.destinationMarker.remove();
       this.numOfMarkers = 0;
+
       let routeControl = this.map?.drawRoute(
         // ovi podaci se moraju dobiti iz servisa
         this.forRouteControl.depLat,
@@ -84,6 +88,7 @@ export class LandingPageComponent implements AfterViewInit {
       );
 
       routeControl.on('routesfound', (e: any) => {
+        console.log(e);
         this.estimated_time = Math.trunc(e.routes[0].summary.totalTime / 60);
       })
     })

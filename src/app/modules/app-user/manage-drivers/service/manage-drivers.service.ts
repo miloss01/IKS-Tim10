@@ -5,8 +5,6 @@ import { AppUser } from 'src/app/models/models';
 import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service';
 import { AppUserService } from 'src/app/services/app-user.service';
 import { environment } from 'src/environments/environment';
-import { DocumentDTO } from '../../account/driver-documents/driver-documents.component';
-import { Vehicle } from '../../account/driver-vechicle/driver-vechicle.component';
 import { UserServiceService } from '../../account/services/user.service';
 
 @Injectable({

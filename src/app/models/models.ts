@@ -54,6 +54,43 @@ export interface ReasonDTO {
   reason: string;
 }
 
+
+export interface DocumentDTO{
+  id: number,
+  name: string,
+  documentImage: string,
+  driverId: number
+}
+
+export interface Vehicle {
+  id: number,
+  driverId: number,
+  vehicleType: string,
+  model: string,
+  licenseNumber: string,
+  currentLocation: LocationDTO,
+  passengerSeats: number;
+  babyTransport: boolean,
+  petTransport: boolean
+}
+
+export interface LocationDTO {
+  address: string,
+  latitude: number;
+  longitude: number
+}
+
+export interface ChangeRequest {
+  userDTO: AppUser;
+  vehicleDTO: Vehicle;
+  date: String;
+}
+
+export interface ChangeRequestResponce{
+  numberOfRequests: number;
+  requestDTOS: ChangeRequest[];
+}
+
 export interface RideReview {
   vehicleReview : Review;
   driverReview : Review;
@@ -67,4 +104,28 @@ export interface Review {
   comment : string;
    
   passenger : AppUserForRide;
+}
+
+
+export interface DriverDTO {
+  id: number | null;
+  name: string,
+  surname: string,
+  telephoneNumber: string,
+  email: string,
+  address: string,
+  profilePicture: string,
+  password: string
+}
+
+export interface VehicleDTO {
+  id: number | null,
+  driverId: number | null,
+  vehicleType: string,
+  model: string,
+  licenseNumber: string,
+  currentLocation: Location,
+  passengerSeats: number,
+  babyTransport: boolean,
+  petTransport: boolean
 }

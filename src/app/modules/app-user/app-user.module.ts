@@ -20,6 +20,8 @@ import { PassengerUserInfoComponent } from './account/passenger-user-info/passen
 import { DriverAccountDetailsComponent } from './manage-drivers/account-details/driver-account-details/driver-account-details.component';
 import { PassengerAccountDetailsComponent } from './manage-passengers/account-details/passenger-account-details.component';
 import { NotesComponent } from './manage-passengers/notes/notes.component';
+import { ManageChangeRequestComponent } from './manage-change-request/manage-change-request.component';
+import { ChangeRequestInfoComponent } from './change-request-info/change-request-info.component';
 
 @NgModule({
   declarations: [RegisterAccountComponent, 
@@ -34,8 +36,9 @@ import { NotesComponent } from './manage-passengers/notes/notes.component';
     PassengerUserInfoComponent,
     DriverAccountDetailsComponent,
     PassengerAccountDetailsComponent,
-    NotesComponent
-  ],
+    NotesComponent,
+    ManageChangeRequestComponent,
+    ChangeRequestInfoComponent],
   imports: [
     CommonModule,
     AppRoutingModule,

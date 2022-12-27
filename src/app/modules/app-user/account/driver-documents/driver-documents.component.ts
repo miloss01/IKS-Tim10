@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DocumentDTO } from 'src/app/models/models';
+import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service';
 import { UserServiceService } from '../services/user.service';
 
 @Component({
@@ -14,27 +16,21 @@ export class DriverDocumentsComponent implements OnInit {
 
   constructor(
     private route:ActivatedRoute,
-    private userService: UserServiceService
+    private userService: UserServiceService,
+    private authentificationService: LoginAuthentificationService
   ) { }
 
   ngOnInit(): void {
-    this.userService.selectedValue$.subscribe((value) => {
-      this.route.params.subscribe((params) => {
-        this.userService
-        .getDriverDocuments()
-        .subscribe((fetchedDocuments:DocumentDTO[]) => {
-          this.documents =fetchedDocuments;
-          console.log("DRIVER DOCUMENTS COMPONENT - Fetched Documents for User with id " + value +", " + JSON.stringify(this.documents));
-          })
-      });
-    })
+    this.route.params.subscribe((params) => {
+      this.userService
+      .getDriverDocuments(this.authentificationService.getId())
+      .subscribe((fetchedDocuments:DocumentDTO[]) => {
+        this.documents =fetchedDocuments;
+        console.log("DRIVER DOCUMENTS COMPONENT - Fetched Documents for User with id" + JSON.stringify(this.documents));
+        })
+    });
   }
 
 }
 
-export interface DocumentDTO{
-  id: number,
-  name: string,
-  documentImage: string,
-  driverId: number
-}
+

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { VehicleDTO } from '../models/models';
 import { AppUser } from '../modules/app-user/account/basic-user-information/basic-user-information.component';
 import { accountsDTO } from '../modules/app-user/manage-passengers/manage-passengers.component';
 
@@ -21,10 +22,11 @@ export class AppUserService {
   }
   
   addDriver(appUser: any): Observable<any> {
-    const options: any = {
-      responseType: 'text',
-    };
-    return this.http.post<string>(environment.apiHost + 'driver', appUser, options);
+    return this.http.post<string>(environment.apiHost + 'driver', appUser);
+  }
+
+  setDriverVehicle(driverId: number, vehicle: VehicleDTO) {
+    return this.http.post<string>(environment.apiHost + 'driver/' + driverId + "/vehicle", vehicle);
   }
   
   blockUser(id: number): Observable<any> {
