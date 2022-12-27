@@ -1,11 +1,12 @@
 <div class="flex-container app-page">
     <app-basic-user-information class="flex-elem"></app-basic-user-information>
     <div class="flex-elem2">
-        <button *ngIf="!isBlocked" id="block-button" (click)="onBlockClick()" mat-button>Block</button>
-        <button *ngIf="isBlocked" id="unblock-button" (click)="onUnblockClick()" mat-button>Unblock</button>
-
+        <button (click)="openNoteDialog()" mat-button> <mat-icon>notes</mat-icon> VIEW NOTES</button>
+        <button *ngIf="!isBlocked" id="block-button" class="small-button" (click)="onBlockClick()" mat-button>BLOCK</button>
+        <button *ngIf="isBlocked" id="unblock-button" class="small-button" (click)="onUnblockClick()" mat-button>Unblock</button>
+        <mat-divider></mat-divider>
         <button id="ride-history-button" mat-button [routerLink]="['../ride-history']">
-            Ride history
+            <mat-icon>history</mat-icon> RIDE HISTORY
         </button>
     </div>
 </div>

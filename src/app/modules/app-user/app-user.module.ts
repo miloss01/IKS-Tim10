@@ -19,6 +19,7 @@ import { PassengerOtherAccInfoComponent } from './account/passenger-other-acc-in
 import { PassengerUserInfoComponent } from './account/passenger-user-info/passenger-user-info.component';
 import { DriverAccountDetailsComponent } from './manage-drivers/account-details/driver-account-details/driver-account-details.component';
 import { PassengerAccountDetailsComponent } from './manage-passengers/account-details/passenger-account-details.component';
+import { NotesComponent } from './manage-passengers/notes/notes.component';
 
 @NgModule({
   declarations: [RegisterAccountComponent, 
@@ -32,7 +33,8 @@ import { PassengerAccountDetailsComponent } from './manage-passengers/account-de
     PassengerOtherAccInfoComponent,
     PassengerUserInfoComponent,
     DriverAccountDetailsComponent,
-    PassengerAccountDetailsComponent
+    PassengerAccountDetailsComponent,
+    NotesComponent
   ],
   imports: [
     CommonModule,
