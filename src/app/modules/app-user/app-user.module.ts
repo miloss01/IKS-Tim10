@@ -19,6 +19,8 @@ import { PassengerOtherAccInfoComponent } from './account/passenger-other-acc-in
 import { PassengerUserInfoComponent } from './account/passenger-user-info/passenger-user-info.component';
 import { DriverAccountDetailsComponent } from './manage-drivers/account-details/driver-account-details/driver-account-details.component';
 import { PassengerAccountDetailsComponent } from './manage-passengers/account-details/passenger-account-details.component';
+import { ManageChangeRequestComponent } from './manage-change-request/manage-change-request.component';
+import { ChangeRequestInfoComponent } from './change-request-info/change-request-info.component';
 
 @NgModule({
   declarations: [RegisterAccountComponent, 
@@ -32,8 +34,9 @@ import { PassengerAccountDetailsComponent } from './manage-passengers/account-de
     PassengerOtherAccInfoComponent,
     PassengerUserInfoComponent,
     DriverAccountDetailsComponent,
-    PassengerAccountDetailsComponent
-  ],
+    PassengerAccountDetailsComponent,
+    ManageChangeRequestComponent,
+    ChangeRequestInfoComponent],
   imports: [
     CommonModule,
     AppRoutingModule,

@@ -12,6 +12,19 @@
     margin-bottom: 5vh;
 }
 
+button {
+    background-color: black;
+    color: white;
+    width: 84%;
+    margin-left: 8%;
+    margin-top: 4vh;
+    
+}
+button:hover {
+    background-color: #6A7A9E;
+  }
+
+
 @media (max-width: 850px) {
     .flex-elem{
         width: 100%;

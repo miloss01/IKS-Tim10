@@ -2,7 +2,8 @@
 
     
     <div class="app-ride-col-middle">
-        <h2>Current Ride</h2>
+        <h2>Currently riding <mat-icon>directions_car</mat-icon></h2>
+        <p class="app-ride-details"> <mat-icon>location_on</mat-icon> From departure address: {{ride.locations[0].departure.address}}</p>
         <div class="app-ride-map-container">
             <app-map></app-map>
         </div>
@@ -16,9 +17,9 @@
         </div>
 
         <div class="app-ride-details-col-left">
-            <p class="app-ride-details"> <mat-icon>location_on</mat-icon> Destination: {{destination}}</p>
+            <p class="app-ride-details"> <mat-icon>location_searching</mat-icon> Destination: {{ride.locations[0].destination.address}}</p>
             <p class="app-ride-details"> Time Elapsed: {{time_elapsed}} </p>
-            <p> Estimated {{estimated_minutes_left}} minutes left </p>
+            <p> Estimated {{ride.estimatedTimeInMinutes}} minutes left </p>
             <p class="app-ride-details"> Kilometers travelled: {{kilometers_travelled}} </p>
 
         </div>

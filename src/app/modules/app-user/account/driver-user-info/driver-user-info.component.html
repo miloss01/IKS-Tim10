@@ -1,7 +1,8 @@
 <div class="flex-container">
-    <app-basic-user-information class="flex-elem"></app-basic-user-information>
+    <app-basic-user-information (userEvent)="adduserChange($event)" class="flex-elem"></app-basic-user-information>
     <div class="flex-elem2">
-        <app-driver-vechicle></app-driver-vechicle>
+        <app-driver-vechicle (vehicleEvent)="addVehicleChange($event)"></app-driver-vechicle>
         <app-driver-documents></app-driver-documents>
+        <button mat-button (click)="sendChangeRequest()">Send Change Request</button>
     </div>
 </div>
