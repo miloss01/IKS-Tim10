@@ -19,7 +19,7 @@ export class ManageDriversComponent implements OnInit {
 
   constructor(
     public blockDialog: MatDialog,
-    private route:ActivatedRoute,
+    private route: ActivatedRoute,
     private appUserService: AppUserService,
     private accountService: UserServiceService,
     private manageService: ManageDriversService,

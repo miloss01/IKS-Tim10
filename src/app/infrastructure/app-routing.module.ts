@@ -13,6 +13,7 @@ import { RideRequestComponent } from '../modules/ride/ride-request/ride-request.
 import { CurrentRideComponent } from '../modules/ride/current-ride/current-ride.component';
 import { RideHistoryComponent } from '../modules/ride/ride-history/ride-history.component';
 import { DriverAccountDetailsComponent } from '../modules/app-user/manage-drivers/account-details/driver-account-details/driver-account-details.component';
+import { PassengerAccountDetailsComponent } from '../modules/app-user/manage-passengers/account-details/passenger-account-details.component';
 
 const routes: Routes = [
   {path:'register-account', component: RegisterAccountComponent},
@@ -27,6 +28,7 @@ const routes: Routes = [
   {path: 'current-ride', component: CurrentRideComponent},
   {path: 'ride-history', component: RideHistoryComponent},
   {path: 'driver-account-details', component: DriverAccountDetailsComponent},
+  {path: 'passenger-account-details', component: PassengerAccountDetailsComponent},
   {path: '**', component: LandingPageComponent }
 ];
 
