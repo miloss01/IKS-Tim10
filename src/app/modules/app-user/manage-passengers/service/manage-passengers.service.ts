@@ -73,6 +73,6 @@ interface isBlockedDTO {
   isBlocked: boolean
 }
 
-interface NoteMessageDTO {
+export interface NoteMessageDTO {
   messsage: string
 }

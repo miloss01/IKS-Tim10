@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ManagePassengersService } from '../service/manage-passengers.service';
-import { FormControl, FormGroup, FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-notes',
@@ -14,10 +13,6 @@ export class NotesComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private data: any,
     private manageService: ManagePassengersService
 ) { }
-
-  // messageFieldForm = new FormGroup( {
-  //   noteMessage: new FormControl()
-  // })
 
   message: string = "Write your message.";
 

@@ -6,6 +6,7 @@ import { LoginAuthentificationService } from 'src/app/modules/auth/service/login
 import { AppUserService } from 'src/app/services/app-user.service';
 import { environment } from 'src/environments/environment';
 import { UserServiceService } from '../../account/services/user.service';
+import { NoteMessageDTO } from '../../manage-passengers/service/manage-passengers.service';
 
 @Injectable({
   providedIn: 'root'
