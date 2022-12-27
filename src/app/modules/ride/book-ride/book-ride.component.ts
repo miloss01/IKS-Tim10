@@ -51,7 +51,6 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     desLon: 0
   };
 
-
   private departureMarker!: L.Marker;
   private destinationMarker!: L.Marker;
   private numOfMarkers: number = 0;
@@ -109,9 +108,13 @@ export class BookRideComponent implements AfterViewInit, OnInit {
       })
     )
     .subscribe((res: any) => {
-      this.departureMarker.remove();
-      this.destinationMarker.remove();
+
+      if (this.departureMarker)
+        this.departureMarker.remove();
+      if (this.destinationMarker)
+        this.destinationMarker.remove();
       this.numOfMarkers = 0;
+
       let routeControl = this.map?.drawRoute(
         // ovi podaci se moraju dobiti iz servisa
         this.forRouteControl.depLat,

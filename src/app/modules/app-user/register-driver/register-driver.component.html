@@ -5,38 +5,76 @@
     </div>
     
     <form [formGroup]="registerDriverForm" (ngSubmit)="registerDriver()" fxLayout="column">
-        <div class="app-reg-col" >
+        <div class="app-reg-col">
           <div class="app-form-sectioning"> 
             <p>Personal information</p>
             <mat-divider></mat-divider>
           </div>
-            <mat-form-field>
-                <mat-label>Name</mat-label>
-                <input matInput type="text" name="name" formControlName="name" />
-              </mat-form-field>
-              <mat-form-field>
-                <mat-label>Last Name</mat-label>
-                <input matInput type="text" name="lastName" formControlName="lastName" />
-              </mat-form-field>
-              <mat-form-field>
-                <mat-label>Phone Number</mat-label>
-                <input matInput type="text" name="phone" formControlName="phone" />
-              </mat-form-field>
-        </div>
-        
-        <div class="app-reg-col">
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput type="text" name="name" formControlName="name" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Last Name</mat-label>
+            <input matInput type="text" name="lastName" formControlName="lastName" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Phone Number</mat-label>
+            <input matInput type="text" name="phone" formControlName="phone" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Address</mat-label>
+            <input matInput type="text" name="address" formControlName="address" />
+          </mat-form-field>
+
           <div class="app-form-sectioning">
             <p>Account credentials</p>
             <mat-divider></mat-divider>
           </div>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput type="text" name="email" formControlName="email" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput type="password" name="password" formControlName="password" />
+          </mat-form-field>
+        </div>
+        
+        <div class="app-reg-col">
+        
+            <div class="app-form-sectioning">
+              <p>Vehicle information</p>
+              <mat-divider></mat-divider>
+            </div>
             <mat-form-field>
-              <mat-label>Email</mat-label>
-              <input matInput type="text" name="email" formControlName="email" />
+              <mat-label>Model</mat-label>
+              <input matInput type="text" name="model" formControlName="model" />
             </mat-form-field>
             <mat-form-field>
-              <mat-label>Password</mat-label>
-              <input matInput type="password" name="password" formControlName="password" />
+              <mat-label>Registration plate</mat-label>
+              <input matInput type="text" name="registrationPlate" formControlName="registrationPlate" />
             </mat-form-field>
+            <mat-form-field appearance="outline" class="select-and-date">
+              <mat-label>Car type</mat-label>
+              <mat-select formControlName="type">
+                <mat-option *ngFor="let type of vehicleTypes" [value]="type.value">
+                  {{type.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Number of seats</mat-label>
+              <input matInput type="number" name="seats" formControlName="seats" />
+            </mat-form-field>
+            <div class="param">
+              <p>Pets transport</p>
+              <mat-checkbox color="primary" name="pets" formControlName="pets"></mat-checkbox>
+            </div>
+            <div class="param">
+              <p>Baby transport</p>
+              <mat-checkbox color="primary" name="kids" formControlName="kids"></mat-checkbox>
+            </div>
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between end">

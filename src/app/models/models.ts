@@ -106,3 +106,26 @@ export interface Review {
   passenger : AppUserForRide;
 }
 
+
+export interface DriverDTO {
+  id: number | null;
+  name: string,
+  surname: string,
+  telephoneNumber: string,
+  email: string,
+  address: string,
+  profilePicture: string,
+  password: string
+}
+
+export interface VehicleDTO {
+  id: number | null,
+  driverId: number | null,
+  vehicleType: string,
+  model: string,
+  licenseNumber: string,
+  currentLocation: Location,
+  passengerSeats: number,
+  babyTransport: boolean,
+  petTransport: boolean
+}
