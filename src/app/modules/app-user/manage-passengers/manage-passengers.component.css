@@ -44,6 +44,10 @@ mat-card-content {
     padding-top: 2vh;
 }
 
+mat-card-title {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;   
+}
+
 a {
     color: black;
     text-decoration: none;

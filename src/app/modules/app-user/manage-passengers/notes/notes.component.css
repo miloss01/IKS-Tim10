@@ -34,3 +34,22 @@ h2 {
 #note-history {
     padding: 5vh;
 }
+
+
+.grid { 
+    padding-top: 5vh;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-gap: 20px;
+    align-items: stretch;
+}
+
+#note-date {
+    font-size: 1.1em;
+    line-height: 1.3em;
+    font-weight: 500;
+}
+
+#note-message {
+    font-family: monospace;
+}

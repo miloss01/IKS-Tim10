@@ -54,9 +54,14 @@ export class ManagePassengersService {
 
   submitNote(userId: number, message: string): Observable<any>{
     const options: any = {
-      responseType: 'text',
+      responseType: 'json',
     };
-    return this.http.post<NoteMessageDTO>(environment.apiHost + "user/" + userId + '/note', {message}, options);
+    return this.http.post<NoteDTO>(environment.apiHost + "user/" + userId + '/note', {message}, options);
+
+  }
+
+  getNotes(userId: number): Observable<any> {
+    return this.http.get<NotesDTO>(environment.apiHost + "user/" + userId + "/note");
 
   }
 
@@ -75,4 +80,15 @@ interface isBlockedDTO {
 
 export interface NoteMessageDTO {
   messsage: string
+}
+
+export interface NoteDTO {
+  id: number;
+  date: string;
+  message: string;
+}
+
+export interface NotesDTO {
+  totalCount: number;
+  results: NoteDTO[];
 }
