@@ -34,7 +34,7 @@ export class RideRequestComponent implements OnInit {
     desLon: 0
   };
 
-  constructor(public declineDialog: MatDialog, private http: HttpClient,
+  constructor(public declineDialog: MatDialog,
     private route:ActivatedRoute,
     private rideService: RideServiceService,
     private router: Router,

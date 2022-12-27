@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChangeRequest, ChangeRequestResponce } from 'src/app/models/models';
+import { ChangeRequestInfoComponent } from '../change-request-info/change-request-info.component';
 import { ChangeRequestService } from '../services/change-request.service';
 
 @Component({
@@ -17,7 +19,8 @@ export class ManageChangeRequestComponent implements OnInit {
   constructor(
     private route:ActivatedRoute,
     private changeRequestService: ChangeRequestService,
-    private router: Router) { }
+    private router: Router,
+    public changeDetailsDialog: MatDialog) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -29,8 +32,12 @@ export class ManageChangeRequestComponent implements OnInit {
     });
   }
 
-  viewRequest(driverId:number) : void{
-    this.router.navigate(['/change-request']);
+  viewRequest(chaangeRequest:ChangeRequest) : void{
+    const rideDetailsDialog = this.changeDetailsDialog.open(ChangeRequestInfoComponent, {
+      width: '900px',
+      height: '500px',
+      data: { changeeRequest: chaangeRequest }
+    });
   }
 
   acceptRequest(request:ChangeRequest): void {

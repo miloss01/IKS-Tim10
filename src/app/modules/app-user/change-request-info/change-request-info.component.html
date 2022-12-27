@@ -1,4 +1,37 @@
-<div class="app-manacc-page">
-    <h2>DODAJ</h2>
-    <mat-divider></mat-divider>
+<div class="flex-container">
+    <div class="flex-elem">
+        <h2>Old Data</h2>
+        <p>Name: {{userData.userDTO.name}}</p>
+        <p>Last name: {{userData.userDTO.surname}}</p>
+        <p>Phone: {{userData.userDTO.telephoneNumber}}</p>
+        <p>Email: {{userData.userDTO.email}}</p>
+        <p>Address: {{userData.userDTO.address}}</p>
+        <mat-divider></mat-divider>
+        <p>Car name: {{userData.vehicleDTO.model}}</p>
+        <p>Lisence plate: {{userData.vehicleDTO.licenseNumber}}</p>
+        <p>Passenger number: {{userData.vehicleDTO.passengerSeats}}</p>
+        <mat-checkbox labelPosition="before" [checked]="userData.vehicleDTO.babyTransport" class="oneLine">Baby seat available</mat-checkbox>
+        <mat-checkbox labelPosition="before" [checked]="userData.vehicleDTO.petTransport" class="oneLine">Pets allowed</mat-checkbox>
+        
+    </div>
+    <div class="flex-elem">
+        <h2>New Data</h2>
+        <p>Name: {{changeRequest.userDTO.name}}</p>
+        <p>Last name: {{changeRequest.userDTO.surname}}</p>
+        <p>Phone: {{changeRequest.userDTO.telephoneNumber}}</p>
+        <p>Email: {{changeRequest.userDTO.email}}</p>
+        <p>Address: {{changeRequest.userDTO.address}}</p>
+        <mat-divider></mat-divider>
+        <p>Car name: {{changeRequest.vehicleDTO.model}}</p>
+        <p>Lisence plate: {{changeRequest.vehicleDTO.licenseNumber}}</p>
+        <p>Passenger number: {{changeRequest.vehicleDTO.passengerSeats}}</p>
+        <mat-checkbox labelPosition="before" [checked]="changeRequest.vehicleDTO.babyTransport" class="oneLine">Baby seat available</mat-checkbox>
+        <mat-checkbox labelPosition="before" [checked]="changeRequest.vehicleDTO.petTransport" class="oneLine">Pets allowed</mat-checkbox>
+        
+    </div>
+    <div class="desno">
+        <button (click)="acceptRequest()" class="black-button" mat-button>Accept</button>
+        <button (click)="onCancelClick()" class="gray-button" mat-button>Close</button>
+    </div>
+    
 </div>

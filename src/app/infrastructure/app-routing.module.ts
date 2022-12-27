@@ -28,7 +28,6 @@ const routes: Routes = [
   {path: 'current-ride', component: CurrentRideComponent},
   {path: 'passenger-rides', component: RideHistoryComponent},
   {path: 'manage-change-requests', component: ManageChangeRequestComponent},
-  {path: 'change-request', component: ChangeRequestInfoComponent},
   {path: '**', component: LandingPageComponent }
 ];
 

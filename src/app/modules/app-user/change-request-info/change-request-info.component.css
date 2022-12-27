@@ -1,0 +1,32 @@
+.flex-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+}
+.flex-elem{
+    width: 50%;
+    margin-bottom: 5vh;
+}
+.oneLine{
+    width: 100%;
+  }
+
+button {
+
+    width: 20vh;
+}
+
+.black-button{
+    background-color: black;
+    color: white;
+    margin-right: 2vh;
+}
+.gray-button{
+    background-color: rgb(126, 126, 126);
+    color: white;
+}
+
+.desno{
+    float: left;
+    margin-right: 60%;
+}

@@ -4,7 +4,7 @@
     <div class="grid">
         <div *ngFor="let request of changeRequestResponce.requestDTOS">
             <mat-card>
-                <mat-card-header (click)="viewRequest(0)">
+                <mat-card-header (click)="viewRequest(request)">
                     <div class="app-reg-col-name">
                         <mat-card-title>{{request.userDTO.name}} {{request.userDTO.surname}}</mat-card-title>
                         <mat-card-subtitle>requested: {{request.date}}</mat-card-subtitle>
@@ -15,13 +15,13 @@
                   
                 </mat-card-header>
                 <mat-divider></mat-divider>
-                <mat-card-content (click)="viewRequest(0)" class="padding-left">
+                <mat-card-content (click)="viewRequest(request)" class="padding-left">
                     <p class="margin-top">Vehicle model: {{request.vehicleDTO.model}}</p>
                     <p>Registration plate: {{request.vehicleDTO.licenseNumber}}</p>
                 </mat-card-content>
                 <mat-card-actions class="padding-left">
                     <button class="black-button" mat-button (click)="acceptRequest(request)">Accept</button>
-                    <button class="gray-button" mat-button>View</button>
+                    <button class="gray-button" mat-button (click)="viewRequest(request)">View</button>
                 </mat-card-actions>
             </mat-card>
         </div>

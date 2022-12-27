@@ -21,6 +21,44 @@ export class ChangeRequestService {
     return this.http.get<ChangeRequestResponce>(environment.apiHost + "driver/change-requests");
   }
 
+  updateChangesRequest(changeRequest: ChangeRequest, driverId:number): Observable<any> {
+    const options: any = {
+      responseType: 'text',
+    };
+
+    return this.http.put<string>(
+      environment.apiHost + 'driver/change-request/' + driverId,
+      {
+        userDTO:{
+          name: changeRequest.userDTO.name,
+          surname: changeRequest.userDTO.surname,
+          telephoneNumber: changeRequest.userDTO.telephoneNumber,
+          email: changeRequest.userDTO.email,
+          address: changeRequest.userDTO.address,
+          profilePicture: changeRequest.userDTO.profilePicture
+        },
+        vehicleDTO: {
+          id: changeRequest.vehicleDTO.id,
+          driverId: changeRequest.vehicleDTO.driverId,
+          vehicleType: changeRequest.vehicleDTO.vehicleType,
+          model: changeRequest.vehicleDTO.model,
+          licenseNumber: changeRequest.vehicleDTO.licenseNumber,
+          currentLocation: {
+            address: "",
+            latitude: 0,
+            longitude: 0
+          },
+          passengerSeats: changeRequest.vehicleDTO.passengerSeats,
+          babyTransport: changeRequest.vehicleDTO.babyTransport,
+          petTransport: changeRequest.vehicleDTO.petTransport
+        },
+        date: changeRequest.date
+
+      },
+      options
+      );
+    }
+
   acceptChangesRequest(changeRequest: ChangeRequest, driverId:number): Observable<any> {
     const options: any = {
       responseType: 'text',
@@ -45,8 +83,8 @@ export class ChangeRequestService {
           licenseNumber: changeRequest.vehicleDTO.licenseNumber,
           currentLocation: {
             address: "",
-            latitude: "",
-            longitude: ""
+            latitude: 0,
+            longitude: 0
           },
           passengerSeats: changeRequest.vehicleDTO.passengerSeats,
           babyTransport: changeRequest.vehicleDTO.babyTransport,
