@@ -26,7 +26,7 @@ export class DriverDocumentsComponent implements OnInit {
       .getDriverDocuments(this.authentificationService.getId())
       .subscribe((fetchedDocuments:DocumentDTO[]) => {
         this.documents =fetchedDocuments;
-        console.log(fetchedDocuments);
+        console.log("DRIVER DOCUMENTS COMPONENT - Fetched Documents for User with id" + JSON.stringify(this.documents));
         })
     });
   }

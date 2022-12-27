@@ -12,6 +12,8 @@ import { ManageDriversComponent } from '../modules/app-user/manage-drivers/manag
 import { RideRequestComponent } from '../modules/ride/ride-request/ride-request.component';
 import { CurrentRideComponent } from '../modules/ride/current-ride/current-ride.component';
 import { RideHistoryComponent } from '../modules/ride/ride-history/ride-history.component';
+import { DriverAccountDetailsComponent } from '../modules/app-user/manage-drivers/account-details/driver-account-details/driver-account-details.component';
+import { PassengerAccountDetailsComponent } from '../modules/app-user/manage-passengers/account-details/passenger-account-details.component';
 import { ManageChangeRequestComponent } from '../modules/app-user/manage-change-request/manage-change-request.component';
 import { ChangeRequestInfoComponent } from '../modules/app-user/change-request-info/change-request-info.component';
 
@@ -26,7 +28,9 @@ const routes: Routes = [
   {path: 'manage-passengers', component: ManagePassengersComponent},
   {path: "ride-request", component:RideRequestComponent},
   {path: 'current-ride', component: CurrentRideComponent},
-  {path: 'passenger-rides', component: RideHistoryComponent},
+  {path: 'ride-history', component: RideHistoryComponent},
+  {path: 'driver-account-details', component: DriverAccountDetailsComponent},
+  {path: 'passenger-account-details', component: PassengerAccountDetailsComponent},
   {path: 'manage-change-requests', component: ManageChangeRequestComponent},
   {path: '**', component: LandingPageComponent }
 ];

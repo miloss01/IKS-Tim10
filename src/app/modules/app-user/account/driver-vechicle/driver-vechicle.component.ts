@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Vehicle } from 'src/app/models/models';
 import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service';
+import { ManageDriversService } from '../../manage-drivers/service/manage-drivers.service';
+import { Vehicle } from 'src/app/models/models';
 import { UserServiceService } from '../services/user.service';
 import { Output, EventEmitter } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -38,20 +39,36 @@ export class DriverVechicleComponent implements OnInit {
   constructor(
     private route:ActivatedRoute,
     private userService: UserServiceService,
+    private manageDrivers: ManageDriversService,
     private userAuthentificationService: LoginAuthentificationService) {
-    
-   }
+    }
 
+
+  // Is component shown for driver viewing their own account
+  isDriver = true;
   
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.userService
-      .getVechicle(this.userAuthentificationService.getId())
-      .subscribe((fetchedVechicle:Vehicle) => {
-        this.vehicle =fetchedVechicle; 
-        console.log(fetchedVechicle);})
-    });
+    if (this.userAuthentificationService.getRole() == 2) {
+      this.userService.selectedValue$.subscribe((value) => {
+        this.route.params.subscribe((params) => {
+          this.userService
+          .getVehicleById(value)
+          .subscribe((fetchedVechicle:Vehicle) => {
+            this.vehicle =fetchedVechicle; 
+            console.log("DRIVER VEHICLE COMPONENT - Fetched Vehicle for User with id " + value +", " + JSON.stringify(fetchedVechicle));})
+        });
+      })
+      this.isDriver = false;
+    } else {
+      this.route.params.subscribe((params) => {
+        this.userService
+        .getVehicleById(this.userAuthentificationService.getId())
+        .subscribe((fetchedVechicle:Vehicle) => {
+          this.vehicle =fetchedVechicle; 
+          console.log("DRIVER VEHICLE COMPONENT - Fetched Vehicle for User with id " + this.userAuthentificationService.getId() +", " + JSON.stringify(fetchedVechicle));})
+      });
+    }
   }
 
   toggle(event: MatCheckboxChange){

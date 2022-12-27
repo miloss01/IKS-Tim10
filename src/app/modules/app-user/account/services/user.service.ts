@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DocumentDTO, Vehicle } from 'src/app/models/models';
@@ -26,6 +26,10 @@ export class UserServiceService {
     return this.http.get<Vehicle>(environment.apiHost + "driver/" + id + "/vehicle");
   }
 
+  getVehicleById(id: number):Observable<Vehicle> {
+    return this.http.get<Vehicle>(environment.apiHost + "driver/"+ id +"/vehicle");
+  }
+
   saveChanges(user: AppUser, id:number): Observable<any> {
     const options: any = {
       responseType: 'text',
@@ -50,7 +54,13 @@ export class UserServiceService {
   }
 
   getUserById(id: number): Observable<AppUser> {
-    return this.http.get<AppUser>(environment.apiHost + "passenger/" + id);
+    let params = new HttpParams();
+    params = params.append('id', id); 
+    return this.http.get<AppUser>(environment.apiHost + "user/1", {params: params});
+  }
+
+  getDriverById(id: number): Observable<AppUser> {
+    return this.http.get<AppUser>(environment.apiHost + "driver/" + id);
   }
 
 }

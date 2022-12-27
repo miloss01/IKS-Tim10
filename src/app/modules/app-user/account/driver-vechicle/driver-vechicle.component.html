@@ -23,12 +23,11 @@
                 <mat-label>Passenger number</mat-label>
                 <input matInput type="number" name="numberOfSeats" formControlName="numberOfSeats" value={{vehicle.passengerSeats}}/>
             </mat-form-field>
-            
         </form>
         <p>Average mark: 4.5<mat-icon>star</mat-icon></p>
         <mat-checkbox (change)="toggle($event)" labelPosition="before" [checked]="vehicle.babyTransport" class="oneLine">Baby seat available</mat-checkbox>
         <mat-checkbox (change)="toggle2($event)" labelPosition="before" [checked]="vehicle.petTransport" class="oneLine">Pets allowed</mat-checkbox>
-        <button mat-raised-button (click)="saveChanges()">Save changes</button>
+        <button *ngIf="isDriver" mat-raised-button (click)="saveChanges()">Save changes</button>
     </div>
     
     
