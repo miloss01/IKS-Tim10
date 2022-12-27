@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Vehicle } from 'src/app/models/models';
 import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service';
 import { UserServiceService } from '../services/user.service';
+import { Output, EventEmitter } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-driver-vechicle',
@@ -11,6 +13,7 @@ import { UserServiceService } from '../services/user.service';
   styleUrls: ['./driver-vechicle.component.css']
 })
 export class DriverVechicleComponent implements OnInit {
+  @Output() vehicleEvent = new EventEmitter<Vehicle>();
   vehicle:Vehicle = {
     id: 0,
     driverId: 0,
@@ -51,5 +54,25 @@ export class DriverVechicleComponent implements OnInit {
     });
   }
 
+  toggle(event: MatCheckboxChange){
+    console.log(event.source.checked);
+    this.vehicle.babyTransport = event.source.checked;
+  }
+
+  toggle2(event: MatCheckboxChange){
+    this.vehicle.petTransport = event.source.checked;
+  }
+
+  saveChanges(): void {
+    if (this.changingInformationForm.get('carName')?.value){
+      this.vehicle.model = this.changingInformationForm.get('carName')?.value;
+    }
+    if (this.changingInformationForm.get('lisencePlate')?.value){
+      this.vehicle.licenseNumber = this.changingInformationForm.get('lisencePlate')?.value;    }
+    if (this.changingInformationForm.get('numberOfSeats')?.value){
+      this.vehicle.passengerSeats = this.changingInformationForm.get('numberOfSeats')?.value;
+    }
+    this.vehicleEvent.emit(this.vehicle);
+  }
   
 }

@@ -26,9 +26,9 @@
             
         </form>
         <p>Average mark: 4.5<mat-icon>star</mat-icon></p>
-        <mat-checkbox labelPosition="before" [checked]="vehicle.babyTransport" class="oneLine">Baby seat available</mat-checkbox>
-        <mat-checkbox labelPosition="before" [checked]="vehicle.petTransport" class="oneLine">Pets allowed</mat-checkbox>
-        <button mat-raised-button onclick="submitChanges">Save changes</button>
+        <mat-checkbox (change)="toggle($event)" labelPosition="before" [checked]="vehicle.babyTransport" class="oneLine">Baby seat available</mat-checkbox>
+        <mat-checkbox (change)="toggle2($event)" labelPosition="before" [checked]="vehicle.petTransport" class="oneLine">Pets allowed</mat-checkbox>
+        <button mat-raised-button (click)="saveChanges()">Save changes</button>
     </div>
     
     

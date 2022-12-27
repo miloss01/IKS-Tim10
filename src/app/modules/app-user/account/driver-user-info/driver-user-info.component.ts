@@ -67,6 +67,15 @@ export class DriverUserInfoComponent implements OnInit {
     });
   }
 
+  addVehicleChange(vehicle:Vehicle){
+    this.changeRequest.vehicleDTO = vehicle;
+    console.log(this.changeRequest);
+  }
+  
+  adduserChange(user:AppUser) {
+    this.changeRequest.userDTO = user;
+  }
+
   sendChangeRequest(): void {
     this.route.params.subscribe((params) => {
     this.changeRequestService
@@ -76,5 +85,6 @@ export class DriverUserInfoComponent implements OnInit {
         console.log(fetchedVechicle);})
     });
   }
+
 
 }

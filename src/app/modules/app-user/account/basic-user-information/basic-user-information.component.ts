@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service';
 import { UserServiceService } from '../services/user.service';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-basic-user-information',
@@ -11,6 +12,7 @@ import { UserServiceService } from '../services/user.service';
 })
 export class BasicUserInformationComponent implements OnInit {
   //imageSrc: string;
+  @Output() userEvent = new EventEmitter<AppUser>();
   user:AppUser = {
     id: 0,
     name: '',
@@ -53,19 +55,6 @@ export class BasicUserInformationComponent implements OnInit {
   }
 
   submitChanges(): void{
-    if (this.role == "PASSENGER") {
-      this.passengerSubmit();
-    }
-    else {
-      this.driverSubmit();
-    }
-  }
-
-  driverSubmit() {
-    throw new Error('Method not implemented.');
-  }
-
-  passengerSubmit() : void{
     if (this.changingInformationForm.get('name')?.value){
       this.user.name = this.changingInformationForm.get('name')?.value;
     }
@@ -80,6 +69,19 @@ export class BasicUserInformationComponent implements OnInit {
     if (this.changingInformationForm.get('adress')?.value){
       this.user.address = this.changingInformationForm.get('adress')?.value;
     }
+    if (this.role == "PASSENGER") {
+      this.passengerSubmit();
+    }
+    else {
+      this.driverSubmit();
+    }
+  }
+
+  driverSubmit() {
+    this.userEvent.emit(this.user);
+  }
+
+  passengerSubmit() : void{
     this.userService
     .saveChanges(this.user, this.userAuthentificationService.getId())
     .subscribe((res: any) => {
