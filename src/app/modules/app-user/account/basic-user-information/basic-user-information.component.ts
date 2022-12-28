@@ -5,6 +5,8 @@ import { LoginAuthentificationService } from 'src/app/modules/auth/service/login
 import { ManageDriversService } from '../../manage-drivers/service/manage-drivers.service';
 import { UserServiceService } from '../services/user.service';
 import { Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ResetPasswordDialogComponent } from 'src/app/modules/layout/dialogs/reset-password-dialog/reset-password-dialog.component';
 
 @Component({
   selector: 'app-basic-user-information',
@@ -29,7 +31,7 @@ export class BasicUserInformationComponent implements OnInit {
   constructor(
     private route:ActivatedRoute,
     private userService: UserServiceService,
-    private manageDrivers: ManageDriversService,
+    public resetPasswordDialog: MatDialog,
     private router: Router,
     private userAuthentificationService: LoginAuthentificationService) {
     //this.imageSrc = "http://t3.gstatic.com/licensed-image?q=tbn:ANd9GcS-OZTPpZNsnOchlOMmYsSeMprn5sYU4kdOZGPL0_ksM2nHGegFrzLhGlQMBF-amQqPRFs4DzbLrI_o5gA";
@@ -112,6 +114,10 @@ export class BasicUserInformationComponent implements OnInit {
   
 
   changePicture(): void {}
+
+  openResetPasswordDialog(): void {
+    const dialog = this.resetPasswordDialog.open(ResetPasswordDialogComponent);
+  }
 
 
 }

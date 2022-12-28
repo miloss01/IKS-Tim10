@@ -28,7 +28,7 @@
         <input matInput type="text" name="adress" formControlName="adress" value={{user.address}}/>
     </mat-form-field>
     <div *ngIf="isDriverOrPassenger" class="toTheright">
-        <a href="">Change Password</a>
+        <a (click)="openResetPasswordDialog()">Change Password</a>
         <button  type="submit" mat-raised-button>Save changes</button>
     </div>
 </form>
