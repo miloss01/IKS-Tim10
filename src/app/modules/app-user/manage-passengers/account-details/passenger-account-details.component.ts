@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserServiceService } from '../../account/services/user.service';
+import { NotesComponent } from '../notes/notes.component';
 import { ManagePassengersService } from '../service/manage-passengers.service';
 
 @Component({
@@ -13,7 +15,8 @@ export class PassengerAccountDetailsComponent implements OnInit {
   constructor(
     private appUserService: UserServiceService,
     private manageService: ManagePassengersService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public notesDialog: MatDialog
     ) { }
 
   private userId = -1;
@@ -50,6 +53,14 @@ export class PassengerAccountDetailsComponent implements OnInit {
       })
       this.snackBar.open("Successfully unblocked", "Close");
     })
+  }
+
+  openNoteDialog() {
+    const notesDialog = this.notesDialog.open(NotesComponent, {
+      width: '800px',
+      height: '500px',
+      data: { userId: this.userId }
+    });
   }
 
 }

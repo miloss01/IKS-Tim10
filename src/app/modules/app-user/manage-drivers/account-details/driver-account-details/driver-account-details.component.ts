@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RideHistoryServiceService } from 'src/app/modules/ride/ride-history/service/ride-history-service.service';
 import { AppUserService } from 'src/app/services/app-user.service';
 import { UserServiceService } from '../../../account/services/user.service';
+import { NotesComponent } from '../../../manage-passengers/notes/notes.component';
 import { ManageDriversService } from '../../service/manage-drivers.service';
 
 @Component({
@@ -15,7 +17,8 @@ export class DriverAccountDetailsComponent implements OnInit {
   constructor(
     private appUserService: UserServiceService,
     private manageService: ManageDriversService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public notesDialog: MatDialog
     ) { }
 
   private userId = -1;
@@ -54,4 +57,12 @@ export class DriverAccountDetailsComponent implements OnInit {
     })
   }
 
+  openNoteDialog() {
+    const notesDialog = this.notesDialog.open(NotesComponent, {
+      width: '800px',
+      height: '500px',
+      data: { userId: this.userId }
+    });
+  }
+  
 }

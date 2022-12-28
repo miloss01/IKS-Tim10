@@ -18,6 +18,7 @@ mat-card {
 
 mat-card-title-group mat-card-title{
     padding-right: 5vw;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;   
 }
 
 .app-reg-col-name {

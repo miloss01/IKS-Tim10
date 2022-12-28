@@ -1,0 +1,55 @@
+textarea {
+    width: 60%;
+    height: 15vh;
+    padding: 3vh;
+    display: flex;
+    justify-content: center;
+    margin:auto !important;
+    margin-top: 5vh !important;
+
+}
+
+button {
+    margin:auto !important;
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    margin-top: 2vh !important;
+    align-items: center;
+    width: 15vw;
+    height: 2.75em !important;
+    letter-spacing: 0.5em;  
+    background-color: rgb(241, 241, 241) !important;
+    font-weight: 600;
+
+}
+
+h2 {
+    margin-top: 10vh;
+    font-size: 2em;
+    line-height: 1.3em;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+
+#note-history {
+    padding: 5vh;
+}
+
+
+.grid { 
+    padding-top: 5vh;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-gap: 20px;
+    align-items: stretch;
+}
+
+#note-date {
+    font-size: 1.1em;
+    line-height: 1.3em;
+    font-weight: 500;
+}
+
+#note-message {
+    font-family: monospace;
+}

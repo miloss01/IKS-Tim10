@@ -1,0 +1,22 @@
+<div mat-dialog-content id="dialog-container">
+
+    <textarea name="noteMessage" [(ngModel)]="message"></textarea>
+    <button mat-button (click)="onSubmitClick()"> SUBMIT </button>
+
+    <div id="note-history">
+        <h2>Note history</h2>
+        <mat-divider></mat-divider>
+        <div class="grid">
+            <div *ngFor="let note of notes">
+                <mat-card>
+                    <mat-card-content>
+                        <p id="note-date">{{note?.date}}</p>
+                        <p id="note-message">{{note?.message}}</p>
+                    </mat-card-content>
+                  </mat-card>
+            </div>
+        </div>
+    </div>
+
+</div>
+

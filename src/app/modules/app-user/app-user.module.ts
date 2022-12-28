@@ -19,6 +19,7 @@ import { PassengerOtherAccInfoComponent } from './account/passenger-other-acc-in
 import { PassengerUserInfoComponent } from './account/passenger-user-info/passenger-user-info.component';
 import { DriverAccountDetailsComponent } from './manage-drivers/account-details/driver-account-details/driver-account-details.component';
 import { PassengerAccountDetailsComponent } from './manage-passengers/account-details/passenger-account-details.component';
+import { NotesComponent } from './manage-passengers/notes/notes.component';
 import { ManageChangeRequestComponent } from './manage-change-request/manage-change-request.component';
 import { ChangeRequestInfoComponent } from './change-request-info/change-request-info.component';
 
@@ -35,6 +36,7 @@ import { ChangeRequestInfoComponent } from './change-request-info/change-request
     PassengerUserInfoComponent,
     DriverAccountDetailsComponent,
     PassengerAccountDetailsComponent,
+    NotesComponent,
     ManageChangeRequestComponent,
     ChangeRequestInfoComponent],
   imports: [

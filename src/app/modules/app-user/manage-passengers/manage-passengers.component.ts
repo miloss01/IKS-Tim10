@@ -44,6 +44,8 @@ export class ManagePassengersComponent implements OnInit {
     this.router.navigate(['passenger-account-details']);
   }
 
+  
+
 }
 
 export interface accountsDTO{
