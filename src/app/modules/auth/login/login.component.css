@@ -62,3 +62,11 @@ button {
         cursor: pointer;
       }
   }
+
+  .forgot-password {
+    color: #6A7A9E;
+  }
+
+  .forgot-password:hover {
+    cursor: pointer;
+  }
