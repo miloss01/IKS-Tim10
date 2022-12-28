@@ -30,6 +30,11 @@ export class LoginAuthentificationService {
 
   }
 
+  changeActiveFlag(activee:boolean): Observable<any>{
+    return this.http.put<string>(environment.apiHost + "user/changeActiveFlag/" + this.getId(), {active: activee});
+
+  }
+
   getRole(): any {
     if (this.isLoggedIn()) {
       console.log("logovan")
@@ -81,6 +86,7 @@ export class LoginAuthentificationService {
   logout(): void {
     localStorage.removeItem("user");
     this.user$.next({});
+    
   }
 
 }

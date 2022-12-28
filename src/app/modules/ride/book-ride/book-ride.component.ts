@@ -10,6 +10,11 @@ import { environment } from 'src/environments/environment';
 import { MapService } from '../../layout/services/map.service';
 import * as L from 'leaflet';
 import { RideServiceService } from '../service/ride-service.service';
+import { UserServiceService } from '../../app-user/account/services/user.service';
+import { ManagePassengersService } from '../../app-user/manage-passengers/service/manage-passengers.service';
+import { LoginAuthentificationService } from '../../auth/service/login-authentification.service';
+import Swal from 'sweetalert2';
+import { Title } from '@angular/platform-browser';
 
 interface VehicleType {
   value: string;
@@ -25,6 +30,8 @@ interface VehicleType {
 export class BookRideComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MapComponent, {static : true}) map : MapComponent | undefined;
+
+  isBlocked:boolean= true;
 
   vehicleTypes: VehicleType[] = [
     {value: 'STANDARD', viewValue: 'Standard'},
@@ -65,12 +72,19 @@ export class BookRideComponent implements AfterViewInit, OnInit {
 
   constructor(public invDialog: MatDialog, 
     private mapService: MapService,
-    private rideService: RideServiceService) { }
+    private rideService: RideServiceService,
+    private userService: ManagePassengersService,
+    private userAuthentificationService: LoginAuthentificationService) { }
 
   ngOnInit(): void {
     this.rideService.selectedBookAgainValue$.subscribe((value) => {
       this.locationsFromBookAgain = value;
     });
+    this.userService.isBlocked(this.userAuthentificationService.getId())
+    .subscribe((value) => {
+      this.isBlocked = value.blocked;
+      console.log(this.isBlocked);
+    })
   }
 
   
@@ -167,6 +181,15 @@ export class BookRideComponent implements AfterViewInit, OnInit {
       });
       
     });
+  }
+
+  bookRide():void{
+    if(this.isBlocked) {
+      Swal.fire({title: 'Ride cant be booked', 
+      text: 'You are blocked and do to our security policy can not book a ride.', 
+      icon: 'error'});
+      return;
+    }
   }
 
 }

@@ -31,7 +31,12 @@ export class LoginComponent implements OnInit {
       this.authService.setUser();
       console.log(this.authService.getRole());
       this.router.navigate(['/book-ride']);
+      this.authService.changeActiveFlag(true)
+    .subscribe((res: any) => {
+      console.log(res);
     });
+    });
+    
   }
 
   goToRegister(): void {this.router.navigate(['/register-account']);}

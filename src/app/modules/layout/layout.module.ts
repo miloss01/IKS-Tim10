@@ -13,7 +13,6 @@ import { BlockDialogComponent } from './dialogs/block-dialog/block-dialog.compon
 import { InviteDialogComponent } from './dialogs/invite-dialog/invite-dialog.component';
 import { CancelDialogComponent } from './dialogs/cancel-dialog/cancel-dialog.component';
 
-
 @NgModule({
   declarations: [LandingPageComponent, 
     ToolbarComponent, 
