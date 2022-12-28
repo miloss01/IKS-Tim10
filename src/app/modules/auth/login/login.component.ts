@@ -1,7 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ResetPasswordDialogComponent } from '../../layout/dialogs/reset-password-dialog/reset-password-dialog.component';
 import { LoginAuthentificationService } from '../service/login-authentification.service';
 
 @Component({
@@ -11,7 +13,7 @@ import { LoginAuthentificationService } from '../service/login-authentification.
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private router: Router, private authService: LoginAuthentificationService) { }
+  constructor(private router: Router, private authService: LoginAuthentificationService, public resetPasswordDialog: MatDialog) { }
 
   loginForm = new FormGroup({
     username: new FormControl(),
@@ -40,5 +42,9 @@ export class LoginComponent implements OnInit {
   }
 
   goToRegister(): void {this.router.navigate(['/register-account']);}
+
+  openResetPasswordDialog(): void {
+    const dialog = this.resetPasswordDialog.open(ResetPasswordDialogComponent);
+  }
 
 }
