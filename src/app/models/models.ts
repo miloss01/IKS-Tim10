@@ -129,3 +129,9 @@ export interface VehicleDTO {
   babyTransport: boolean,
   petTransport: boolean
 }
+
+export interface PasswordResetCodeDTO {
+  email: string | null,
+  newPassword: string | null,
+  code: string | null
+}

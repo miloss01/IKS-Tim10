@@ -12,6 +12,7 @@ import { MaterialModule } from 'src/app/infrastructure/material/material.module'
 import { BlockDialogComponent } from './dialogs/block-dialog/block-dialog.component';
 import { InviteDialogComponent } from './dialogs/invite-dialog/invite-dialog.component';
 import { CancelDialogComponent } from './dialogs/cancel-dialog/cancel-dialog.component';
+import { ResetPasswordDialogComponent } from './dialogs/reset-password-dialog/reset-password-dialog.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { CancelDialogComponent } from './dialogs/cancel-dialog/cancel-dialog.com
     MapComponent,
     BlockDialogComponent,
     InviteDialogComponent,
-    CancelDialogComponent],
+    CancelDialogComponent,
+    ResetPasswordDialogComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
