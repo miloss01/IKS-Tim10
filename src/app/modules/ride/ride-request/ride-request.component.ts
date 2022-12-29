@@ -45,7 +45,8 @@ export class RideRequestComponent implements OnInit {
       this.rideService
       .getRideById(1)
       .subscribe((fetcedRide:Ride) => {
-        this.ride =fetcedRide; 
+        this.ride =fetcedRide;
+        console.log(fetcedRide);
         })
     });
 

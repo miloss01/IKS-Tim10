@@ -14,7 +14,6 @@ import { InviteDialogComponent } from './dialogs/invite-dialog/invite-dialog.com
 import { CancelDialogComponent } from './dialogs/cancel-dialog/cancel-dialog.component';
 import { ResetPasswordDialogComponent } from './dialogs/reset-password-dialog/reset-password-dialog.component';
 
-
 @NgModule({
   declarations: [LandingPageComponent, 
     ToolbarComponent, 

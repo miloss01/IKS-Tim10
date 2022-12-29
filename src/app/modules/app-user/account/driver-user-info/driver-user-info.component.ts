@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppUser, ChangeRequest, Vehicle } from 'src/app/models/models';
 import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service';
+import Swal from 'sweetalert2';
 import { ChangeRequestService } from '../../services/change-request.service';
 import { UserServiceService } from '../services/user.service';
 
@@ -84,6 +85,7 @@ export class DriverUserInfoComponent implements OnInit {
         this.changeRequest.vehicleDTO =fetchedVechicle; 
         console.log(fetchedVechicle);})
     });
+    Swal.fire("Change request sent", "Your request has been set for review.", 'success');
   }
 
 
