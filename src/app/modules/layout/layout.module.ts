@@ -21,7 +21,8 @@ import { ResetPasswordDialogComponent } from './dialogs/reset-password-dialog/re
     BlockDialogComponent,
     InviteDialogComponent,
     CancelDialogComponent,
-    ResetPasswordDialogComponent],
+    ResetPasswordDialogComponent,
+    ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
