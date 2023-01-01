@@ -24,15 +24,15 @@
     <mat-icon>history</mat-icon>
     Ride history
   </button>
-  <button mat-button [matMenuTriggerFor]="menu">Manage accounts</button>
+  <button mat-button class="white-text" [matMenuTriggerFor]="menu">Manage accounts</button>
   <mat-menu #menu="matMenu">
-    <button mat-button class="white-text" routerLink="manage-passengers" *ngIf="this.user.role == 'ADMIN'">
+    <button mat-button class="manage-menu-btn" routerLink="manage-passengers">
       Passengers
     </button>
-    <button mat-button class="white-text" routerLink="manage-drivers" *ngIf="this.user.role == 'ADMIN'">
+    <button mat-button class="manage-menu-btn" routerLink="manage-drivers">
       Drivers
     </button>
-    <button mat-button class="white-text" routerLink="manage-change-requests" *ngIf="this.user.role == 'ADMIN'">
+    <button mat-button class="manage-menu-btn" routerLink="manage-change-requests">
       Change requests
     </button>
   </mat-menu>
