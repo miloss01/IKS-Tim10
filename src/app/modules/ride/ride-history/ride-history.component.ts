@@ -10,6 +10,7 @@ import { RideDetailsDialogComponent } from './ride-details-dialog/ride-details-d
 import { RideHistoryServiceService } from './service/ride-history-service.service';
 import { ManageDriversService } from '../../app-user/manage-drivers/service/manage-drivers.service';
 import { LoginAuthentificationService } from '../../auth/service/login-authentification.service';
+import { ManagePassengersService } from '../../app-user/manage-passengers/service/manage-passengers.service';
 
 @Component({
   selector: 'app-ride-history',
@@ -33,16 +34,23 @@ export class RideHistoryComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private rideService: RideServiceService,
-    private manageService: ManageDriversService,
+    private manageDriversService: ManageDriversService,
+    private managePassengersService: ManagePassengersService,
     private authService: LoginAuthentificationService,
     public rideDetailsDialog: MatDialog,) { }
 
   ngOnInit() {
-    if(this.authService.getRole() == 2) {
-      this.manageService.selectedIdValue$.subscribe((value) => {
+    if(this.authService.getRole() == "ADMIN") {
+      this.manageDriversService.selectedIdValue$.subscribe((value) => {
+        console.log(value);
         this.userId = value;
-        console.log("user id dobijen je iz manage service");
+        console.log("user id dobijen je iz drivers manage service");
       });
+      this.managePassengersService.selectedIdValue$.subscribe((value) => {
+        console.log(value);
+        this.userId = value;
+        console.log("user id dobijen je iz passengers manage service");
+      })
     } else {
       this.userId = this.authService.getId();
       console.log("user id dobijen je iz login service");

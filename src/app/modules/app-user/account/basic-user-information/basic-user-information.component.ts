@@ -52,7 +52,7 @@ export class BasicUserInformationComponent implements OnInit {
 
   ngOnInit(): void {
     this.role = this.userAuthentificationService.getRole();
-    if (this.userAuthentificationService.getRole() == 2) {
+    if (this.userAuthentificationService.getRole() == "ADMIN") {
       this.userService.selectedValue$.subscribe((value) => {
         this.user.id = value;
         this.route.params.subscribe((params) => {

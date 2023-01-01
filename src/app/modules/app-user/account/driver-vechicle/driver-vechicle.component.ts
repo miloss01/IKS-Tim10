@@ -49,7 +49,7 @@ export class DriverVechicleComponent implements OnInit {
   
 
   ngOnInit(): void {
-    if (this.userAuthentificationService.getRole() == 2) {
+    if (this.userAuthentificationService.getRole() == "ADMIN") {
       this.userService.selectedValue$.subscribe((value) => {
         this.route.params.subscribe((params) => {
           this.userService
