@@ -13,6 +13,7 @@ import { BlockDialogComponent } from './dialogs/block-dialog/block-dialog.compon
 import { InviteDialogComponent } from './dialogs/invite-dialog/invite-dialog.component';
 import { CancelDialogComponent } from './dialogs/cancel-dialog/cancel-dialog.component';
 import { ResetPasswordDialogComponent } from './dialogs/reset-password-dialog/reset-password-dialog.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [LandingPageComponent, 
@@ -21,14 +22,16 @@ import { ResetPasswordDialogComponent } from './dialogs/reset-password-dialog/re
     BlockDialogComponent,
     InviteDialogComponent,
     CancelDialogComponent,
-    ResetPasswordDialogComponent],
+    ResetPasswordDialogComponent,
+    ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    MaterialModule
+    MaterialModule,
+    BrowserAnimationsModule
   ],
   exports: [LandingPageComponent, 
     ToolbarComponent, 

@@ -4,6 +4,38 @@
     UBER - {{this.user.id + ": " + this.user.email + " - " + this.user.role}}
   </button> 
   <span class="example-spacer"></span>
+  <button mat-button class="white-text" routerLink="book-ride" *ngIf="this.user.role == 'PASSENGER'">
+    <mat-icon>directions_car</mat-icon>
+    Book ride
+  </button>
+  <button mat-button class="white-text" routerLink="current-ride" *ngIf="this.user.role == 'DRIVER'">
+    <mat-icon>directions_car</mat-icon>
+    Ride
+  </button>
+  <button mat-button class="white-text" routerLink="passenger-account" *ngIf="this.user.role == 'PASSENGER'">
+    <mat-icon>account_circle</mat-icon>
+    Account
+  </button>
+  <button mat-button class="white-text" routerLink="driver-account" *ngIf="this.user.role == 'DRIVER'">
+    <mat-icon>account_circle</mat-icon>
+    Account
+  </button>
+  <button mat-button class="white-text" routerLink="ride-history" *ngIf="this.user.role == 'PASSENGER' || this.user.role == 'DRIVER'">
+    <mat-icon>history</mat-icon>
+    Ride history
+  </button>
+  <button mat-button class="white-text" [matMenuTriggerFor]="menu" *ngIf="this.user.role == 'ADMIN'">Manage accounts</button>
+  <mat-menu #menu="matMenu">
+    <button mat-button class="manage-menu-btn" routerLink="manage-passengers">
+      Passengers
+    </button>
+    <button mat-button class="manage-menu-btn" routerLink="manage-drivers">
+      Drivers
+    </button>
+    <button mat-button class="manage-menu-btn" routerLink="manage-change-requests">
+      Change requests
+    </button>
+  </mat-menu>
   <button mat-button class="white-text" [routerLink]="['/login']" *ngIf="this.user.email == null">
     Log in
     <mat-icon>favorite</mat-icon>
