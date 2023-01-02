@@ -24,7 +24,7 @@
     <mat-icon>history</mat-icon>
     Ride history
   </button>
-  <button mat-button class="white-text" [matMenuTriggerFor]="menu">Manage accounts</button>
+  <button mat-button class="white-text" [matMenuTriggerFor]="menu" *ngIf="this.user.role == 'ADMIN'">Manage accounts</button>
   <mat-menu #menu="matMenu">
     <button mat-button class="manage-menu-btn" routerLink="manage-passengers">
       Passengers
