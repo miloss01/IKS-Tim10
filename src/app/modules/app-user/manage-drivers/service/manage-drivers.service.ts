@@ -23,7 +23,7 @@ export class ManageDriversService {
   
   // if admin is logged in changing users accounts is disabled
   isChangingEnabled(): boolean {
-    return this.authService.getRole() == 2;
+    return this.authService.getRole() == "ADMIN";
   }
 
   setIdValue(id: any) {

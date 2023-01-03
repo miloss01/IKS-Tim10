@@ -48,8 +48,9 @@ export class DriverVechicleComponent implements OnInit {
   // Is component shown for driver viewing their own account
   isDriver = true
 
-  ngOnInit (): void {
-    if (this.userAuthentificationService.getRole() === 2) {
+
+  ngOnInit(): void {
+    if (this.userAuthentificationService.getRole() == "ADMIN") {
       this.userService.selectedValue$.subscribe((value) => {
         this.route.params.subscribe((params) => {
           this.userService

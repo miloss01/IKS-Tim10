@@ -47,9 +47,10 @@ export class BasicUserInformationComponent implements OnInit {
     adress: new FormControl()
   })
 
-  ngOnInit (): void {
-    this.role = this.userAuthentificationService.getRole()
-    if (this.userAuthentificationService.getRole() === 2) {
+
+  ngOnInit(): void {
+    this.role = this.userAuthentificationService.getRole();
+    if (this.userAuthentificationService.getRole() == "ADMIN") {
       this.userService.selectedValue$.subscribe((value) => {
         this.user.id = value
         this.route.params.subscribe((params) => {

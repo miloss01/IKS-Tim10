@@ -26,3 +26,12 @@ mat-toolbar{
 .bigger-text {
   font-size: larger;
 }
+
+.manage-menu-btn {
+  width: 100% !important;
+  text-align: right;
+}
+
+.mat-menu-panel {
+  width: 20% !important;
+}
