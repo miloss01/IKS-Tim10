@@ -5,6 +5,7 @@ import { MapComponent } from '../map/map.component';
 import { map, mergeMap } from 'rxjs';
 import { MapService } from '../services/map.service';
 import * as L from 'leaflet';
+import { EstimateDataDTO } from 'src/app/models/models';
 
 @Component({
   selector: 'app-landing-page',
@@ -23,6 +24,7 @@ export class LandingPageComponent implements AfterViewInit {
 
   estimated_time: number | undefined = 0;
   estimated_price: number = 0;
+  distance: number = 0;
 
   forRouteControl = {
     depLat: 0,
@@ -47,15 +49,12 @@ export class LandingPageComponent implements AfterViewInit {
 
     this.mapService.postRequest(
       this.estimateDataFormGroup.value.departure, 
-      this.estimateDataFormGroup.value.destination,
-      undefined,
-      undefined,
-      undefined)
+      this.estimateDataFormGroup.value.destination)
     .pipe(
-      map((res: any) => {
-        console.log(res)
-        this.estimated_price = res.estimatedCost;
-      }),
+      // map((res: any) => {
+      //   console.log(res)
+      //   this.estimated_price = res.estimatedCost;
+      // }),
 
 
       mergeMap(() => this.mapService.departureState),
@@ -90,6 +89,36 @@ export class LandingPageComponent implements AfterViewInit {
       routeControl.on('routesfound', (e: any) => {
         console.log(e);
         this.estimated_time = Math.trunc(e.routes[0].summary.totalTime / 60);
+        this.distance = Math.trunc(e.routes[0].summary.totalDistance / 1000);
+        console.log(this.distance);
+        
+
+        let req: EstimateDataDTO = {
+          locations: [
+            {
+              departure: {
+                address: this.estimateDataFormGroup.value.departure,
+                latitude: this.forRouteControl.depLat,
+                longitude: this.forRouteControl.depLon
+              },
+              destination: {
+                address: this.estimateDataFormGroup.value.destination,
+                latitude: this.forRouteControl.desLat,
+                longitude: this.forRouteControl.desLon
+              }
+            }
+          ],
+          vehicleType: undefined,
+          petTransport: undefined,
+          babyTransport: undefined,
+          distance: this.distance
+        }
+
+        this.mapService.estimateData(req).subscribe((res: any) => {
+          console.log(res);
+          this.estimated_price = res.estimatedCost;
+        })
+
       })
     })
     

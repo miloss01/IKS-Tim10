@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, mergeMap } from 'rxjs';
-import { Ride } from 'src/app/models/models';
+import { EstimateDataDTO, Ride } from 'src/app/models/models';
 import { MapComponent } from '../../layout/map/map.component';
 import { MapService } from '../../layout/services/map.service';
 import { RideServiceService } from '../service/ride-service.service';
@@ -22,6 +22,7 @@ export class CurrentRideComponent implements OnInit {
   estimated_minutes_left: number = 0;
   kilometers_travelled: number = 0;
   estimated_price: number = 0;
+  distance: number = 0;
 
   ride:Ride = {
     id: 0,
@@ -75,15 +76,12 @@ export class CurrentRideComponent implements OnInit {
   private initMap() {
     this.mapService.postRequest(
       this.ride.locations[0].departure.address, 
-      this.ride.locations[0].destination.address,
-      this.ride.vehicleType,
-      this.ride.petTransport,
-      this.ride.babyTransport)
+      this.ride.locations[0].destination.address)
     .pipe(
-      map((res: any) => {
-        console.log(res)
-        this.estimated_price = res.estimatedCost;
-      }),
+      // map((res: any) => {
+      //   console.log(res)
+      //   this.estimated_price = res.estimatedCost;
+      // }),
 
       mergeMap(() => this.mapService.departureState),
       map((res: any) => {
@@ -111,6 +109,34 @@ export class CurrentRideComponent implements OnInit {
 
       routeControl.on('routesfound', (e: any) => {
         this.estimated_minutes_left = Math.trunc(e.routes[0].summary.totalTime / 60);
+        this.distance = Math.trunc(e.routes[0].summary.totalDistance / 1000);
+        console.log(this.distance);
+
+        let req: EstimateDataDTO = {
+          locations: [
+            {
+              departure: {
+                address: this.ride.locations[0].departure.address,
+                latitude: this.forRouteControl.depLat,
+                longitude: this.forRouteControl.depLon
+              },
+              destination: {
+                address: this.ride.locations[0].destination.address,
+                latitude: this.forRouteControl.desLat,
+                longitude: this.forRouteControl.desLon
+              }
+            }
+          ],
+          vehicleType: undefined,
+          petTransport: undefined,
+          babyTransport: undefined,
+          distance: this.distance
+        }
+
+        this.mapService.estimateData(req).subscribe((res: any) => {
+          console.log(res);
+          this.estimated_price = res.estimatedCost;
+        })
       })
     })
   }
