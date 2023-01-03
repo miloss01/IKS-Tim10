@@ -243,7 +243,7 @@ export class BookRideComponent implements AfterViewInit, OnInit {
   }
 
   addPrefrences() {
-    this.ride.vehicleType = this.vehicleType;
+    this.ride.vehicleType = this.vehicleType.toLowerCase();
     this.ride.babyTransport = this.babyTransport;
     this.ride.petTransport = this.petsTransport;
   }
@@ -254,6 +254,7 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     this.userDate = new Date(this.filterDateFrom);
     let miliseconds:number = this.userDate.valueOf() - (new Date()).valueOf();
     if (miliseconds > 18000000 || miliseconds < 0) {return false;}
+    this.filterDateFrom.replace("T", " ")
     this.ride.startTime = this.filterDateFrom;
     return true;
   }
@@ -292,6 +293,9 @@ export class BookRideComponent implements AfterViewInit, OnInit {
                   icon: 'success'});
 
         console.log(this.ride);
+        this.rideService.addRide(this.ride).subscribe((value) => {
+          console.log(value);
+        });
         
       });
       });
