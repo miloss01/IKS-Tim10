@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { InviteDialogComponent } from '../../layout/dialogs/invite-dialog/invite-dialog.component';
-import { Location, DepartureDestination, EstimateDataDTO } from 'src/app/models/models';
+import { Location, DepartureDestination, AppUserForRide, Ride, RideCreation } from 'src/app/models/models';
 import { HttpClient } from '@angular/common/http';
 import { MapComponent } from 'src/app/modules/layout/map/map.component';
 import { map, mergeMap, Observable } from 'rxjs';
@@ -15,6 +15,7 @@ import { ManagePassengersService } from '../../app-user/manage-passengers/servic
 import { LoginAuthentificationService } from '../../auth/service/login-authentification.service';
 import Swal from 'sweetalert2';
 import { Title } from '@angular/platform-browser';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface VehicleType {
   value: string;
@@ -31,7 +32,22 @@ export class BookRideComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MapComponent, {static : true}) map : MapComponent | undefined;
 
+  public filterDateFrom: string = "";
+
+  userDate:Date = new Date();
+
   isBlocked:boolean= true;
+
+  ride:RideCreation = {
+    locations: [],
+    startTime: '',
+    passengers: [],
+    vehicleType: '',
+    babyTransport: false,
+    petTransport: false
+  }
+
+  passengers: AppUserForRide[] = [];
 
   vehicleTypes: VehicleType[] = [
     {value: 'STANDARD', viewValue: 'Standard'},
@@ -70,7 +86,8 @@ export class BookRideComponent implements AfterViewInit, OnInit {
 
   locationsFromBookAgain : any | undefined;
 
-  constructor(public invDialog: MatDialog, 
+  constructor(public invDialog: MatDialog,
+    private snackBar: MatSnackBar, 
     private mapService: MapService,
     private rideService: RideServiceService,
     private userService: ManagePassengersService,
@@ -91,6 +108,10 @@ export class BookRideComponent implements AfterViewInit, OnInit {
 
   invite(): void {
     const dialogRef = this.invDialog.open(InviteDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      this.passengers = result;
+    });
   }
 
   estimate() {
@@ -190,6 +211,66 @@ export class BookRideComponent implements AfterViewInit, OnInit {
       icon: 'error'});
       return;
     }
+    this.continueBooking();
+    
   }
 
+  addPrefrences() {
+    this.ride.vehicleType = this.vehicleType;
+    this.ride.babyTransport = this.babyTransport;
+    this.ride.petTransport = this.petsTransport;
+  }
+  addTime() :boolean{
+    console.log(this.filterDateFrom);
+    console.log(new Date(this.filterDateFrom));
+    if (!this.filterDateFrom){return false;}
+    this.userDate = new Date(this.filterDateFrom);
+    let miliseconds:number = this.userDate.valueOf() - (new Date()).valueOf();
+    if (miliseconds > 18000000 || miliseconds < 0) {return false;}
+    this.ride.startTime = this.filterDateFrom;
+    return true;
+  }
+  addPeople() {
+    this.passengers.push({id: this.userAuthentificationService.getId(), email:this.userAuthentificationService.getEmail()});
+    //other users were added when the dialog closed
+    this.ride.passengers = this.passengers;
+  }
+
+  continueBooking() {
+    if (!this.estimateDataFormGroup.value.departure || !this.estimateDataFormGroup.value.destination){
+      this.snackBar.open("Prese enter locations", "Close");
+      return;}
+    this.mapService.getLatLong(this.estimateDataFormGroup.value.departure)
+      .subscribe((dep) => {
+        this.mapService.getLatLong(this.estimateDataFormGroup.value.departure)
+      .subscribe((dest) => {
+        let departure: Location = {
+          address: this.estimateDataFormGroup.value.departure,
+          latitude: dep[0].lat,
+          longitude: dep[0].lon
+        }
+        let destination: Location = {
+          address: this.estimateDataFormGroup.value.destination,
+          latitude: dest[0].lat,
+          longitude: dest[0].lon
+        }
+        this.ride.locations = [{departure:departure, destination:destination}]
+        if (!this.addTime()){
+          this.snackBar.open("Time not valid", "Close");
+          return;}
+        this.addPrefrences();
+        this.addPeople();
+        Swal.fire({title: 'Ride request sent', 
+                  text: 'We will soon send you booking conformation.', 
+                  icon: 'success'});
+
+        console.log(this.ride);
+        
+      });
+      });
+  }
+
+
 }
+
+
