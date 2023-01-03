@@ -47,49 +47,49 @@ export class RideRequestComponent implements OnInit {
       .subscribe((fetcedRide:Ride) => {
         this.ride =fetcedRide;
         console.log(fetcedRide);
+
+        this.mapService.postRequest(
+          this.ride.locations[0].departure.address, 
+          this.ride.locations[0].destination.address)
+        .pipe(
+          // map((res: any) => {
+          //   console.log(res)
+          //   //this.estimated_price = res.estimatedCost;
+          // }),
+    
+          mergeMap(() => this.mapService.departureState),
+          map((res: any) => {
+            console.log(res);
+            this.forRouteControl.depLat = this.ride.locations[0].departure.latitude;
+            this.forRouteControl.depLon = this.ride.locations[0].departure.longitude;
+          }),
+    
+          mergeMap(() => this.mapService.destinationState),
+          map((res: any) => {
+            console.log(res);
+            this.forRouteControl.desLat = this.ride.locations[0].destination.latitude;
+            this.forRouteControl.desLon = this.ride.locations[0].destination.longitude;
+          })
+        )
+        .subscribe((res: any) => {
+          let routeControl = this.map?.drawRoute(
+            // ovi podaci se moraju dobiti iz servisa
+            this.forRouteControl.depLat,
+            this.forRouteControl.depLon,
+            this.forRouteControl.desLat,
+            this.forRouteControl.desLon
+          );
+    
+          routeControl.on('routesfound', (e: any) => {
+            //this.estimated_time = Math.trunc(e.routes[0].summary.totalTime / 60);
+          })
+        })
+
         })
     });
 
     //drawRoutes();
-    this.mapService.postRequest(
-      this.ride.locations[0].departure.address, 
-      this.ride.locations[0].destination.address,
-      this.ride.vehicleType,
-      this.ride.petTransport,
-      this.ride.babyTransport)
-    .pipe(
-      map((res: any) => {
-        console.log(res)
-        //this.estimated_price = res.estimatedCost;
-      }),
-
-      mergeMap(() => this.mapService.departureState),
-      map((res: any) => {
-        console.log(res);
-        this.forRouteControl.depLat = this.ride.locations[0].departure.latitude;
-        this.forRouteControl.depLon = this.ride.locations[0].departure.longitude;
-      }),
-
-      mergeMap(() => this.mapService.destinationState),
-      map((res: any) => {
-        console.log(res);
-        this.forRouteControl.desLat = this.ride.locations[0].destination.latitude;
-        this.forRouteControl.desLon = this.ride.locations[0].destination.longitude;
-      })
-    )
-    .subscribe((res: any) => {
-      let routeControl = this.map?.drawRoute(
-        // ovi podaci se moraju dobiti iz servisa
-        this.forRouteControl.depLat,
-        this.forRouteControl.depLon,
-        this.forRouteControl.desLat,
-        this.forRouteControl.desLon
-      );
-
-      routeControl.on('routesfound', (e: any) => {
-        //this.estimated_time = Math.trunc(e.routes[0].summary.totalTime / 60);
-      })
-    })
+    
   }
 
 

@@ -14,6 +14,7 @@ export interface EstimateDataDTO {
   vehicleType?: string;
   babyTransport?: boolean;
   petTransport?: boolean;
+  distance: number;
 }
 
 export interface VehicleType {

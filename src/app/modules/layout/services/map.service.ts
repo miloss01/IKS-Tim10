@@ -45,30 +45,28 @@ export class MapService {
   }
 
   postRequest(departureAddress: string, 
-    destinationAddress: string, 
-    vehicleType: string | undefined,
-    petsTransport: boolean | undefined,
-    babyTransport: boolean | undefined): Observable<any> {
+    destinationAddress: string): Observable<any> {
 
-    let req: EstimateDataDTO = {
-      locations: [
-        {
-          departure: {
-            address: departureAddress,
-            latitude: 0,
-            longitude: 0
-          },
-          destination: {
-            address: destinationAddress,
-            latitude: 0,
-            longitude: 0
-          }
-        }
-      ],
-      vehicleType: vehicleType,
-      petTransport: petsTransport,
-      babyTransport: babyTransport
-    }
+    // let req: EstimateDataDTO = {
+    //   locations: [
+    //     {
+    //       departure: {
+    //         address: departureAddress,
+    //         latitude: 0,
+    //         longitude: 0
+    //       },
+    //       destination: {
+    //         address: destinationAddress,
+    //         latitude: 0,
+    //         longitude: 0
+    //       }
+    //     }
+    //   ],
+    //   vehicleType: vehicleType,
+    //   petTransport: petsTransport,
+    //   babyTransport: babyTransport,
+    //   distance: distance
+    // }
 
     return this.getLatLong(departureAddress)
     .pipe(
@@ -82,7 +80,7 @@ export class MapService {
         }
 
         this.departure$.next(ret);
-        req.locations[0].departure = ret;
+        // req.locations[0].departure = ret;
       }),
 
       mergeMap(() => this.getLatLong(destinationAddress)),
@@ -96,11 +94,15 @@ export class MapService {
         }
 
         this.destination$.next(ret);
-        req.locations[0].destination = ret;
+        // req.locations[0].destination = ret;
       }),
 
-      mergeMap(() => this.http.post<string>(environment.apiHost + "unregisteredUser", req))
+      // mergeMap(() => this.http.post<string>(environment.apiHost + "unregisteredUser", req))
     )
+  }
+
+  estimateData(req: any): Observable<any> {
+    return this.http.post<string>(environment.apiHost + "unregisteredUser", req);
   }
 
 }

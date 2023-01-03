@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { InviteDialogComponent } from '../../layout/dialogs/invite-dialog/invite-dialog.component';
-import { Location, DepartureDestination, AppUserForRide, Ride, RideCreation } from 'src/app/models/models';
+import { Location, DepartureDestination, AppUserForRide, Ride, RideCreation, EstimateDataDTO } from 'src/app/models/models';
 import { HttpClient } from '@angular/common/http';
 import { MapComponent } from 'src/app/modules/layout/map/map.component';
 import { map, mergeMap, Observable } from 'rxjs';
@@ -62,6 +62,7 @@ export class BookRideComponent implements AfterViewInit, OnInit {
 
   estimated_time: number | undefined = 0;
   estimated_price: number = 0;
+  distance: number = 0;
 
   vehicleType: string = this.vehicleTypes[0].value;
   petsTransport: boolean = false;
@@ -118,15 +119,12 @@ export class BookRideComponent implements AfterViewInit, OnInit {
 
     this.mapService.postRequest(
       this.estimateDataFormGroup.value.departure, 
-      this.estimateDataFormGroup.value.destination,
-      this.vehicleType,
-      this.petsTransport,
-      this.babyTransport)
+      this.estimateDataFormGroup.value.destination)
     .pipe(
-      map((res: any) => {
-        console.log(res)
-        this.estimated_price = res.estimatedCost;
-      }),
+      // map((res: any) => {
+      //   console.log(res)
+      //   this.estimated_price = res.estimatedCost;
+      // }),
 
       mergeMap(() => this.mapService.departureState),
       map((res: any) => {
@@ -160,6 +158,35 @@ export class BookRideComponent implements AfterViewInit, OnInit {
 
       routeControl.on('routesfound', (e: any) => {
         this.estimated_time = Math.trunc(e.routes[0].summary.totalTime / 60);
+        this.distance = Math.trunc(e.routes[0].summary.totalDistance / 1000);
+        console.log(this.distance);
+        
+
+        let req: EstimateDataDTO = {
+          locations: [
+            {
+              departure: {
+                address: this.estimateDataFormGroup.value.departure,
+                latitude: this.forRouteControl.depLat,
+                longitude: this.forRouteControl.depLon
+              },
+              destination: {
+                address: this.estimateDataFormGroup.value.destination,
+                latitude: this.forRouteControl.desLat,
+                longitude: this.forRouteControl.desLon
+              }
+            }
+          ],
+          vehicleType: this.vehicleType,
+          petTransport: this.petsTransport,
+          babyTransport: this.babyTransport,
+          distance: this.distance
+        }
+
+        this.mapService.estimateData(req).subscribe((res: any) => {
+          console.log(res);
+          this.estimated_price = res.estimatedCost;
+        })
       })
     })
 
