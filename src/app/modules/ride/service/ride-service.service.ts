@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DepartureDestination, ReasonDTO, Ride, RideCreation } from 'src/app/models/models';
@@ -74,8 +74,16 @@ export class RideServiceService {
     );
   }
 
-  getActiveDriverRide(id: number) : Observable<Ride> {
-    return this.http.get<Ride>(environment.apiHost + "ride/driver/" + id + "/active");
+  getActiveDriverRide(id: number) : Observable<HttpResponse<Ride>> {
+    return this.http.get<Ride>(environment.apiHost + "ride/driver/" + id + "/active", {observe: "response"});
+  }
+
+  getActivePassengerRide(id: number) : Observable<HttpResponse<Ride>> {
+    return this.http.get<Ride>(environment.apiHost + "ride/passenger/" + id + "/active", {observe: "response"});
+  }
+
+  getVehicleOfDriver(id: number) : Observable<any> {
+    return this.http.get(environment.apiHost + "driver/" + id + "/vehicle");
   }
 
   endRide(id: number) : Observable<any> {
