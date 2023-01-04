@@ -68,7 +68,9 @@ export class RideDetailsDialogComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.initMap();
+    setTimeout(() => {
+      this.initMap();
+    }, 1000);
     this.route.params.subscribe((params) => {
       this.reviewService
       .getReviews(this.ride.id)
@@ -87,10 +89,7 @@ export class RideDetailsDialogComponent implements OnInit {
   private initMap() {
     this.mapService.postRequest(
       this.ride.locations[0].departure.address, 
-      this.ride.locations[0].destination.address,
-      undefined,
-      undefined,
-      undefined)
+      this.ride.locations[0].destination.address)
     .pipe(
       mergeMap(() => this.mapService.departureState),
       map((res: any) => {

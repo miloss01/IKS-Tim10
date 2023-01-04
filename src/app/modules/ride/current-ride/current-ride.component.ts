@@ -1,19 +1,23 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, mergeMap } from 'rxjs';
-import { Ride } from 'src/app/models/models';
+import { EstimateDataDTO, LocationDTO, Ride } from 'src/app/models/models';
 import { MapComponent } from '../../layout/map/map.component';
 import { MapService } from '../../layout/services/map.service';
 import { RideServiceService } from '../service/ride-service.service';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
+import { LoginAuthentificationService } from '../../auth/service/login-authentification.service';
+import * as L from 'leaflet';
+import { WebsocketService } from '../service/websocket.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-current-ride',
   templateUrl: './current-ride.component.html',
   styleUrls: ['./current-ride.component.css']
 })
-export class CurrentRideComponent implements OnInit {
+export class CurrentRideComponent implements AfterViewInit {
 
   @ViewChild(MapComponent, {static : true}) map : MapComponent | undefined;
 
@@ -22,6 +26,9 @@ export class CurrentRideComponent implements OnInit {
   estimated_minutes_left: number = 0;
   kilometers_travelled: number = 0;
   estimated_price: number = 0;
+  distance: number = 0;
+  coordinates: L.LatLng[] = [];
+  routeMarker!: L.Marker;
 
   ride:Ride = {
     id: 0,
@@ -43,17 +50,56 @@ export class CurrentRideComponent implements OnInit {
 
   constructor(private http: HttpClient, 
     private mapService: MapService,
+    private authService: LoginAuthentificationService,
     private route: ActivatedRoute,
-    private rideService: RideServiceService) { }
+    private rideService: RideServiceService,
+    private socketService: WebsocketService) { }
 
-  ngOnInit(): void {
-    this.route.params.subscribe((params) => {
+  ngAfterViewInit(): void {
+
+    let userId = this.authService.getId();
+    let userRole = this.authService.getRole();
+    console.log(userRole);
+
+    if (userRole == "DRIVER") 
       this.rideService
-      .getActiveDriverRide(1)
-      .subscribe((ride:Ride) => {
-        this.ride = ride; 
-        this.initMap();
-      })
+      .getActiveDriverRide(userId)
+      .subscribe(
+        (response: any) => {
+          this.ride = response.body!;
+          this.initMap();
+      },
+        (error: any) => {
+          alert("No active ride");
+        }
+      );
+    else if (userRole == "PASSENGER")
+      this.rideService
+        .getActivePassengerRide(userId)
+        .subscribe(
+          (response: any) => {
+            this.ride = response.body!;
+            this.initMap();
+        },
+          (error: any) => {
+            alert("No active ride");
+          }
+        );
+
+    let stompClient: any = this.socketService.initWebSocket();
+    stompClient.connect({}, () => {
+      console.log("u connect");
+
+      stompClient.subscribe("/vehicle-location", (message: { body: string }) => {
+        
+        let location: LocationDTO = JSON.parse(message.body);
+        console.log(location);
+        console.log("dobio sa socketa");
+
+        this.moveMarker(location);
+
+      });
+
     });
 
   }
@@ -75,15 +121,12 @@ export class CurrentRideComponent implements OnInit {
   private initMap() {
     this.mapService.postRequest(
       this.ride.locations[0].departure.address, 
-      this.ride.locations[0].destination.address,
-      this.ride.vehicleType,
-      this.ride.petTransport,
-      this.ride.babyTransport)
+      this.ride.locations[0].destination.address)
     .pipe(
-      map((res: any) => {
-        console.log(res)
-        this.estimated_price = res.estimatedCost;
-      }),
+      // map((res: any) => {
+      //   console.log(res)
+      //   this.estimated_price = res.estimatedCost;
+      // }),
 
       mergeMap(() => this.mapService.departureState),
       map((res: any) => {
@@ -101,6 +144,7 @@ export class CurrentRideComponent implements OnInit {
     )
     .subscribe((res: any) => {
       console.log(JSON.stringify(this.forRouteControl));
+      
       let routeControl = this.map?.drawRoute(
         // ovi podaci se moraju dobiti iz servisa
         this.forRouteControl.depLat,
@@ -111,11 +155,94 @@ export class CurrentRideComponent implements OnInit {
 
       routeControl.on('routesfound', (e: any) => {
         this.estimated_minutes_left = Math.trunc(e.routes[0].summary.totalTime / 60);
+        this.distance = Math.trunc(e.routes[0].summary.totalDistance / 1000);
+        this.coordinates = e.routes[0].coordinates;
+        console.log(this.distance);
+
+        let req: EstimateDataDTO = {
+          locations: [
+            {
+              departure: {
+                address: this.ride.locations[0].departure.address,
+                latitude: this.forRouteControl.depLat,
+                longitude: this.forRouteControl.depLon
+              },
+              destination: {
+                address: this.ride.locations[0].destination.address,
+                latitude: this.forRouteControl.desLat,
+                longitude: this.forRouteControl.desLon
+              }
+            }
+          ],
+          vehicleType: undefined,
+          petTransport: undefined,
+          babyTransport: undefined,
+          distance: this.distance
+        }
+
+        this.mapService.estimateData(req).subscribe((res: any) => {
+          console.log(res);
+          this.estimated_price = res.estimatedCost;
+        })
       })
+
     })
   }
 
+  moveMarker(location: LocationDTO): void {
+    if (this.routeMarker)
+        this.routeMarker.removeFrom(this.map?.getMap());
+    this.routeMarker = new L.Marker([location.latitude, location.longitude]).addTo(this.map?.getMap());
+    console.log("pomerio marker");
+  }
 
+  showMarkers(i: number): void {
+      
+    setTimeout(() => {
+      
+      let lat = this.coordinates[i].lat;
+      let lng = this.coordinates[i].lng;
+
+      // dobiti adresu od lokacije
+      this.mapService.getAddressFromLatLong(lat, lng).subscribe((res: any) => {
+        let street = res.address.road;
+        let houseNumber = res.address.house_number ? " " + res.address.house_number : "";
+        let city = res.address.city_district;
+
+        let full = `${street}${houseNumber}, ${city}`;
+
+        let data: LocationDTO = {
+          address: full,
+          latitude: lat,
+          longitude: lng
+        }
+
+        this.rideService.getVehicleOfDriver(this.ride.driver.id).subscribe((res: any) => {
+          let vehicleId = res.id;
+
+          this.http.put(environment.apiHost + "vehicle/" + vehicleId + "/location", data).subscribe((res: any) => {
+            i += 20;
+    
+            if (i > this.coordinates.length)
+              return;
+      
+            this.showMarkers(i);
+            console.log("poslao na bek");
+          });
+
+        })
+
+      })
+
+      this.time_elapsed += 2;
+      this.kilometers_travelled = Number((this.kilometers_travelled + 0.9).toFixed(2));
+
+    }, 2000);
+  }
+
+  showMarkerssss(): void {
+    this.showMarkers(0);
+  }
   
 
 }
