@@ -235,6 +235,7 @@ export class CurrentRideComponent implements AfterViewInit {
       })
 
       this.time_elapsed += 2;
+      this.kilometers_travelled = Number((this.kilometers_travelled + 0.9).toFixed(2));
 
     }, 2000);
   }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as SockJS from 'sockjs-client';
+import { environment } from 'src/environments/environment';
 import * as Stomp from 'stompjs';
 
 @Injectable({
@@ -12,7 +13,7 @@ export class WebsocketService {
   constructor() { }
 
   initWebSocket() {
-    let ws = new SockJS('http://localhost:8080/socket');
+    let ws = new SockJS(environment.socketHost);
     this.stompClient = Stomp.over(ws);
     this.stompClient.debug = null;
     // let that = this;
