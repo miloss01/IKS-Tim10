@@ -2,14 +2,14 @@
 
     
     <div class="app-ride-col-middle">
-        <h2>Currently riding <mat-icon>directions_car</mat-icon></h2>
-        <p class="app-ride-details"> <mat-icon>location_on</mat-icon> From departure address: {{ride.locations[0].departure.address}}</p>
+        <h2 *ngIf="ride.id != 0">Currently riding <mat-icon>directions_car</mat-icon></h2>
+        <p class="app-ride-details" *ngIf="ride.id != 0"> <mat-icon>location_on</mat-icon> From departure address: {{ride.locations[0].departure.address}}</p>
         <div class="app-ride-map-container">
             <app-map></app-map>
         </div>
     </div>
 
-    <div class="app-ride-col-middle app-ride-details">
+    <div class="app-ride-col-middle app-ride-details" *ngIf="ride.id != 0">
         
         <div class="app-ride-details-panic">
             <button mat-button id="panic-ride-btn" mat-raised-button (click)="panicRide()">PANIC</button>
@@ -18,8 +18,8 @@
 
         <div class="app-ride-details-col-left">
             <p class="app-ride-details"> <mat-icon>location_searching</mat-icon> Destination: {{ride.locations[0].destination.address}}</p>
-            <p class="app-ride-details"> Time Elapsed: {{time_elapsed}} </p>
-            <p> Estimated {{ride.estimatedTimeInMinutes}} minutes left </p>
+            <p class="app-ride-details"> Time Elapsed: {{time_elapsed}}min </p>
+            <p> Estimated {{ride.estimatedTimeInMinutes - time_elapsed}} minutes left </p>
             <p class="app-ride-details"> Kilometers travelled: {{kilometers_travelled}} </p>
 
         </div>
@@ -27,6 +27,7 @@
             <p class="app-ride-details">{{estimated_price}} RSD</p>
         </div>
         <button mat-button id="end-ride-btn" mat-raised-button (click)="endRide()">END RIDE</button>
+        <button mat-button (click)="showMarkerssss()">rute</button>
     </div>
 
 </div>
