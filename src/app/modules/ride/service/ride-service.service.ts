@@ -46,7 +46,8 @@ export class RideServiceService {
       passengers: ride.passengers,
       vehicleType: ride.vehicleType,
       babyTransport: ride.babyTransport,
-      petTransport: ride.petTransport}, options);
+      petTransport: ride.petTransport,
+      estimatedTimeMinutes: ride.estimatedTimeMinutes}, options);
   }
 
   acceptRideById(id: number): Observable<any> {

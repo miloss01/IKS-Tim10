@@ -42,6 +42,7 @@ export interface RideCreation {
   vehicleType: string;
   babyTransport: boolean;
   petTransport: boolean;
+  estimatedTimeMinutes: number;
 }
 
 
