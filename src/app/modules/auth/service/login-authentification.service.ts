@@ -35,6 +35,18 @@ export class LoginAuthentificationService {
 
   }
 
+  addWorkingHour(): Observable<any>{
+    let currentDate = new Date();
+    return this.http.post<string>(environment.apiHost + "driver/"+ this.getId() + "/working-hour", {start: currentDate.toISOString().replace('T', ' ').substring(0, 19)});
+
+  }
+
+  endWorkingHour(): Observable<any>{
+    let currentDate = new Date();
+    return this.http.post<string>(environment.apiHost + "driver/"+ this.getId() + "/working-hour", {end: currentDate.toISOString().replace('T', ' ').substring(0, 19)});
+
+  }
+
   getRole(): any {
     if (this.isLoggedIn()) {
       console.log("logovan")

@@ -24,6 +24,12 @@ export class ToolbarComponent implements OnInit {
     .subscribe((res: any) => {
       console.log(res);
     });
+    if (this.authService.getRole() == "DRIVER"){
+      this.authService.endWorkingHour()
+    .subscribe((res: any) => {
+      console.log(res);
+    });
+  }
     this.authService.logout();
   }
 

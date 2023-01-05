@@ -33,10 +33,21 @@ export class LoginComponent implements OnInit {
       this.authService.setUser();
       console.log(this.authService.getRole());
       this.router.navigate(['/book-ride']);
+    
+    if (this.authService.getRole() == "DRIVER"){
+      this.authService.addWorkingHour()
+    .subscribe((res: any) => {
+      this.authService.changeActiveFlag(true)
+      .subscribe((res: any) => {
+      console.log(res);
+    });
+    });
+    }else{
       this.authService.changeActiveFlag(true)
     .subscribe((res: any) => {
       console.log(res);
     });
+    }
     });
     
   }
