@@ -30,11 +30,21 @@ export interface Ride {
   totalCost: number;
   driver: AppUserForRide;
   passengers: AppUserForRide[];
-  estimatedTimeInMinutes: number;
+  estimatedTimeInMinutes?: number;
   vehicleType?: string;
   babyTransport?: boolean;
   petTransport?: boolean;
 }
+export interface RideCreation {
+  locations: DepartureDestination[];
+  startTime: string;
+  passengers: AppUserForRide[];
+  vehicleType: string;
+  babyTransport: boolean;
+  petTransport: boolean;
+  estimatedTimeMinutes: number;
+}
+
 
 export interface AppUserForRide {
   id: number;

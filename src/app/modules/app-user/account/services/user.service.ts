@@ -62,6 +62,12 @@ export class UserServiceService {
     return this.http.get<AppUser>(environment.apiHost + "user/1", { params })
   }
 
+  getUserByEmail (email: string): Observable<AppUser> {
+    let params = new HttpParams()
+    params = params.append('email', email)
+    return this.http.get<AppUser>(environment.apiHost + "user/email", { params })
+  }
+
   getDriverById (id: number): Observable<AppUser> {
     return this.http.get<AppUser>(environment.apiHost + "driver/" + id)
   }

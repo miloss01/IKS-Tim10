@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DepartureDestination, ReasonDTO, Ride } from 'src/app/models/models';
+import { DepartureDestination, ReasonDTO, Ride, RideCreation } from 'src/app/models/models';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -34,6 +34,20 @@ export class RideServiceService {
       responseType: 'text',
     };
     return this.http.put<string>(environment.apiHost + "ride/" + id + '/end', {}, options);
+  }
+
+  addRide(ride: RideCreation): Observable<any> {
+    const options: any = {
+      responseType: 'text',
+    };
+    return this.http.post<string>(environment.apiHost + "ride", {
+      locations: ride.locations,
+      startTime: ride.startTime,
+      passengers: ride.passengers,
+      vehicleType: ride.vehicleType,
+      babyTransport: ride.babyTransport,
+      petTransport: ride.petTransport,
+      estimatedTimeMinutes: ride.estimatedTimeMinutes}, options);
   }
 
   acceptRideById(id: number): Observable<any> {

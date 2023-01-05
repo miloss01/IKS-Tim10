@@ -98,6 +98,7 @@ export class RideRequestComponent implements OnInit {
   }*/
 
   acceptRide(): void {
+    if (this.ride.id == undefined) {return;}
     this.rideService
     .acceptRideById(this.ride.id)
     .subscribe((res: any) => {
