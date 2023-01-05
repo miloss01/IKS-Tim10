@@ -202,6 +202,9 @@ export class CurrentRideComponent implements AfterViewInit {
   }
 
   showMarkers(i: number): void {
+
+    if (i > this.coordinates.length - 1)
+      return
       
     setTimeout(() => {
       
@@ -228,17 +231,15 @@ export class CurrentRideComponent implements AfterViewInit {
           this.http.put(environment.apiHost + "vehicle/" + vehicleId + "/location", data).subscribe((res: any) => {
             // i += 20;
             console.log(`${i} od ${this.coordinates.length}`)
-
-            if (i > this.coordinates.length - 1)
-              return
     
-            if (i > this.coordinates.length - 1 - 20) {
+            if (i > this.coordinates.length - 1 - 20 && i < this.coordinates.length - 1) {
               this.showMarkers(this.coordinates.length - 1);
               console.log(`iz if-a ${i} od ${this.coordinates.length}`)
+            } else {
+              this.showMarkers(i + 20);
+              console.log("poslao na bek");
             }
       
-            this.showMarkers(i + 20);
-            console.log("poslao na bek");
           });
 
         })
