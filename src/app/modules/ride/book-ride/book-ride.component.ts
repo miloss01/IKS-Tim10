@@ -35,7 +35,7 @@ export class BookRideComponent implements AfterViewInit, OnInit {
   public filterDateFrom: string = "";
 
   userDate:Date = new Date();
-  sent:boolean = false;
+  clickedEstimate:boolean = false;
 
   isBlocked:boolean= true;
 
@@ -118,7 +118,6 @@ export class BookRideComponent implements AfterViewInit, OnInit {
   }
 
   estimate() {
-
     this.mapService.postRequest(
       this.estimateDataFormGroup.value.departure, 
       this.estimateDataFormGroup.value.destination)
@@ -188,6 +187,7 @@ export class BookRideComponent implements AfterViewInit, OnInit {
         this.mapService.estimateData(req).subscribe((res: any) => {
           console.log(res);
           this.estimated_price = res.estimatedCost;
+          this.clickedEstimate = true;
         })
       })
     })
@@ -273,7 +273,7 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     if (!this.estimateDataFormGroup.value.departure || !this.estimateDataFormGroup.value.destination){
       this.snackBar.open("Prese enter locations", "Close");
       return;}
-    if (this.estimated_price == 0) {
+    if (this.estimated_price == 0 || !this.clickedEstimate) {
       this.snackBar.open("Prese click estimate", "Close");
       return;
     }
@@ -301,9 +301,10 @@ export class BookRideComponent implements AfterViewInit, OnInit {
         icon: 'success'});
 
         console.log(this.ride);
+        this.clickedEstimate = false;
         this.rideService.addRide(this.ride).subscribe((value) => {
         console.log(value);
-        this.sent = true;
+        
       });
   }
 
