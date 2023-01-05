@@ -35,6 +35,7 @@ export class BookRideComponent implements AfterViewInit, OnInit {
   public filterDateFrom: string = "";
 
   userDate:Date = new Date();
+  sent:boolean = false;
 
   isBlocked:boolean= true;
 
@@ -272,81 +273,39 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     if (!this.estimateDataFormGroup.value.departure || !this.estimateDataFormGroup.value.destination){
       this.snackBar.open("Prese enter locations", "Close");
       return;}
-      this.mapService.postRequest(
-        this.estimateDataFormGroup.value.departure, 
-        this.estimateDataFormGroup.value.destination)
-      .pipe(
-        // map((res: any) => {
-        //   console.log(res)
-        //   this.estimated_price = res.estimatedCost;
-        // }),
-  
-        mergeMap(() => this.mapService.departureState),
-        map((res: any) => {
-          console.log(res);
-          this.forRouteControl.depLat = res.latitude;
-          this.forRouteControl.depLon = res.longitude;
-        }),
-  
-        mergeMap(() => this.mapService.destinationState),
-        map((res: any) => {
-          console.log(res);
-          this.forRouteControl.desLat = res.latitude;
-          this.forRouteControl.desLon = res.longitude;
-        })
-      )
-      .subscribe((res: any) => {
-  
-        if (this.departureMarker)
-          this.departureMarker.remove();
-        if (this.destinationMarker)
-          this.destinationMarker.remove();
-        this.numOfMarkers = 0;
-  
-        let routeControl = this.map?.drawRoute(
-          // ovi podaci se moraju dobiti iz servisa
-          this.forRouteControl.depLat,
-          this.forRouteControl.depLon,
-          this.forRouteControl.desLat,
-          this.forRouteControl.desLon
-        );
-  
-        routeControl.on('routesfound', (e: any) => {
-          this.estimated_time = Math.trunc(e.routes[0].summary.totalTime / 60);
-          this.distance = Math.trunc(e.routes[0].summary.totalDistance / 1000);
-          console.log(this.distance);
-        this.ride.locations = [{
-          departure:
-          {
-          address: this.estimateDataFormGroup.value.departure,
-          latitude: this.forRouteControl.depLat,
-          longitude: this.forRouteControl.depLon
-        }, destination:
-        {
-          address: this.estimateDataFormGroup.value.destination,
-          latitude: this.forRouteControl.desLat,
-          longitude: this.forRouteControl.depLon
-        }}]
-        if (!this.addTime()){
-          this.snackBar.open("Time not valid", "Close");
-          return;}
-        this.addPrefrences();
-        this.addPeople();
-        this.ride.estimatedTimeMinutes= this.estimated_time || 0;
+    if (this.estimated_price == 0) {
+      this.snackBar.open("Prese click estimate", "Close");
+      return;
+    }
+      this.ride.locations = [{
+        departure:{
+        address: this.estimateDataFormGroup.value.departure,
+        latitude: this.forRouteControl.depLat,
+        longitude: this.forRouteControl.depLon
+      }, 
+      destination:{
+        address: this.estimateDataFormGroup.value.destination,
+        latitude: this.forRouteControl.desLat,
+        longitude: this.forRouteControl.depLon
+      }
+    }]
+      if (!this.addTime()){
+        this.snackBar.open("Time not valid", "Close");
+        return;}
+      this.addPrefrences();
+      this.addPeople();
+      this.ride.estimatedTimeMinutes= this.estimated_time || 0;
+      
         Swal.fire({title: 'Ride request sent', 
-                  text: 'We will soon send you booking conformation.', 
-                  icon: 'success'});
+        text: 'We will soon send you booking conformation.', 
+        icon: 'success'});
 
         console.log(this.ride);
         this.rideService.addRide(this.ride).subscribe((value) => {
-          console.log(value);
-        });
-        
+        console.log(value);
+        this.sent = true;
       });
-    });
-      
   }
-
 
 }
 
