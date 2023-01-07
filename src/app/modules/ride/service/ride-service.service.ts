@@ -52,7 +52,7 @@ export class RideServiceService {
 
   acceptRideById(id: number): Observable<any> {
     const options: any = {
-      responseType: 'text',
+      responseType: 'json'
     };
     return this.http.put<string>(environment.apiHost + "ride/" + id + '/accept', {}, options);
   }
@@ -77,6 +77,14 @@ export class RideServiceService {
 
   getActiveDriverRide(id: number) : Observable<HttpResponse<Ride>> {
     return this.http.get<Ride>(environment.apiHost + "ride/driver/" + id + "/active", {observe: "response"});
+  }
+
+  getAcceptedDriverRide(id: number) : Observable<any> {
+    return this.http.get<Ride>(environment.apiHost + "ride/driver/" + id + "/accepted", {observe: "response"});
+  }
+
+  getPendingDriverRide(id: number) : Observable<any> {
+    return this.http.get<Ride>(environment.apiHost + "ride/driver/" + id + "/pending", {observe: "response"});
   }
 
   getActivePassengerRide(id: number) : Observable<HttpResponse<Ride>> {
@@ -122,9 +130,3 @@ export class RideServiceService {
   }
 
 }
-
-
-
-
-
-

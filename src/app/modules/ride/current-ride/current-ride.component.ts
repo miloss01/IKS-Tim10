@@ -2,7 +2,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, mergeMap } from 'rxjs';
-import { EstimateDataDTO, LocationDTO, Ride } from 'src/app/models/models';
+import { EstimateDataDTO, LocationDTO, RideNotificationDTO, Ride } from 'src/app/models/models';
 import { MapComponent } from '../../layout/map/map.component';
 import { MapService } from '../../layout/services/map.service';
 import { RideServiceService } from '../service/ride-service.service';
@@ -11,6 +11,9 @@ import { LoginAuthentificationService } from '../../auth/service/login-authentif
 import * as L from 'leaflet';
 import { WebsocketService } from '../service/websocket.service';
 import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
+import { ridesDTO } from '../ride-history/ride-history.component';
+import { NotificationService } from '../../app-user/notification/service/notification.service';
 
 @Component({
   selector: 'app-current-ride',
@@ -38,8 +41,10 @@ export class CurrentRideComponent implements AfterViewInit {
     totalCost: 0,
     driver: {id:0, email:""},
     passengers: [],
-    estimatedTimeInMinutes: 0
+    estimatedTimeInMinutes: 0,
   }
+
+  status: string = ""
 
   forRouteControl = {
     depLat: 0,
@@ -53,7 +58,8 @@ export class CurrentRideComponent implements AfterViewInit {
     private authService: LoginAuthentificationService,
     private route: ActivatedRoute,
     private rideService: RideServiceService,
-    private socketService: WebsocketService) { }
+    private socketService: WebsocketService,
+    private notificationService: NotificationService) { }
 
   ngAfterViewInit(): void {
 
@@ -61,31 +67,9 @@ export class CurrentRideComponent implements AfterViewInit {
     let userRole = this.authService.getRole();
     console.log(userRole);
 
-    if (userRole == "DRIVER") 
-      this.rideService
-      .getActiveDriverRide(userId)
-      .subscribe(
-        (response: any) => {
-          this.ride = response.body!;
-          this.initMap();
-      },
-        (error: any) => {
-          alert("No active ride");
-        }
-      );
-    else if (userRole == "PASSENGER")
-      this.rideService
-        .getActivePassengerRide(userId)
-        .subscribe(
-          (response: any) => {
-            this.ride = response.body!;
-            this.initMap();
-        },
-          (error: any) => {
-            alert("No active ride");
-          }
-        );
-
+    if (userRole === "DRIVER") this.initializeForDriver(userId);
+    else if (userRole === "PASSENGER") this.initializeForPassenger(userId);
+      
     let stompClient: any = this.socketService.initWebSocket();
     stompClient.connect({}, () => {
       console.log("u connect");
@@ -102,6 +86,40 @@ export class CurrentRideComponent implements AfterViewInit {
 
     });
 
+  }
+
+  private initializeForPassenger (userId: number): void {
+    this.rideService
+        .getActivePassengerRide(userId)
+        .subscribe(
+          (response: any) => {
+            this.ride = response.body!;
+            this.initMap();
+        },
+          (error: any) => {
+            //alert("No active ride");
+          }
+        );
+
+  }
+
+  private initializeForDriver (userId: number): void {
+    this.rideService.getActiveDriverRide(userId).subscribe(
+      (response: any) => {
+        this.ride = response.body!;
+        this.status = response.body!.status;
+        this.initMap();
+    })
+
+    this.rideService.getAcceptedDriverRide(userId).subscribe((response: any) => {
+      this.ride = response.body!;
+      this.status = response.body!.status;
+    })
+
+    this.rideService.getPendingDriverRide(userId).subscribe((response: any) => {
+      this.alertRideRequest(response.body);
+    })
+    
   }
 
   endRide() {
@@ -244,5 +262,53 @@ export class CurrentRideComponent implements AfterViewInit {
     this.showMarkers(0);
   }
   
+  private alertRideRequest(ride: Ride): void {
+    Swal.fire({
+      title: 'Ride request',
+      html: '<p>From <b>'+ ride.locations[0].departure.address + '</b> to <b>' + ride.locations[0].destination.address + '</b> </p>' 
+      + '<p>With estimated time: <b>' + ride.estimatedTimeInMinutes +' minutes</b></p>'
+      + '<p>Estimated cost: <b>' + ride.totalCost + ' RSD</b></p>',
+      showDenyButton: true,
+      confirmButtonText: 'Accept',
+      denyButtonText: `Decline`,
+      confirmButtonColor: '#24ED80',
+      denyButtonColor: '#ff4625',
+      width: 600,
+      returnFocus: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.rideService.acceptRideById(ride.id).subscribe(
+           (response: any) => {
+             console.log('accepted ride' + response);
+             this.status = response.status;
+             this.ride = response;
+             this.notificationService.snackRideAccepted();
+        });;
+      } else if (result.isDenied) {
+        this.rideService.cancelRide({"reason": "not rn"}, ride.id).subscribe(
+          (response: any) => {
+            console.log("declined ride");
+            this.notificationService.snackRideDeclined();
+          }
+        )
+      }
+    })
+  }
+
+  private resetDisplayedData() {
+    this.ride = {
+      id: 0,
+      locations: [],
+      startTime: '',
+      endTime: '',
+      totalCost: 0,
+      driver: {id:0, email:""},
+      passengers: [],
+      estimatedTimeInMinutes: 0,
+    }
+  }
 
 }
+

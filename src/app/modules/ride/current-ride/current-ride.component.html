@@ -2,7 +2,7 @@
 
     
     <div class="app-ride-col-middle">
-        <h2 *ngIf="ride.id != 0">Currently riding <mat-icon>directions_car</mat-icon></h2>
+        <h2 *ngIf="ride.id != 0"> Currently {{status}} ride <mat-icon>directions_car</mat-icon></h2>
         <p class="app-ride-details" *ngIf="ride.id != 0"> <mat-icon>location_on</mat-icon> From departure address: {{ride.locations[0].departure.address}}</p>
         <div class="app-ride-map-container">
             <app-map></app-map>
@@ -12,7 +12,7 @@
     <div class="app-ride-col-middle app-ride-details" *ngIf="ride.id != 0">
         
         <div class="app-ride-details-panic">
-            <button mat-button id="panic-ride-btn" mat-raised-button (click)="panicRide()">PANIC</button>
+            <button *ngIf="status=='active'" mat-button id="panic-ride-btn" mat-raised-button (click)="panicRide()">PANIC</button>
 
         </div>
 
@@ -24,10 +24,17 @@
 
         </div>
         <div class="app-ride-details-col-right">
-            <p class="app-ride-details">{{estimated_price}} RSD</p>
+            <p class="app-ride-details">{{ride.totalCost}} RSD</p>
         </div>
-        <button mat-button id="end-ride-btn" mat-raised-button (click)="endRide()">END RIDE</button>
+        <div class="app-ride-col-middle">
+            <button mat-button *ngIf="status=='accepted'" id="start-ride-btn" mat-raised-button>START RIDE</button>
+        </div>
+        <div class="app-ride-col-middle">
+            <button mat-button *ngIf="status=='accepted'" id="cancel-ride-btn" mat-raised-button>CANCEL RIDE</button>
+        </div>
+        <button mat-button *ngIf="status=='active'" id="end-ride-btn" mat-raised-button (click)="endRide()">END RIDE</button>
         <button mat-button (click)="showMarkerssss()">rute</button>
     </div>
 
+    
 </div>

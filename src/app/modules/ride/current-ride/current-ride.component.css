@@ -65,6 +65,18 @@ button {
     margin-top: 10vh !important;
 }
 
+#start-ride-btn {
+    background-color: #24ED80 !important;
+    color: black;
+    margin-top: 10vh !important;
+}
+
+#cancel-ride-btn {
+    background-color: #767676 !important;
+    color: rgb(0, 0, 0);
+    margin-top: 10vh !important;
+}
+
 #panic-ride-btn {
     background-color: rgba(255, 70, 37, 0.941) !important;
     color: white;
