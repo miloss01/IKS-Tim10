@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 import { Component, OnInit } from '@angular/core';
 import { RideNotificationDTO } from 'src/app/models/models';
-import { NotificationService } from '../../app-user/notification/service/notification.service';
+import { RideNotificationService } from '../../app-user/notification/service/ride-notification.service';
 import { LoginAuthentificationService } from '../../auth/service/login-authentification.service';
 import { WebsocketService } from '../../ride/service/websocket.service';
 
@@ -16,7 +16,7 @@ export class ToolbarComponent implements OnInit {
 
   constructor(private authService: LoginAuthentificationService,
     private socketService: WebsocketService,
-    private notificationService: NotificationService
+    private notificationService: RideNotificationService
     ) {}
 
   badgeHidden: boolean = true
@@ -36,10 +36,30 @@ export class ToolbarComponent implements OnInit {
     const stompClient: any = this.socketService.initWebSocket()
 
     stompClient.connect({}, () => {
-      stompClient.subscribe('/ride-notification-driver/' + this.authService.getId(), (message: { body: string }) => {
-        const notification: RideNotificationDTO = JSON.parse(message.body);
-        this.badgeHidden = false;
-        this.notificationService.alertRideRequest(notification);
+
+      console.log('trenutno je ulogovan (iz connect): ' + this.authService.getId());
+
+      stompClient.subscribe('/ride-notification-driver-request/' + this.authService.getId(), (message: { body: string }) => {
+        this.badgeHidden = false
+        const notification: RideNotificationDTO = JSON.parse(message.body)
+        console.log(JSON.stringify(notification))
+        this.notificationService.setUpdated(notification)
+        this.notificationService.alertRideRequest(notification)
+      })
+
+      stompClient.subscribe('/ride-notification-driver-withdrawal/' + this.authService.getId(), (message: { body: string }) => {
+        const notification: RideNotificationDTO = JSON.parse(message.body)
+        console.log(JSON.stringify(notification))
+        this.notificationService.setUpdated(notification)
+        this.notificationService.alertWithdrawal(notification)
+      })
+
+      stompClient.subscribe('/ride-notification-passenger/' + this.authService.getId(), (message: { body: string }) => {
+        this.badgeHidden = false
+        const notification: RideNotificationDTO = JSON.parse(message.body)
+        console.log(JSON.stringify(notification))
+        this.notificationService.setUpdated(notification)
+        this.notificationService.alertPassengerNotification(notification.message)
       })
     })
 

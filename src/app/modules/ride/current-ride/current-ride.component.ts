@@ -13,7 +13,7 @@ import { WebsocketService } from '../service/websocket.service';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 import { ridesDTO } from '../ride-history/ride-history.component';
-import { NotificationService } from '../../app-user/notification/service/notification.service';
+import { RideNotificationService } from '../../app-user/notification/service/ride-notification.service';
 
 @Component({
   selector: 'app-current-ride',
@@ -59,17 +59,22 @@ export class CurrentRideComponent implements AfterViewInit {
     private route: ActivatedRoute,
     private rideService: RideServiceService,
     private socketService: WebsocketService,
-    private notificationService: NotificationService) { }
+    private notificationService: RideNotificationService) { }
+
+  userRole: string = "";
+  userId: number = -1;
 
   ngAfterViewInit(): void {
 
-    let userId = this.authService.getId();
-    let userRole = this.authService.getRole();
-    console.log(userRole);
+    this.userId = this.authService.getId();
+    this.userRole = this.authService.getRole();
 
-    if (userRole === "DRIVER") this.initializeForDriver(userId);
-    else if (userRole === "PASSENGER") this.initializeForPassenger(userId);
-      
+    this.notificationService.updatedValue$.subscribe((res) => {
+      this.updateViewToRide();
+    })
+
+    this.initializeViewRide();
+    
     let stompClient: any = this.socketService.initWebSocket();
     stompClient.connect({}, () => {
       console.log("u connect");
@@ -90,42 +95,162 @@ export class CurrentRideComponent implements AfterViewInit {
 
   private initializeForPassenger (userId: number): void {
     this.rideService
-        .getActivePassengerRide(userId)
-        .subscribe(
-          (response: any) => {
-            this.ride = response.body!;
-            this.initMap();
-        },
-          (error: any) => {
-            //alert("No active ride");
-          }
-        );
+      .getActivePassengerRide(userId)
+      .subscribe(
+        (response: any) => {
+          this.ride = response.body!;
+          this.status = response.body!.status;
+          this.initMap();
+      });
 
-  }
-
-  private initializeForDriver (userId: number): void {
-    this.rideService.getActiveDriverRide(userId).subscribe(
-      (response: any) => {
-        this.ride = response.body!;
-        this.status = response.body!.status;
-        this.initMap();
-    })
-
-    this.rideService.getAcceptedDriverRide(userId).subscribe((response: any) => {
+    this.rideService.getAcceptedPassengerRide(userId).subscribe((response: any) => {
       this.ride = response.body!;
       this.status = response.body!.status;
     })
 
-    this.rideService.getPendingDriverRide(userId).subscribe((response: any) => {
-      this.alertRideRequest(response.body);
+    this.rideService.getPendingPassengerRide(userId).subscribe((response: any) => {
+      this.ride = response.body!;
+      this.status = response.body!.status;
     })
+
+  }
+
+  private initializeForDriver (userId: number): void {
+    
+    // this.rideService.getActiveDriverRide(userId).subscribe(
+    //   (response: any) => {
+    //     this.ride = response.body!;
+    //     this.status = response.body!.status;
+    //     this.initMap();
+    // })
+
+    // this.rideService.getAcceptedDriverRide(userId).subscribe((response: any) => {
+    //   this.ride = response.body!;
+    //   this.status = response.body!.status;
+    // })
+
+    // this.rideService.getPendingDriverRide(userId).subscribe((response: any) => {
+    //   this.ride = response.body!;
+    //   this.status = response.body!.status;
+    //   this.alertRideRequest(response.body);
+    // })
     
   }
+
+  private initializeViewRide() {
+    this.checkPendingRide(this.userRole);
+    this.checkAcceptedRide(this.userRole);
+    this.checkActiveRide(this.userRole);
+  }
+
+  checkActiveRide(role: string): void {
+    if (role === 'DRIVER') {
+      this.rideService.getActiveDriverRide(this.userId).subscribe(
+        (response: any) => {
+          this.ride = response.body!;
+          this.status = response.body!.status;
+          this.initMap();
+      })
+    } else if (role === 'PASSENGER') {
+      this.rideService
+      .getActivePassengerRide(this.userId)
+      .subscribe(
+        (response: any) => {
+          this.ride = response.body!;
+          this.status = response.body!.status;
+          this.initMap();
+      });
+    }
+  }
+
+  checkPendingRide(role: string): void {
+    if (role === 'DRIVER') {
+      this.rideService.getPendingDriverRide(this.userId).subscribe((response: any) => {
+        this.ride = response.body!;
+        this.status = response.body!.status;
+        this.alertRideRequest(response.body);
+      })
+    } else if (role === 'PASSENGER') {
+      this.rideService.getPendingPassengerRide(this.userId).subscribe((response: any) => {
+        this.ride = response.body!;
+        this.status = response.body!.status;
+      })
+  }}
+  
+  checkAcceptedRide(role: string): void {
+    if (role === 'DRIVER') {
+      this.rideService.getAcceptedDriverRide(this.userId).subscribe((response: any) => {
+        this.ride = response.body!;
+        this.status = response.body!.status;
+      })
+    } else if (role === 'PASSENGER') {
+      this.rideService.getAcceptedPassengerRide(this.userId).subscribe((response: any) => {
+        this.ride = response.body!;
+        this.status = response.body!.status;
+      })
+    }
+  }
+
+
+  startRide (): void {
+    this.rideService.startRide(this.ride.id).subscribe(
+      (response: any) => {
+        this.checkActiveRide(this.userRole);
+      }
+    )
+  }
+
+  acceptRide (): void {
+    this.rideService.acceptRideById(this.ride.id).subscribe(
+      (response: any) => {
+        this.checkAcceptedRide(this.userRole);
+        this.notificationService.snackRideAccepted();
+      }
+    )
+  }
+
+  cancelRide (): void {
+    this.rideService.cancelRide({"reason": "not rn"}, this.ride.id).subscribe(
+      (response: any) => {
+        console.log("declined ride");
+        this.notificationService.snackRideDeclined();
+        this.resetToNoRide();
+      }
+    )
+  }
+
+  withdrawRide (): void {
+    this.rideService.withdrawRideById(this.ride.id).subscribe(
+      (response: any) => {
+        this.notificationService.snackRideDeclined();
+        this.resetToNoRide();
+      }
+    )
+  }
+
 
   endRide() {
     this.rideService.endRide(this.ride.id)
     .subscribe((res: any) => {
         console.log(res);
+
+        this.resetToNoRide();
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        
+        Toast.fire({
+          icon: 'success',
+          title: 'Ride ended.'
+        })
     });
   }
 
@@ -273,17 +398,12 @@ export class CurrentRideComponent implements AfterViewInit {
       denyButtonText: `Decline`,
       confirmButtonColor: '#24ED80',
       denyButtonColor: '#ff4625',
-      width: 600,
-      returnFocus: false,
-      allowOutsideClick: false,
-      allowEscapeKey: false
     }).then((result) => {
       if (result.isConfirmed) {
         this.rideService.acceptRideById(ride.id).subscribe(
            (response: any) => {
              console.log('accepted ride' + response);
-             this.status = response.status;
-             this.ride = response;
+             this.checkAcceptedRide(this.userRole);
              this.notificationService.snackRideAccepted();
         });;
       } else if (result.isDenied) {
@@ -291,13 +411,17 @@ export class CurrentRideComponent implements AfterViewInit {
           (response: any) => {
             console.log("declined ride");
             this.notificationService.snackRideDeclined();
+            this.resetToNoRide();
           }
         )
       }
     })
   }
 
-  private resetDisplayedData() {
+  
+
+  private resetToNoRide (): void {
+    this.status = ""
     this.ride = {
       id: 0,
       locations: [],
@@ -308,6 +432,11 @@ export class CurrentRideComponent implements AfterViewInit {
       passengers: [],
       estimatedTimeInMinutes: 0,
     }
+  }
+
+  private updateViewToRide (): void {
+    this.resetToNoRide();
+    this.initializeViewRide();
   }
 
 }

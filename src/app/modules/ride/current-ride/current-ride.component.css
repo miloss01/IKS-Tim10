@@ -3,6 +3,10 @@
     padding-bottom: 10vh;
 }
 
+body {
+    background-color: white;
+}
+
 
 .app-ride-col-middle {
     width: 50%;
@@ -29,8 +33,19 @@ h2 {
     vertical-align: top;
 }
 
-p {
-    padding-left: 2vh;
+#cancel-instruction {
+    margin-top: 4vh !important;
+    padding-left: 2vw;
+    padding-right: 4vw;
+    text-align: center;
+}
+
+.smaller {
+    margin-left: 2vw;
+}
+
+div.ride-buttons {
+    margin-top: 12vh;
 }
 
 p.app-ride-details {
@@ -59,22 +74,15 @@ button {
     background-color: black !important;
 }
 
-#end-ride-btn {
-    background-color: #24ED80 !important;
-    color: black;
-    margin-top: 10vh !important;
-}
 
-#start-ride-btn {
+#start-ride-btn, #accept-ride-btn, #end-ride-btn {
     background-color: #24ED80 !important;
     color: black;
-    margin-top: 10vh !important;
 }
 
 #cancel-ride-btn {
     background-color: #767676 !important;
     color: rgb(0, 0, 0);
-    margin-top: 10vh !important;
 }
 
 #panic-ride-btn {
@@ -95,5 +103,18 @@ button {
 }
 
 .mat-icon {
-    font-size: 0.85em;
+    font-size: 0.9em;
+}
+
+a:link {
+    text-decoration: none;
+  }
+
+a:visited {
+    color: black;
+}
+
+a:hover {
+    color: '#6A7A9E';
+    text-decoration: underline;
 }

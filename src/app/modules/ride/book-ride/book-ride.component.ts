@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { InviteDialogComponent } from '../../layout/dialogs/invite-dialog/invite-dialog.component';
-import { Location, DepartureDestination, AppUserForRide, Ride, RideCreation, EstimateDataDTO } from 'src/app/models/models';
+import { Location, DepartureDestination, AppUserForRide, Ride, RideCreation, EstimateDataDTO, RideNotificationDTO } from 'src/app/models/models';
 import { HttpClient } from '@angular/common/http';
 import { MapComponent } from 'src/app/modules/layout/map/map.component';
 import { map, mergeMap, Observable } from 'rxjs';
@@ -16,6 +16,8 @@ import { LoginAuthentificationService } from '../../auth/service/login-authentif
 import Swal from 'sweetalert2';
 import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RideNotificationService } from '../../app-user/notification/service/ride-notification.service';
+import { WebsocketService } from '../service/websocket.service';
 
 interface VehicleType {
   value: string;
@@ -85,6 +87,7 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     setTimeout(()=> {
       this.registerOnClick();
     }, 1000);
+
   }
 
   locationsFromBookAgain : any | undefined;
@@ -94,7 +97,11 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     private mapService: MapService,
     private rideService: RideServiceService,
     private userService: ManagePassengersService,
-    private userAuthentificationService: LoginAuthentificationService) { }
+    private userAuthentificationService: LoginAuthentificationService,
+    private notificationService: RideNotificationService,
+    private socketService: WebsocketService,
+    private authService: LoginAuthentificationService
+    ) { }
 
   ngOnInit(): void {
     this.rideService.selectedBookAgainValue$.subscribe((value) => {
@@ -271,10 +278,10 @@ export class BookRideComponent implements AfterViewInit, OnInit {
 
   continueBooking() {
     if (!this.estimateDataFormGroup.value.departure || !this.estimateDataFormGroup.value.destination){
-      this.snackBar.open("Prese enter locations", "Close");
+      this.snackBar.open("Please enter locations", "Close");
       return;}
     if (this.estimated_price == 0 || !this.clickedEstimate) {
-      this.snackBar.open("Prese click estimate", "Close");
+      this.snackBar.open("Please click estimate", "Close");
       return;
     }
       this.ride.locations = [{
@@ -296,16 +303,18 @@ export class BookRideComponent implements AfterViewInit, OnInit {
       this.addPeople();
       this.ride.estimatedTimeMinutes= this.estimated_time || 0;
       
-        Swal.fire({title: 'Ride request sent', 
-        text: 'We will soon send you booking conformation.', 
-        icon: 'success'});
-
-        console.log(this.ride);
-        this.clickedEstimate = false;
-        this.rideService.addRide(this.ride).subscribe((value) => {
-        console.log(value);
-        
-      });
+      // Swal.fire({title: 'Ride request sent', 
+      // text: 'We will update you with booking information.', 
+      // timer: 2000,
+      // timerProgressBar: true});
+      console.log(this.ride);
+      this.clickedEstimate = false;
+      
+      this.rideService.addRide(this.ride).subscribe((value) => {
+          if (value == null) this.notificationService.alertNotAvailable()
+        }, (error: Error) => {
+          this.notificationService.alertAlreadyPending();
+        });
   }
 
 }

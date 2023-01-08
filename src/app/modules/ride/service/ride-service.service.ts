@@ -57,8 +57,18 @@ export class RideServiceService {
     return this.http.put<string>(environment.apiHost + "ride/" + id + '/accept', {}, options);
   }
 
-  withdrawRideById(id: number): Observable<Ride> {
-    return this.http.get<Ride>(environment.apiHost + "ride/" + id + '/withdraw');
+  startRide(id: number): Observable<any> {
+    const options: any = {
+      responseType: 'json'
+    };
+    return this.http.put<string>(environment.apiHost + "ride/" + id + '/start', {}, options);
+  }
+
+  withdrawRideById(id: number): Observable<any> {
+    const options: any = {
+      responseType: 'json'
+    };
+    return this.http.put<string>(environment.apiHost + "ride/" + id + '/withdraw', {}, options);
   }
 
   cancelRide(reasonDto: ReasonDTO, id: number): Observable<any> {
@@ -75,7 +85,7 @@ export class RideServiceService {
     );
   }
 
-  getActiveDriverRide(id: number) : Observable<HttpResponse<Ride>> {
+  getActiveDriverRide(id: number) : Observable<any> {
     return this.http.get<Ride>(environment.apiHost + "ride/driver/" + id + "/active", {observe: "response"});
   }
 
@@ -89,6 +99,14 @@ export class RideServiceService {
 
   getActivePassengerRide(id: number) : Observable<HttpResponse<Ride>> {
     return this.http.get<Ride>(environment.apiHost + "ride/passenger/" + id + "/active", {observe: "response"});
+  }
+
+  getAcceptedPassengerRide(id: number) : Observable<any> {
+    return this.http.get<Ride>(environment.apiHost + "ride/passenger/" + id + "/accepted", {observe: "response"});
+  }
+
+  getPendingPassengerRide(id: number) : Observable<any> {
+    return this.http.get<Ride>(environment.apiHost + "ride/passenger/" + id + "/pending", {observe: "response"});
   }
 
   getVehicleOfDriver(id: number) : Observable<any> {
