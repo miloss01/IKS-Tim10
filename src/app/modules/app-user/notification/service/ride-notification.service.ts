@@ -109,6 +109,7 @@ export class RideNotificationService {
       text: content,
       confirmButtonText: 'OK!',
       confirmButtonColor: '#6A7A9E',
+      footer: '<a href="current-ride">View ride details.</a>',
     })
   }
 

@@ -45,7 +45,7 @@
                 </div>
                 <div class="app-ride-col-middle">
                     <button mat-button *ngIf="(status=='accepted' || status=='pending') && userRole=='PASSENGER'" id="cancel-ride-btn" mat-raised-button (click)="withdrawRide()">CANCEL RIDE</button>
-                    <button mat-button *ngIf="(status=='accepted' || status=='pending') && userRole=='DRIVER'" id="cancel-ride-btn" mat-raised-button (click)="cancelRide()">CANCEL RIDE</button>
+                    <button mat-button *ngIf="(status=='accepted' || status=='pending') && userRole=='DRIVER'" id="cancel-ride-btn" mat-raised-button (click)="onDeclineRideClick()">CANCEL RIDE</button>
                 </div>
                 <button mat-button *ngIf="status=='active' && userRole=='DRIVER'" id="end-ride-btn" mat-raised-button (click)="endRide()">END RIDE</button>
                 <button mat-button (click)="showMarkerssss()">Simulate vehicle</button>

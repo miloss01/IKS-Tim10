@@ -118,3 +118,7 @@ a:hover {
     color: '#6A7A9E';
     text-decoration: underline;
 }
+
+a {
+    color: black;
+}

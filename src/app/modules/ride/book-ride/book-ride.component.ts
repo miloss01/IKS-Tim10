@@ -303,11 +303,11 @@ export class BookRideComponent implements AfterViewInit, OnInit {
       this.addPeople();
       this.ride.estimatedTimeMinutes= this.estimated_time || 0;
       
-      // Swal.fire({title: 'Ride request sent', 
-      // text: 'We will update you with booking information.', 
-      // timer: 2000,
-      // timerProgressBar: true});
-      console.log(this.ride);
+      Swal.fire({title: 'Ride request sent', 
+      text: 'We will update you with booking information.', 
+      footer: '<a href="current-ride">View ride status and details.</a>',
+      timer: 2000,
+      timerProgressBar: true});
       this.clickedEstimate = false;
       
       this.rideService.addRide(this.ride).subscribe((value) => {

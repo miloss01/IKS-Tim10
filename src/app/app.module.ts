@@ -44,11 +44,11 @@ import { ErrorInterceptor } from './infrastructure/interceptor/error-interceptor
       useClass: Interceptor,
       multi: true,
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptor,
-      multi: true,
-    }
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: ErrorInterceptor,
+    //   multi: true,
+    // }
   ],
   bootstrap: [AppComponent]
 })

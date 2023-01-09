@@ -14,6 +14,8 @@ import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 import { ridesDTO } from '../ride-history/ride-history.component';
 import { RideNotificationService } from '../../app-user/notification/service/ride-notification.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CancelDialogComponent } from '../../layout/dialogs/cancel-dialog/cancel-dialog.component';
 
 @Component({
   selector: 'app-current-ride',
@@ -70,7 +72,8 @@ export class CurrentRideComponent implements AfterViewInit {
     private route: ActivatedRoute,
     private rideService: RideServiceService,
     private socketService: WebsocketService,
-    private notificationService: RideNotificationService) { }
+    private notificationService: RideNotificationService,
+    public declineDialog: MatDialog) { }
 
   userRole: string = "";
   userId: number = -1;
@@ -221,23 +224,32 @@ export class CurrentRideComponent implements AfterViewInit {
     )
   }
 
-  cancelRide (): void {
-    this.rideService.cancelRide({"reason": "not rn"}, this.ride.id).subscribe(
-      (response: any) => {
-        console.log("declined ride");
-        this.notificationService.snackRideDeclined();
-        this.resetToNoRide();
-      }
-    )
+  onDeclineRideClick(): void {
+    const dialogRef = this.declineDialog.open(CancelDialogComponent, {
+      data: {rideId: this.ride.id}
+    });
+    
   }
 
   withdrawRide (): void {
-    this.rideService.withdrawRideById(this.ride.id).subscribe(
-      (response: any) => {
-        this.notificationService.snackRideDeclined();
-        this.resetToNoRide();
+    Swal.fire({
+      title: 'Are you sure you want to cancel the ride?',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: `No, don't cancel`,
+      confirmButtonColor: '#ff4625',
+      showCloseButton: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.rideService.withdrawRideById(this.ride.id).subscribe(
+          (response: any) => {
+            Swal.fire('Cancelled the ride', '', 'info')
+            //this.notificationService.snackRideDeclined();
+            this.resetToNoRide();
+          }
+        )
       }
-    )
+    })
   }
 
 
@@ -419,19 +431,10 @@ export class CurrentRideComponent implements AfterViewInit {
       if (result.isConfirmed) {
         this.rideService.acceptRideById(ride.id).subscribe(
            (response: any) => {
-             console.log('accepted ride' + response);
-             this.checkAcceptedRide(this.userRole);
-             this.notificationService.snackRideAccepted();
-        });;
-      } else if (result.isDenied) {
-        this.rideService.cancelRide({"reason": "not rn"}, ride.id).subscribe(
-          (response: any) => {
-            console.log("declined ride");
-            this.notificationService.snackRideDeclined();
-            this.resetToNoRide();
-          }
-        )
-      }
+             this.checkAcceptedRide(this.userRole)
+             this.notificationService.snackRideAccepted()
+        })
+      } else if (result.isDenied) this.onDeclineRideClick()
     })
   }
 

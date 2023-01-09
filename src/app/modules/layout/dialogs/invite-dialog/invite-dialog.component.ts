@@ -12,7 +12,7 @@ import { UserServiceService } from 'src/app/modules/app-user/account/services/us
 export class InviteDialogComponent implements OnInit {
 
   emailAddress: string = "";
-  passengers = new Array;
+  passengers: AppUserForRide[] = [];
 
   constructor(public dialogRef: MatDialogRef<InviteDialogComponent>, private snackBar: MatSnackBar,
     private userService: UserServiceService) { }
