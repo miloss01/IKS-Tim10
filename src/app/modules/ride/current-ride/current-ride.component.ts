@@ -102,55 +102,9 @@ export class CurrentRideComponent implements AfterViewInit {
 
   }
 
-  // private initializeForPassenger (userId: number): void {
-  //   this.rideService
-  //     .getActivePassengerRide(userId)
-  //     .subscribe(
-  //       (response: any) => {
-  //         this.ride = response.body!;
-  //         this.status = response.body!.status;
-  //         this.initMap();
-  //     });
-
-  //   this.rideService.getAcceptedPassengerRide(userId).subscribe((response: any) => {
-  //     this.ride = response.body!;
-  //     this.status = response.body!.status;
-  //   })
-
-  //   this.rideService.getPendingPassengerRide(userId).subscribe((response: any) => {
-  //     this.ride = response.body!;
-  //     this.status = response.body!.status;
-  //   })
-
-  // }
-
-  // private initializeForDriver (userId: number): void {
-    
-  //   this.rideService.getActiveDriverRide(userId).subscribe(
-  //     (response: any) => {
-  //       this.ride = response.body!;
-  //       this.status = response.body!.status;
-  //       this.initMap();
-  //   })
-
-  //   this.rideService.getAcceptedDriverRide(userId).subscribe((response: any) => {
-  //     this.ride = response.body!;
-  //     this.status = response.body!.status;
-  //   })
-
-  //   this.rideService.getPendingDriverRide(userId).subscribe((response: any) => {
-  //     this.ride = response.body!;
-  //     this.status = response.body!.status;
-  //     this.alertRideRequest(response.body);
-  //   })
-    
-  // }
-
   private initializeViewRide() {
-    console.log('calling initializeViewRide');
-    this.checkPendingRide(this.userRole);
-    this.checkAcceptedRide(this.userRole);
     this.checkActiveRide(this.userRole);
+    this.checkPendingRide(this.userRole);
   }
 
   checkActiveRide(role: string): void {
@@ -159,7 +113,10 @@ export class CurrentRideComponent implements AfterViewInit {
         (response: any) => {
           this.ride = response.body!;
           this.status = response.body!.status;
+          console.log(this.status);
           this.initMap();
+      }, (error: any) => {
+        this.checkAcceptedRide(this.userRole);
       })
     } else if (role === 'PASSENGER') {
       this.rideService
@@ -170,7 +127,7 @@ export class CurrentRideComponent implements AfterViewInit {
           this.status = response.body!.status;
           this.initMap();
       }, (error: any) => {
-        console.log('no ride of stauts ...')
+        this.checkAcceptedRide(this.userRole);
       });
     }
   }
@@ -178,8 +135,6 @@ export class CurrentRideComponent implements AfterViewInit {
   checkPendingRide(role: string): void {
     if (role === 'DRIVER') {
       this.rideService.getPendingDriverRide(this.userId).subscribe((response: any) => {
-        this.ride = response.body!;
-        this.status = response.body!.status;
         this.alertRideRequest(response.body);
         this.initMap();
       })
@@ -223,7 +178,6 @@ export class CurrentRideComponent implements AfterViewInit {
   acceptRide (): void {
     this.rideService.acceptRideById(this.ride.id).subscribe(
       (response: any) => {
-        this.checkAcceptedRide(this.userRole);
         this.notificationService.snackRideAccepted();
       }
     )
@@ -263,7 +217,7 @@ export class CurrentRideComponent implements AfterViewInit {
     .subscribe((res: any) => {
         console.log(res);
 
-        this.resetToNoRide();
+        this.updateViewToRide();
         const Toast = Swal.mixin({
           toast: true,
           position: 'top-end',
@@ -425,8 +379,9 @@ export class CurrentRideComponent implements AfterViewInit {
     Swal.fire({
       title: 'Ride request',
       html: '<p>From <b>'+ ride.locations[0].departure.address + '</b> to <b>' + ride.locations[0].destination.address + '</b> </p>' 
-      + '<p>With estimated time: <b>' + ride.estimatedTimeInMinutes +' minutes</b></p>'
-      + '<p>Estimated cost: <b>' + ride.totalCost + ' RSD</b></p>',
+      + '<p>Starting at <b>' + ride.startTime +'</b></p>'
+      + '<p>With estimated time: <b>' + ride.estimatedTimeInMinutes +' minutes</b></p>',
+      //+ '<p>Estimated cost: <b>' + ride.totalCost + ' RSD</b></p>',
       showDenyButton: true,
       confirmButtonText: 'Accept',
       denyButtonText: `Decline`,
@@ -436,8 +391,8 @@ export class CurrentRideComponent implements AfterViewInit {
       if (result.isConfirmed) {
         this.rideService.acceptRideById(ride.id).subscribe(
            (response: any) => {
-             this.checkAcceptedRide(this.userRole)
-             this.notificationService.snackRideAccepted()
+              if (this.status != 'active') this.checkAcceptedRide(this.userRole) // Not to disrupt view of active ride
+              this.notificationService.snackRideAccepted()
         })
       } else if (result.isDenied) this.onDeclineRideClick()
     })
@@ -460,7 +415,7 @@ export class CurrentRideComponent implements AfterViewInit {
   }
 
   private updateViewToRide (): void {
-    this.resetToNoRide();
+    if (this.status != 'active' || this.userRole == 'PASSENGER') this.resetToNoRide();
     this.initializeViewRide();
   }
 

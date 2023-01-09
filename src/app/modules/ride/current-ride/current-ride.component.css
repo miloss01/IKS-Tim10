@@ -53,12 +53,11 @@ p.app-ride-details {
     font-weight: 425;
     margin-bottom: 0 !important;
     padding-bottom: 0.5vh;
-    padding-top: 3vh;
+    padding-top: 2vh;
+    margin-left: 1vw;
 }
 
 div.app-ride-details {
-    margin-top: 15vh;
-    background-color: white;
     padding-bottom: 5vh;        
 }
 
