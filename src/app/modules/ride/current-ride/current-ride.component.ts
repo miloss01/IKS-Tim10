@@ -86,8 +86,6 @@ export class CurrentRideComponent implements AfterViewInit {
     this.notificationService.updatedValue$.subscribe((res) => {
       this.updateViewToRide();
     })
-
-    this.initializeViewRide();
     
     let stompClient: any = this.socketService.initWebSocket();
     stompClient.connect({}, () => {
@@ -149,6 +147,7 @@ export class CurrentRideComponent implements AfterViewInit {
   // }
 
   private initializeViewRide() {
+    console.log('calling initializeViewRide');
     this.checkPendingRide(this.userRole);
     this.checkAcceptedRide(this.userRole);
     this.checkActiveRide(this.userRole);
@@ -170,6 +169,8 @@ export class CurrentRideComponent implements AfterViewInit {
           this.ride = response.body!;
           this.status = response.body!.status;
           this.initMap();
+      }, (error: any) => {
+        console.log('no ride of stauts ...')
       });
     }
   }
@@ -187,6 +188,8 @@ export class CurrentRideComponent implements AfterViewInit {
         this.ride = response.body!;
         this.status = response.body!.status;
         this.initMap();
+      }, (error: any) => {
+        console.log('no ride of stauts ...')
       })
   }}
   
@@ -202,6 +205,8 @@ export class CurrentRideComponent implements AfterViewInit {
         this.ride = response.body!;
         this.status = response.body!.status;
         this.initMap();
+      }, (error: any) => {
+        console.log('no ride of stauts ...')
       })
     }
   }
