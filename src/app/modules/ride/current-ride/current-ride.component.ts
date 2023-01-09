@@ -53,6 +53,17 @@ export class CurrentRideComponent implements AfterViewInit {
     desLon: 0
   };
 
+  redIcon = new L.Icon({
+    iconUrl:
+      "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+    shadowUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  });
+
   constructor(private http: HttpClient, 
     private mapService: MapService,
     private authService: LoginAuthentificationService,
@@ -77,13 +88,10 @@ export class CurrentRideComponent implements AfterViewInit {
     
     let stompClient: any = this.socketService.initWebSocket();
     stompClient.connect({}, () => {
-      console.log("u connect");
 
       stompClient.subscribe("/vehicle-location", (message: { body: string }) => {
         
         let location: LocationDTO = JSON.parse(message.body);
-        console.log(location);
-        console.log("dobio sa socketa");
 
         this.moveMarker(location);
 
@@ -93,49 +101,49 @@ export class CurrentRideComponent implements AfterViewInit {
 
   }
 
-  private initializeForPassenger (userId: number): void {
-    this.rideService
-      .getActivePassengerRide(userId)
-      .subscribe(
-        (response: any) => {
-          this.ride = response.body!;
-          this.status = response.body!.status;
-          this.initMap();
-      });
+  // private initializeForPassenger (userId: number): void {
+  //   this.rideService
+  //     .getActivePassengerRide(userId)
+  //     .subscribe(
+  //       (response: any) => {
+  //         this.ride = response.body!;
+  //         this.status = response.body!.status;
+  //         this.initMap();
+  //     });
 
-    this.rideService.getAcceptedPassengerRide(userId).subscribe((response: any) => {
-      this.ride = response.body!;
-      this.status = response.body!.status;
-    })
+  //   this.rideService.getAcceptedPassengerRide(userId).subscribe((response: any) => {
+  //     this.ride = response.body!;
+  //     this.status = response.body!.status;
+  //   })
 
-    this.rideService.getPendingPassengerRide(userId).subscribe((response: any) => {
-      this.ride = response.body!;
-      this.status = response.body!.status;
-    })
+  //   this.rideService.getPendingPassengerRide(userId).subscribe((response: any) => {
+  //     this.ride = response.body!;
+  //     this.status = response.body!.status;
+  //   })
 
-  }
+  // }
 
-  private initializeForDriver (userId: number): void {
+  // private initializeForDriver (userId: number): void {
     
-    // this.rideService.getActiveDriverRide(userId).subscribe(
-    //   (response: any) => {
-    //     this.ride = response.body!;
-    //     this.status = response.body!.status;
-    //     this.initMap();
-    // })
+  //   this.rideService.getActiveDriverRide(userId).subscribe(
+  //     (response: any) => {
+  //       this.ride = response.body!;
+  //       this.status = response.body!.status;
+  //       this.initMap();
+  //   })
 
-    // this.rideService.getAcceptedDriverRide(userId).subscribe((response: any) => {
-    //   this.ride = response.body!;
-    //   this.status = response.body!.status;
-    // })
+  //   this.rideService.getAcceptedDriverRide(userId).subscribe((response: any) => {
+  //     this.ride = response.body!;
+  //     this.status = response.body!.status;
+  //   })
 
-    // this.rideService.getPendingDriverRide(userId).subscribe((response: any) => {
-    //   this.ride = response.body!;
-    //   this.status = response.body!.status;
-    //   this.alertRideRequest(response.body);
-    // })
+  //   this.rideService.getPendingDriverRide(userId).subscribe((response: any) => {
+  //     this.ride = response.body!;
+  //     this.status = response.body!.status;
+  //     this.alertRideRequest(response.body);
+  //   })
     
-  }
+  // }
 
   private initializeViewRide() {
     this.checkPendingRide(this.userRole);
@@ -169,11 +177,13 @@ export class CurrentRideComponent implements AfterViewInit {
         this.ride = response.body!;
         this.status = response.body!.status;
         this.alertRideRequest(response.body);
+        this.initMap();
       })
     } else if (role === 'PASSENGER') {
       this.rideService.getPendingPassengerRide(this.userId).subscribe((response: any) => {
         this.ride = response.body!;
         this.status = response.body!.status;
+        this.initMap();
       })
   }}
   
@@ -182,11 +192,13 @@ export class CurrentRideComponent implements AfterViewInit {
       this.rideService.getAcceptedDriverRide(this.userId).subscribe((response: any) => {
         this.ride = response.body!;
         this.status = response.body!.status;
+        this.initMap();
       })
     } else if (role === 'PASSENGER') {
       this.rideService.getAcceptedPassengerRide(this.userId).subscribe((response: any) => {
         this.ride = response.body!;
         this.status = response.body!.status;
+        this.initMap();
       })
     }
   }
@@ -300,7 +312,6 @@ export class CurrentRideComponent implements AfterViewInit {
         this.estimated_minutes_left = Math.trunc(e.routes[0].summary.totalTime / 60);
         this.distance = Math.trunc(e.routes[0].summary.totalDistance / 1000);
         this.coordinates = e.routes[0].coordinates;
-        console.log(this.distance);
 
         let req: EstimateDataDTO = {
           locations: [
@@ -335,11 +346,13 @@ export class CurrentRideComponent implements AfterViewInit {
   moveMarker(location: LocationDTO): void {
     if (this.routeMarker)
         this.routeMarker.removeFrom(this.map?.getMap());
-    this.routeMarker = new L.Marker([location.latitude, location.longitude]).addTo(this.map?.getMap());
-    console.log("pomerio marker");
+    this.routeMarker = new L.Marker([location.latitude, location.longitude], {icon: this.redIcon}).addTo(this.map?.getMap());
   }
 
   showMarkers(i: number): void {
+
+    if (i > this.coordinates.length - 1)
+      return
       
     setTimeout(() => {
       
@@ -364,13 +377,17 @@ export class CurrentRideComponent implements AfterViewInit {
           let vehicleId = res.id;
 
           this.http.put(environment.apiHost + "vehicle/" + vehicleId + "/location", data).subscribe((res: any) => {
-            i += 20;
+            // i += 20;
+            console.log(`${i} od ${this.coordinates.length}`)
     
-            if (i > this.coordinates.length)
-              return;
+            if (i > this.coordinates.length - 1 - 20 && i < this.coordinates.length - 1) {
+              this.showMarkers(this.coordinates.length - 1);
+              console.log(`iz if-a ${i} od ${this.coordinates.length}`)
+            } else {
+              this.showMarkers(i + 20);
+              console.log("poslao na bek");
+            }
       
-            this.showMarkers(i);
-            console.log("poslao na bek");
           });
 
         })
