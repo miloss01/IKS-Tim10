@@ -246,7 +246,7 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     console.log(new Date(this.filterDateFrom))
     if (!this.filterDateFrom) { return false }
     this.userDate = new Date(this.filterDateFrom)
-    let miliseconds: number = this.userDate.valueOf() - (new Date()).valueOf();
+    const miliseconds: number = this.userDate.valueOf() - (new Date()).valueOf();
     if (miliseconds > 18000000 || miliseconds < 0) { return false }
     this.filterDateFrom.replace('T', ' ')
     this.ride.startTime = this.filterDateFrom
@@ -260,40 +260,44 @@ export class BookRideComponent implements AfterViewInit, OnInit {
   }
 
   continueBooking (): void {
-    if (!this.estimateDataFormGroup.value.departure || !this.estimateDataFormGroup.value.destination){
-      this.snackBar.open("Prese enter locations", "Close");
-      return;}
-    if (this.estimated_price == 0 || !this.clickedEstimate) {
-      this.snackBar.open("Prese click estimate", "Close")
+    if (!this.estimateDataFormGroup.value.departure || !this.estimateDataFormGroup.value.destination) {
+      this.snackBar.open('Prese enter locations', 'Close')
       return
     }
-      this.ride.locations = [{
-        departure:{
+    if (this.estimated_price === 0 || !this.clickedEstimate) {
+      this.snackBar.open('Prese click estimate', 'Close')
+      return
+    }
+    this.ride.locations = [{
+      departure: {
         address: this.estimateDataFormGroup.value.departure,
         latitude: this.forRouteControl.depLat,
         longitude: this.forRouteControl.depLon
       },
-      destination:{
+      destination: {
         address: this.estimateDataFormGroup.value.destination,
         latitude: this.forRouteControl.desLat,
         longitude: this.forRouteControl.depLon
       }
     }]
-      if (!this.addTime()) {
-        this.snackBar.open("Time not valid", "Close")
-        return}
-      this.addPrefrences();
-      this.addPeople();
-      this.ride.estimatedTimeMinutes= this.estimated_time || 0;
-      
-        Swal.fire({title: 'Ride request sent', 
-        text: 'We will soon send you booking conformation.', 
-        icon: 'success'})
+    if (!this.addTime()) {
+      this.snackBar.open('Time not valid', 'Close')
+      return
+    }
+    this.addPrefrences()
+    this.addPeople()
+    this.ride.estimatedTimeMinutes = this.estimated_time ?? 0
 
-        console.log(this.ride)
-        this.clickedEstimate = false
-        this.rideService.addRide(this.ride).subscribe((value) => {
-        console.log(value)
+    void Swal.fire({
+      title: 'Ride request sent',
+      text: 'We will soon send you booking conformation.',
+      icon: 'success'
+    })
+
+    console.log(this.ride)
+    this.clickedEstimate = false
+    this.rideService.addRide(this.ride).subscribe((value) => {
+      console.log(value)
     })
   }
 }

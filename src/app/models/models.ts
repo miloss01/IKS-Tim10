@@ -140,3 +140,13 @@ export interface PasswordResetCodeDTO {
   newPassword: string | null
   code: string | null
 }
+
+export interface VehicleForMap {
+  currentLocation: LocationDTO
+  active: boolean
+}
+
+export interface VehicleResponceDTO {
+  size: number
+  vehicles: VehicleForMap[]
+}

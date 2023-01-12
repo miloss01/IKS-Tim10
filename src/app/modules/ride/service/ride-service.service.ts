@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs'
-import { DepartureDestination, ReasonDTO, Ride, RideCreation } from 'src/app/models/models'
+import { DepartureDestination, ReasonDTO, Ride, RideCreation, VehicleResponceDTO } from 'src/app/models/models'
 import { environment } from 'src/environments/environment'
 
 @Injectable({
@@ -39,7 +39,7 @@ export class RideServiceService {
     const options: any = {
       responseType: 'text'
     }
-    return this.http.post<string>(environment.apiHost + "ride", {
+    return this.http.post<string>(environment.apiHost + 'ride', {
       locations: ride.locations,
       startTime: ride.startTime,
       passengers: ride.passengers,
@@ -72,7 +72,7 @@ export class RideServiceService {
         reason: reasonDto.reason
       },
       options
-    );
+    )
   }
 
   getActiveDriverRide (id: number): Observable<HttpResponse<Ride>> {
@@ -114,10 +114,14 @@ export class RideServiceService {
   }
 
   getAllPassengerRides (id: number): Observable<any> {
-    return this.http.get<Ride>(environment.apiHost + "passenger/" + id + "/ride");
+    return this.http.get<Ride>(environment.apiHost + "passenger/" + id + "/ride")
   }
 
   getAllUserRides (id: number): Observable<any> {
-    return this.http.get<Ride>(environment.apiHost + "user/" + id + "/ride");
+    return this.http.get<Ride>(environment.apiHost + "user/" + id + "/ride")
+  }
+
+  getVehiclesForMap (): Observable<any> {
+    return this.http.get<VehicleResponceDTO>(environment.apiHost + 'vehicle/all')
   }
 }
