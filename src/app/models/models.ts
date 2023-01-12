@@ -150,3 +150,8 @@ export interface VehicleResponceDTO {
   size: number
   vehicles: VehicleForMap[]
 }
+
+export interface RideNotificationDTO {
+  message: string
+  rideId: number
+}

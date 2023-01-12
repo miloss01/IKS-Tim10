@@ -12,6 +12,8 @@ import { ManagePassengersService } from '../../app-user/manage-passengers/servic
 import { LoginAuthentificationService } from '../../auth/service/login-authentification.service'
 import Swal from 'sweetalert2'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { RideNotificationService } from '../../app-user/notification/service/ride-notification.service'
+import { WebsocketService } from '../service/websocket.service'
 
 interface VehicleType {
   value: string
@@ -82,14 +84,18 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     }, 1000)
   }
 
-  locationsFromBookAgain: any | undefined
-
   constructor (public invDialog: MatDialog,
     private readonly snackBar: MatSnackBar,
     private readonly mapService: MapService,
     private readonly rideService: RideServiceService,
     private readonly userService: ManagePassengersService,
-    private readonly userAuthentificationService: LoginAuthentificationService) { }
+    private readonly userAuthentificationService: LoginAuthentificationService,
+    private readonly notificationService: RideNotificationService,
+    private readonly socketService: WebsocketService,
+    private readonly authService: LoginAuthentificationService
+  ) { }
+
+  locationsFromBookAgain: any | undefined
 
   ngOnInit (): void {
     this.rideService.selectedBookAgainValue$.subscribe((value) => {
@@ -103,16 +109,16 @@ export class BookRideComponent implements AfterViewInit, OnInit {
   }
 
   invite (): void {
-    const dialogRef = this.invDialog.open(InviteDialogComponent);
+    const dialogRef = this.invDialog.open(InviteDialogComponent)
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)
       this.passengers = result
-    });
+    })
   }
 
   estimate (): void {
     this.mapService.postRequest(
-      this.estimateDataFormGroup.value.departure, 
+      this.estimateDataFormGroup.value.departure,
       this.estimateDataFormGroup.value.destination)
       .pipe(
       // map((res: any) => {
@@ -254,14 +260,14 @@ export class BookRideComponent implements AfterViewInit, OnInit {
   }
 
   addPeople (): void {
-    this.passengers.push({ id: this.userAuthentificationService.getId(), email: this.userAuthentificationService.getEmail() });
+    this.passengers.push({ id: this.userAuthentificationService.getId(), email: this.userAuthentificationService.getEmail() })
     // other users were added when the dialog closed
     this.ride.passengers = this.passengers
   }
 
   continueBooking (): void {
     if (!this.estimateDataFormGroup.value.departure || !this.estimateDataFormGroup.value.destination) {
-      this.snackBar.open('Prese enter locations', 'Close')
+      this.snackBar.open('Please enter locations', 'Close')
       return
     }
     if (this.estimated_price === 0 || !this.clickedEstimate) {
@@ -286,18 +292,21 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     }
     this.addPrefrences()
     this.addPeople()
-    this.ride.estimatedTimeMinutes = this.estimated_time ?? 0
+    this.ride.estimatedTimeMinutes = this.estimated_time || 0
 
-    void Swal.fire({
-      title: 'Ride request sent',
-      text: 'We will soon send you booking conformation.',
-      icon: 'success'
+    void Swal.fire({title: 'Ride request sent',
+      text: 'We will update you with booking information.',
+      footer: '<a href="current-ride">View ride status and details.</a>',
+      timer: 2000,
+      timerProgressBar: true
     })
-
-    console.log(this.ride)
     this.clickedEstimate = false
+
     this.rideService.addRide(this.ride).subscribe((value) => {
-      console.log(value)
+      if (value == null) this.notificationService.alertNotAvailable()
+    // eslint-disable-next-line n/handle-callback-err
+    }, (error: Error) => {
+      this.notificationService.alertAlreadyPending()
     })
   }
 }

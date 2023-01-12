@@ -35,3 +35,8 @@ mat-toolbar{
 .mat-menu-panel {
   width: 20% !important;
 }
+
+::ng-deep .mat-badge-content {
+  background-color: rgb(72, 121, 122);
+  color: white;
+}
