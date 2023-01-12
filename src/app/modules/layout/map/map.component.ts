@@ -48,9 +48,9 @@ export class MapComponent implements AfterViewInit {
     this.routeControl.addTo(this.map);
 
     // kod da se skloni prozor gde se prikazuju informacije o ruti
-    // let routingControlContainer = this.routeControl.getContainer();
-    // let controlContainerParent = routingControlContainer.parentNode;
-    // controlContainerParent.removeChild(routingControlContainer);
+    let routingControlContainer = this.routeControl.getContainer();
+    let controlContainerParent = routingControlContainer.parentNode;
+    controlContainerParent.removeChild(routingControlContainer);
 
     return this.routeControl;
   }

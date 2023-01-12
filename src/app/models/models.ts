@@ -146,3 +146,8 @@ export interface PasswordResetCodeDTO {
   newPassword: string | null,
   code: string | null
 }
+
+export interface RideNotificationDTO {
+  message: string
+  rideId: number
+}

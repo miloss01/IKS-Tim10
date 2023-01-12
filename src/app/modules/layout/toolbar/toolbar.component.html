@@ -7,12 +7,8 @@
     UBER - {{this.user.id + ": " + this.user.email + " - " + this.user.role}}
   </button> 
   <span class="example-spacer"></span>
-  <button mat-button class="white-text" routerLink="current-ride" *ngIf="this.user.role == 'PASSENGER'">
-    <mat-icon>directions_car</mat-icon>
-    Book ride
-  </button>
-  <button mat-button class="white-text" routerLink="current-ride" *ngIf="this.user.role == 'DRIVER'">
-    <mat-icon>directions_car</mat-icon>
+  <button mat-button class="white-text" routerLink="current-ride" (click)="hideMatBadge()" *ngIf="this.user.role=='PASSENGER' || this.user.role=='DRIVER'">
+    <mat-icon matBadge="1" matBadgePosition="before" [matBadgeHidden]="badgeHidden">directions_car</mat-icon>
     Ride
   </button>
   <button mat-button class="white-text" routerLink="passenger-account" *ngIf="this.user.role == 'PASSENGER'">

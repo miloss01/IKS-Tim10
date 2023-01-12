@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ReasonDTO } from 'src/app/models/models';
+import { RideNotificationService } from 'src/app/modules/app-user/notification/service/ride-notification.service';
 import { RideServiceService } from 'src/app/modules/ride/service/ride-service.service';
 import { BlockDialogComponent } from '../block-dialog/block-dialog.component';
 
@@ -24,6 +25,7 @@ export class CancelDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<BlockDialogComponent>,
     private router: Router,
     private rideService: RideServiceService,
+    private notificationService: RideNotificationService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { 
     this.rideId = data.rideId;
@@ -43,7 +45,8 @@ export class CancelDialogComponent implements OnInit {
     .cancelRide(this.reason, this.rideId)
     .subscribe((res: any) => {
         console.log(res);
-        this.router.navigate(['book-ride']);
+        this.notificationService.snackRideDeclined();
+        this.notificationService.setUpdated(null);
     });
     this.dialogRef.close();
   }
