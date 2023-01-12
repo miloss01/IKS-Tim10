@@ -97,7 +97,7 @@ export class RideNotificationService {
   alertWithdrawal (notification: RideNotificationDTO): void {
     Swal.fire({
       icon: 'error',
-      title: 'Ride has been cancelled.',
+      title: 'Ride has been cancelled by passenger.',
       text: notification.message,
       confirmButtonColor: '#6A7A9E',
     })

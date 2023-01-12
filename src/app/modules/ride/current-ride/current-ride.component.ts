@@ -217,7 +217,8 @@ export class CurrentRideComponent implements AfterViewInit {
     .subscribe((res: any) => {
         console.log(res);
 
-        this.updateViewToRide();
+        this.resetToNoRide();
+        this.checkAcceptedRide(this.userRole);
         const Toast = Swal.mixin({
           toast: true,
           position: 'top-end',
