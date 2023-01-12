@@ -1,10 +1,10 @@
-import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AppUser, ChangeRequest, Vehicle } from 'src/app/models/models';
-import { BlockDialogComponent } from '../../layout/dialogs/block-dialog/block-dialog.component';
-import { UserServiceService } from '../account/services/user.service';
-import { ChangeRequestService } from '../services/change-request.service';
+import { Component, Inject, OnInit } from '@angular/core'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { ActivatedRoute, Router } from '@angular/router'
+import { AppUser, ChangeRequest, Vehicle } from 'src/app/models/models'
+import { BlockDialogComponent } from '../../layout/dialogs/block-dialog/block-dialog.component'
+import { UserServiceService } from '../account/services/user.service'
+import { ChangeRequestService } from '../services/change-request.service'
 
 @Component({
   selector: 'app-change-request-info',
@@ -13,23 +13,23 @@ import { ChangeRequestService } from '../services/change-request.service';
 })
 export class ChangeRequestInfoComponent implements OnInit {
   changeRequest: ChangeRequest = {
-    userDTO:{
+    userDTO: {
       id: 0,
-      name: "",
-      surname: "",
-      telephoneNumber: "",
-      email: "",
-      address: "",
-      profilePicture: ""
+      name: '',
+      surname: '',
+      telephoneNumber: '',
+      email: '',
+      address: '',
+      profilePicture: ''
     },
     vehicleDTO: {
       id: 0,
       driverId: 0,
-      vehicleType: "",
-      model: "",
-      licenseNumber: "",
+      vehicleType: '',
+      model: '',
+      licenseNumber: '',
       currentLocation: {
-        address: "",
+        address: '',
         latitude: 0,
         longitude: 0
       },
@@ -37,27 +37,27 @@ export class ChangeRequestInfoComponent implements OnInit {
       babyTransport: true,
       petTransport: true
     },
-    date: ""
-  };
+    date: ''
+  }
 
   userData: ChangeRequest = {
-    userDTO:{
+    userDTO: {
       id: 0,
-      name: "",
-      surname: "",
-      telephoneNumber: "",
-      email: "",
-      address: "",
-      profilePicture: ""
+      name: '',
+      surname: '',
+      telephoneNumber: '',
+      email: '',
+      address: '',
+      profilePicture: ''
     },
     vehicleDTO: {
       id: 0,
       driverId: 0,
-      vehicleType: "",
-      model: "",
-      licenseNumber: "",
+      vehicleType: '',
+      model: '',
+      licenseNumber: '',
       currentLocation: {
-        address: "",
+        address: '',
         latitude: 0,
         longitude: 0
       },
@@ -65,52 +65,53 @@ export class ChangeRequestInfoComponent implements OnInit {
       babyTransport: true,
       petTransport: true
     },
-    date: ""
-  };
+    date: ''
+  }
 
-
-  constructor(
+  constructor (
     public dialogRef: MatDialogRef<BlockDialogComponent>,
-    private router: Router,
-    private route:ActivatedRoute,
-    private userService: UserServiceService,
-    private changeRequestService: ChangeRequestService,
-    @Inject(MAT_DIALOG_DATA) public data: any) { 
-    this.changeRequest = data.changeeRequest;
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly userService: UserServiceService,
+    private readonly changeRequestService: ChangeRequestService,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.changeRequest = data.changeeRequest
   }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
     this.route.params.subscribe((params) => {
       this.userService
-      .getUser(this.changeRequest.vehicleDTO.driverId)
-      .subscribe((fetchedUser:AppUser) => {
-        this.userData.userDTO =fetchedUser;
-        console.log("na"); 
+        .getUser(this.changeRequest.vehicleDTO.driverId)
+        .subscribe((fetchedUser: AppUser) => {
+          this.userData.userDTO = fetchedUser
+          // eslint-disable-next-line no-console
+          console.log('na')
         })
-    });
+    })
 
     this.route.params.subscribe((params) => {
       this.userService
-      .getVechicle(this.changeRequest.vehicleDTO.driverId)
-      .subscribe((fetchedVechicle:Vehicle) => {
-        this.userData.vehicleDTO =fetchedVechicle; 
-        console.log(fetchedVechicle);})
-    });
+        .getVechicle(this.changeRequest.vehicleDTO.driverId)
+        .subscribe((fetchedVechicle: Vehicle) => {
+          this.userData.vehicleDTO = fetchedVechicle
+          console.log(fetchedVechicle)
+        })
+    })
   }
 
-  onCancelClick(): void {
-    this.dialogRef.close();
-    this.router.navigate(['/manage-change-requests']);
+  onCancelClick (): void {
+    this.dialogRef.close()
+    void this.router.navigate(['/manage-change-requests'])
   }
 
   acceptRequest(): void {
     this.route.params.subscribe((params) => {
       this.changeRequestService
-      .acceptChangesRequest(this.changeRequest, this.changeRequest.userDTO.id)
-      .subscribe((res:any) => {
-        console.log(res); 
-        this.router.navigate(['/manage-change-requests']);
+        .acceptChangesRequest(this.changeRequest, this.changeRequest.userDTO.id)
+        .subscribe((res: any) => {
+          console.log(res)
+          void this.router.navigate(['/manage-change-requests'])
         })
-    });
+    })
   }
 }

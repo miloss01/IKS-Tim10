@@ -1,53 +1,53 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { DepartureDestination, ReasonDTO, Ride, RideCreation } from 'src/app/models/models';
-import { environment } from 'src/environments/environment';
+import { HttpClient, HttpResponse } from '@angular/common/http'
+import { Injectable } from '@angular/core'
+import { BehaviorSubject, Observable } from 'rxjs'
+import { DepartureDestination, ReasonDTO, Ride, RideCreation, VehicleResponceDTO } from 'src/app/models/models'
+import { environment } from 'src/environments/environment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class RideServiceService {
-  private value$ = new BehaviorSubject<any>({});
-  selectedValue$ = this.value$.asObservable();
+  private readonly value$ = new BehaviorSubject<any>({})
+  selectedValue$ = this.value$.asObservable()
 
-  private bookAgainValue$ = new BehaviorSubject<any>({});
-  selectedBookAgainValue$ = this.bookAgainValue$.asObservable();
+  private readonly bookAgainValue$ = new BehaviorSubject<any>({})
+  selectedBookAgainValue$ = this.bookAgainValue$.asObservable()
 
+  constructor (private readonly http: HttpClient) { }
 
-  constructor(private http: HttpClient) { }
-
-  setValue(test: any) {
-    this.value$.next(test);
+  setValue (test: any): void {
+    this.value$.next(test)
   }
 
-  setbookAgainValue(locations: DepartureDestination[]) {
+  setbookAgainValue (locations: DepartureDestination[]): void {
     this.bookAgainValue$.next(locations);
   }
 
-  getRideById(id: number): Observable<Ride> {
-    return this.http.get<Ride>(environment.apiHost + "ride/" + id);
-  }
-  
-  endRideById(id: number): Observable<any> {
-    const options: any = {
-      responseType: 'text',
-    };
-    return this.http.put<string>(environment.apiHost + "ride/" + id + '/end', {}, options);
+  getRideById (id: number): Observable<Ride> {
+    return this.http.get<Ride>(environment.apiHost + 'ride/' + id.toString())
   }
 
-  addRide(ride: RideCreation): Observable<any> {
+  endRideById (id: number): Observable<any> {
     const options: any = {
-      responseType: 'text',
-    };
-    return this.http.post<string>(environment.apiHost + "ride", {
+      responseType: 'text'
+    }
+    return this.http.put<string>(environment.apiHost + 'ride/' + id + '/end', {}, options);
+  }
+
+  addRide (ride: RideCreation): Observable<any> {
+    const options: any = {
+      responseType: 'text'
+    }
+    return this.http.post<string>(environment.apiHost + 'ride', {
       locations: ride.locations,
       startTime: ride.startTime,
       passengers: ride.passengers,
       vehicleType: ride.vehicleType,
       babyTransport: ride.babyTransport,
       petTransport: ride.petTransport,
-      estimatedTimeMinutes: ride.estimatedTimeMinutes}, options);
+      estimatedTimeMinutes: ride.estimatedTimeMinutes
+    }, options)
   }
 
   acceptRideById(id: number): Observable<any> {
@@ -73,8 +73,8 @@ export class RideServiceService {
 
   cancelRide(reasonDto: ReasonDTO, id: number): Observable<any> {
     const options: any = {
-      responseType: 'text',
-    };
+      responseType: 'text'
+    }
 
     return this.http.put<string>(
       environment.apiHost + 'ride/' + id + '/cancel',
@@ -82,8 +82,9 @@ export class RideServiceService {
         reason: reasonDto.reason
       },
       options
-    );
+    )
   }
+
 
   getActiveDriverRide(id: number) : Observable<any> {
     return this.http.get<Ride>(environment.apiHost + "ride/driver/" + id + "/active", {observe: "response"});
@@ -113,38 +114,41 @@ export class RideServiceService {
     return this.http.get(environment.apiHost + "driver/" + id + "/vehicle");
   }
 
-  endRide(id: number) : Observable<any> {
+  endRide (id: number): Observable<any> {
     const options: any = {
-      responseType: 'text',
-    };
+      responseType: 'text'
+    }
     return this.http.put<string>(
       environment.apiHost + "ride/" + id + "/end",
       {
         id: id
       },
       options
-      );
+    )
   }
 
-  raisePanic(id: number) : Observable<any> {
+  raisePanic(id: number): Observable<any> {
     const options: any = {
-      responseType: 'text',
-    };
+      responseType: 'text'
+    }
     return this.http.put<string>(
       environment.apiHost + "ride/" + id + "/panic",
       {
         id: id
       },
       options
-      );
+    )
   }
 
-  getAllPassengerRides(id: number) : Observable<any> {
-    return this.http.get<Ride>(environment.apiHost + "passenger/" + id + "/ride");
+  getAllPassengerRides (id: number): Observable<any> {
+    return this.http.get<Ride>(environment.apiHost + "passenger/" + id + "/ride")
   }
 
-  getAllUserRides(id: number) : Observable<any> {
-    return this.http.get<Ride>(environment.apiHost + "user/" + id + "/ride");
+  getAllUserRides (id: number): Observable<any> {
+    return this.http.get<Ride>(environment.apiHost + "user/" + id + "/ride")
   }
 
+  getVehiclesForMap (): Observable<any> {
+    return this.http.get<VehicleResponceDTO>(environment.apiHost + 'vehicle/all')
+  }
 }
