@@ -150,4 +150,5 @@ export interface PasswordResetCodeDTO {
 export interface RideNotificationDTO {
   message: string
   rideId: number
+  reason: string
 }

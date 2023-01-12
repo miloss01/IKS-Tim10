@@ -18,6 +18,7 @@ export class RideNotificationService {
     ) { }
 
   setUpdated(test: any) {
+    console.log("NOTIFIKACIJA: " + JSON.stringify(test))
     this.updated$.next(test);
   }
 
