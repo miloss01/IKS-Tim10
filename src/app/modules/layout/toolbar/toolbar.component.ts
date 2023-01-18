@@ -61,6 +61,17 @@ export class ToolbarComponent implements OnInit {
         this.notificationService.setUpdated(notification)
         this.notificationService.alertPassengerNotification(notification.message)
       })
+
+      if (this.authService.getRole() == "ADMIN") {
+        console.log("Ulog admin")
+        stompClient.subscribe('/ride-notification-panic', (message: { body: string }) => {
+          this.badgeHidden = true
+          const notification: RideNotificationDTO = JSON.parse(message.body)
+          console.log(JSON.stringify(notification))
+          this.notificationService.setUpdated(notification)
+          this.notificationService.alertPanic(notification.message)
+        })
+      }
     })
 
   }
