@@ -127,17 +127,8 @@ export class RideServiceService {
     )
   }
 
-  raisePanic(id: number): Observable<any> {
-    const options: any = {
-      responseType: 'text'
-    }
-    return this.http.put<string>(
-      environment.apiHost + "ride/" + id + "/panic",
-      {
-        id: id
-      },
-      options
-    )
+  raisePanic(id: number, reason: ReasonDTO): Observable<any> {
+    return this.http.put<ReasonDTO>(environment.apiHost + "ride/" + id + "/panic", reason)
   }
 
   getAllPassengerRides (id: number): Observable<any> {
