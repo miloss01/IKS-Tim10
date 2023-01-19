@@ -1,11 +1,12 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { MapComponent } from '../map/map.component';
-import { map, mergeMap } from 'rxjs';
-import { MapService } from '../services/map.service';
-import * as L from 'leaflet';
-import { EstimateDataDTO } from 'src/app/models/models';
+import { AfterViewInit, Component, ViewChild, ViewEncapsulation } from '@angular/core'
+import { FormControl, FormGroup } from '@angular/forms'
+import { HttpClient } from '@angular/common/http'
+import { MapComponent } from '../map/map.component'
+import { map, mergeMap } from 'rxjs'
+import { MapService } from '../services/map.service'
+import * as L from 'leaflet'
+import { EstimateDataDTO } from 'src/app/models/models'
+import { LoginAuthentificationService } from '../../auth/service/login-authentification.service'
 
 @Component({
   selector: 'app-landing-page',
@@ -14,7 +15,6 @@ import { EstimateDataDTO } from 'src/app/models/models';
   encapsulation: ViewEncapsulation.None
 })
 export class LandingPageComponent implements AfterViewInit {
-
   @ViewChild(MapComponent, {static : true}) map : MapComponent | undefined;
 
   estimateDataFormGroup = new FormGroup({
@@ -33,17 +33,25 @@ export class LandingPageComponent implements AfterViewInit {
     desLon: 0
   };
 
-  private departureMarker!: L.Marker;
-  private destinationMarker!: L.Marker;
-  private numOfMarkers: number = 0;
+  private departureMarker!: L.Marker
+  private destinationMarker!: L.Marker
+  private numOfMarkers: number = 0
+  public role: String = ''
+  public isActive: boolean = true
+  public isActiveLabel: string = 'Active'
 
-  constructor(private http: HttpClient, private mapService: MapService) { }
+  constructor (private readonly http: HttpClient, private readonly mapService: MapService, private readonly authService: LoginAuthentificationService) { }
 
-  ngAfterViewInit(): void {
-    setTimeout(()=> {
-      this.registerOnClick();
-      
-    }, 1000);
+  ngAfterViewInit (): void {
+    this.role = this.authService.getRole()
+    setTimeout(() => {
+      this.registerOnClick()
+      this.authService.getActiveFlag().subscribe((res: any) => {
+        console.log(res)
+        this.isActive = res.active
+        if (!this.isActive) this.isActiveLabel = 'Non active'
+      })
+    }, 1000)
   }
 
   estimate() {
@@ -150,23 +158,42 @@ export class LandingPageComponent implements AfterViewInit {
           this.estimateDataFormGroup.patchValue({ departure: full });
         } else if (this.numOfMarkers == 1) {
           this.destinationMarker = new L.Marker([lat, lng]).addTo(this.map?.getMap());
-          this.estimateDataFormGroup.patchValue({ destination: full });
+          this.estimateDataFormGroup.patchValue({ destination: full })
         } else {
-          this.departureMarker.removeFrom(this.map?.getMap());
-          this.destinationMarker.removeFrom(this.map?.getMap());
-          this.numOfMarkers = -1;
+          this.departureMarker.removeFrom(this.map?.getMap())
+          this.destinationMarker.removeFrom(this.map?.getMap())
+          this.numOfMarkers = -1
         }
 
-        this.numOfMarkers += 1;
-        
-      });
-      
-    });
+        this.numOfMarkers += 1
+      })
+    })
   }
 
   // String jsonn = "{\n  \"coordinates\": {\n    \"lat\": 23,\n    \"long\": 53\n  }\n}";
-	// 	JsonNode rootNode = new ObjectMapper().readTree(new StringReader(jsonn));
-	// 	String lat = rootNode.get("coordinates").get("lat").toString();
-	// 	System.out.println(lat);
-
+  // JsonNode rootNode = new ObjectMapper().readTree(new StringReader(jsonn));
+  // String lat = rootNode.get("coordinates").get("lat").toString();
+  // System.out.println(lat);
+  onCheckChange (): void {
+    if (this.isActive) {
+      this.authService.endWorkingHour().subscribe((res: any) => {
+        console.log(res)
+        this.authService.changeActiveFlag(false).subscribe((res: any) => {
+          console.log(res)
+          this.isActiveLabel = 'Not Active'
+          this.isActive = false
+        })
+      })
+    } else {
+      this.authService.addWorkingHour()
+        .subscribe((res: any) => {
+          this.authService.changeActiveFlag(true)
+            .subscribe((res: any) => {
+              console.log(res)
+              this.isActiveLabel = 'Active'
+              this.isActive = true
+            })
+        })
+    }
+  }
 }

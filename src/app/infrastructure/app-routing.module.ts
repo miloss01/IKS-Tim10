@@ -1,39 +1,38 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { BookRideComponent } from '../modules/ride/book-ride/book-ride.component';
-import { LandingPageComponent } from '../modules/layout/landing-page/landing-page.component';
-import { LoginComponent } from '../modules/auth/login/login.component';
-import { RegisterAccountComponent } from '../modules/app-user/register-account/register-account.component';
-import { RegisterDriverComponent } from '../modules/app-user/register-driver/register-driver.component';
-import { PassengerUserInfoComponent } from '../modules/app-user/account/passenger-user-info/passenger-user-info.component';
-import { DriverUserInfoComponent } from '../modules/app-user/account/driver-user-info/driver-user-info.component';
-import { ManagePassengersComponent } from '../modules/app-user/manage-passengers/manage-passengers.component';
-import { ManageDriversComponent } from '../modules/app-user/manage-drivers/manage-drivers.component';
-import { RideRequestComponent } from '../modules/ride/ride-request/ride-request.component';
-import { CurrentRideComponent } from '../modules/ride/current-ride/current-ride.component';
-import { RideHistoryComponent } from '../modules/ride/ride-history/ride-history.component';
-import { DriverAccountDetailsComponent } from '../modules/app-user/manage-drivers/account-details/driver-account-details/driver-account-details.component';
-import { PassengerAccountDetailsComponent } from '../modules/app-user/manage-passengers/account-details/passenger-account-details.component';
-import { ManageChangeRequestComponent } from '../modules/app-user/manage-change-request/manage-change-request.component';
-import { ChangeRequestInfoComponent } from '../modules/app-user/change-request-info/change-request-info.component';
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { BookRideComponent } from '../modules/ride/book-ride/book-ride.component'
+import { LandingPageComponent } from '../modules/layout/landing-page/landing-page.component'
+import { LoginComponent } from '../modules/auth/login/login.component'
+import { RegisterAccountComponent } from '../modules/app-user/register-account/register-account.component'
+import { RegisterDriverComponent } from '../modules/app-user/register-driver/register-driver.component'
+import { PassengerUserInfoComponent } from '../modules/app-user/account/passenger-user-info/passenger-user-info.component'
+import { DriverUserInfoComponent } from '../modules/app-user/account/driver-user-info/driver-user-info.component'
+import { ManagePassengersComponent } from '../modules/app-user/manage-passengers/manage-passengers.component'
+import { ManageDriversComponent } from '../modules/app-user/manage-drivers/manage-drivers.component'
+import { RideRequestComponent } from '../modules/ride/ride-request/ride-request.component'
+import { CurrentRideComponent } from '../modules/ride/current-ride/current-ride.component'
+import { RideHistoryComponent } from '../modules/ride/ride-history/ride-history.component'
+import { DriverAccountDetailsComponent } from '../modules/app-user/manage-drivers/account-details/driver-account-details/driver-account-details.component'
+import { PassengerAccountDetailsComponent } from '../modules/app-user/manage-passengers/account-details/passenger-account-details.component'
+import { ManageChangeRequestComponent } from '../modules/app-user/manage-change-request/manage-change-request.component'
 
 const routes: Routes = [
-  {path:'register-account', component: RegisterAccountComponent},
-  {path:'login', component: LoginComponent},
-  {path:'register-driver', component: RegisterDriverComponent},
-  {path: 'passenger-account', component: PassengerUserInfoComponent},
-  {path: "driver-account", component: DriverUserInfoComponent},
-  {path: 'book-ride', component: BookRideComponent},
-  {path: 'manage-drivers', component: ManageDriversComponent},
-  {path: 'manage-passengers', component: ManagePassengersComponent},
-  {path: "ride-request", component:RideRequestComponent},
-  {path: 'current-ride', component: CurrentRideComponent},
-  {path: 'ride-history', component: RideHistoryComponent},
-  {path: 'driver-account-details', component: DriverAccountDetailsComponent},
-  {path: 'passenger-account-details', component: PassengerAccountDetailsComponent},
-  {path: 'manage-change-requests', component: ManageChangeRequestComponent},
-  {path: '**', component: LandingPageComponent }
-];
+  { path: 'register-account', component: RegisterAccountComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register-driver', component: RegisterDriverComponent },
+  { path: 'passenger-account', component: PassengerUserInfoComponent },
+  { path: 'driver-account', component: DriverUserInfoComponent },
+  { path: 'book-ride', component: BookRideComponent },
+  { path: 'manage-drivers', component: ManageDriversComponent },
+  { path: 'manage-passengers', component: ManagePassengersComponent },
+  { path: 'ride-request', component: RideRequestComponent },
+  { path: 'current-ride', component: CurrentRideComponent },
+  { path: 'ride-history', component: RideHistoryComponent },
+  { path: 'driver-account-details', component: DriverAccountDetailsComponent },
+  { path: 'passenger-account-details', component: PassengerAccountDetailsComponent },
+  { path: 'manage-change-requests', component: ManageChangeRequestComponent },
+  { path: '**', component: LandingPageComponent }
+]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

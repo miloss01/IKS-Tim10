@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
-import { Component, OnInit } from '@angular/core';
-import { RideNotificationDTO } from 'src/app/models/models';
-import { RideNotificationService } from '../../app-user/notification/service/ride-notification.service';
-import { LoginAuthentificationService } from '../../auth/service/login-authentification.service';
-import { WebsocketService } from '../../ride/service/websocket.service';
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { RideNotificationDTO } from 'src/app/models/models'
+import { RideNotificationService } from '../../app-user/notification/service/ride-notification.service'
+import { LoginAuthentificationService } from '../../auth/service/login-authentification.service'
+import { WebsocketService } from '../../ride/service/websocket.service'
 
 @Component({
   selector: 'app-toolbar',
@@ -11,24 +12,24 @@ import { WebsocketService } from '../../ride/service/websocket.service';
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {
+  user: any
 
-  user: any;
-
-  constructor(private authService: LoginAuthentificationService,
+  constructor (private authService: LoginAuthentificationService,
     private socketService: WebsocketService,
-    private notificationService: RideNotificationService
-    ) {}
+    private notificationService: RideNotificationService,
+    private readonly router: Router,
+    private route: ActivatedRoute) {}
 
   badgeHidden: boolean = true
 
-  hideMatBadge(): void {
-    this.badgeHidden = true;
+  hideMatBadge (): void {
+    this.badgeHidden = true
   }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
     this.authService.userState$.subscribe((res: any) => {
-      this.user = res;
-      console.log(this.user);
+      this.user = res
+      console.log(this.user)
     })
   }
 
@@ -36,7 +37,6 @@ export class ToolbarComponent implements OnInit {
     const stompClient: any = this.socketService.initWebSocket()
 
     stompClient.connect({}, () => {
-
       console.log('trenutno je ulogovan (iz connect): ' + this.authService.getId());
 
       stompClient.subscribe('/ride-notification-driver-request/' + this.authService.getId(), (message: { body: string }) => {
@@ -73,24 +73,35 @@ export class ToolbarComponent implements OnInit {
         })
       }
     })
-
   }
 
-  logout(): void {
+  logout (): void {
     if (this.authService.getRole() == "DRIVER") {
-      this.authService.endWorkingHour().subscribe((res: any) => {
-        console.log(res);
-        this.authService.changeActiveFlag(false).subscribe((res: any) => {
-          console.log(res);
-          this.authService.logout();
-        });
-      });
+      this.authService.getActiveFlag().subscribe((res: any) => {
+        console.log(res)
+        const isActive: boolean = res.active
+        if (isActive) {
+          this.authService.endWorkingHour().subscribe((res: any) => {
+            console.log(res)
+            this.authService.changeActiveFlag(false).subscribe((res: any) => {
+              console.log(res)
+              this.authService.logout()
+            })
+          })
+        } else this.authService.logout()
+        // if (this.router.url === '/') {
+        //   window.location.reload()
+        // }
+      })
     } else {
+      //this.authService.logout();
       this.authService.changeActiveFlag(false).subscribe((res: any) => {
-        console.log(res);
-        this.authService.logout();
-      });
+        console.log(res)
+        this.authService.logout()
+      })
     }
+    console.log('eeeeeeeeeeeeeeeeeeeeeeeeee')
+    console.log(this.router.url)
+    void this.router.navigate([''], { skipLocationChange: true })
   }
-  
 }

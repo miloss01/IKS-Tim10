@@ -20,36 +20,35 @@ export class LoginComponent implements OnInit {
     password: new FormControl()
   })
 
-  ngOnInit(): void {
+  ngOnInit (): void {
   }
 
-  loginUser(): void {
+  loginUser (): void {
     this.authService.login({
-      "email": this.loginForm.value.username,
-      "password": this.loginForm.value.password
+      email: this.loginForm.value.username,
+      password: this.loginForm.value.password
     }).subscribe((res: any) => {
-      console.log(res);
-      localStorage.setItem('user', JSON.stringify(res.accessToken));
-      this.authService.setUser();
-      console.log(this.authService.getRole());
-      this.router.navigate(['/book-ride']);
-    
-    if (this.authService.getRole() == "DRIVER"){
-      this.authService.addWorkingHour()
-    .subscribe((res: any) => {
-      this.authService.changeActiveFlag(true)
-      .subscribe((res: any) => {
-      console.log(res);
-    });
-    });
-    }else{
-      this.authService.changeActiveFlag(true)
-    .subscribe((res: any) => {
-      console.log(res);
-    });
-    }
-    });
-    
+      console.log(res)
+      localStorage.setItem('user', JSON.stringify(res.accessToken))
+      this.authService.setUser()
+      console.log(this.authService.getRole())
+      if (this.authService.getRole() == "DRIVER") {
+        void this.router.navigate(['/'])
+        this.authService.addWorkingHour()
+          .subscribe((res: any) => {
+            this.authService.changeActiveFlag(true)
+              .subscribe((res: any) => {
+                console.log(res)
+              })
+          })
+      } else {
+        void this.router.navigate(['/book-ride'])
+        this.authService.changeActiveFlag(true)
+          .subscribe((res: any) => {
+            console.log(res)
+          })
+      }
+    })
   }
 
   goToRegister(): void {this.router.navigate(['/register-account']);}

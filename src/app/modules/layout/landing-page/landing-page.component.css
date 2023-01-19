@@ -69,3 +69,34 @@ body {
 .input-icon {
   margin-right: 10px;
 }
+.toogle-div{
+  margin: 4vh 0;
+  display: flex;
+}
+
+.label-for-toogle{
+  padding-top: 14px;
+  width: 50%;
+}
+
+mat-button-toggle {
+  border: 1px rgba(0,0,0,0) solid !important;
+  width: 50%;
+  padding: 0 5px !important;
+  z-index: 3 !important;
+}
+
+mat-button-toggle:hover {
+  border: 1px #000 solid !important;
+  background-color: #24ed7e2a !important;
+  border-radius: 5px !important;
+}
+
+.mat-button-toggle-checked {
+  box-shadow: 0 0 30px #000 !important;
+  border: 1px #000 solid !important;
+  border-radius: 5px !important;
+  background-color: #24ed7e2a !important;
+}
+
+

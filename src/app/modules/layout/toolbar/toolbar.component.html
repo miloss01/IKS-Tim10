@@ -1,11 +1,11 @@
 <mat-toolbar class="toolbar_color">
   <!--<span class="white-text">UBER</span>-->
-  <button mat-button class="white-text bigger-text" [routerLink]="['/']" *ngIf="this.user.role == undefined">
+  <button mat-button class="white-text bigger-text" [routerLink]="['/']" *ngIf="this.user.role != 'PASSENGER'">
     UBER - {{this.user.id + ": " + this.user.email + " - " + this.user.role}}
   </button>
-  <button mat-button class="white-text bigger-text" [routerLink]="['/book-ride']" *ngIf="this.user.role != ''">
+  <button mat-button class="white-text bigger-text" [routerLink]="['/book-ride']" *ngIf="this.user.role == 'PASSENGER'">
     UBER - {{this.user.id + ": " + this.user.email + " - " + this.user.role}}
-  </button> 
+  </button>
   <span class="example-spacer"></span>
   <button mat-button class="white-text" routerLink="current-ride" (click)="hideMatBadge()" *ngIf="this.user.role=='PASSENGER' || this.user.role=='DRIVER'">
     <mat-icon matBadge="1" matBadgePosition="before" [matBadgeHidden]="badgeHidden">directions_car</mat-icon>
@@ -39,7 +39,7 @@
     Log in
     <mat-icon>favorite</mat-icon>
   </button>
-  <button mat-button class="white-text" routerLink="/" (click)="logout()" *ngIf="this.user.email != null">
+  <button mat-button class="white-text" (click)="logout()" *ngIf="this.user.email != null">
     Log out
     <mat-icon>favorite</mat-icon>
   </button>
