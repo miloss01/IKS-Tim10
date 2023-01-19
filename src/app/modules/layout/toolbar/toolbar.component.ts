@@ -79,18 +79,18 @@ export class ToolbarComponent implements OnInit {
   logout(): void {
     if (this.authService.getRole() == "DRIVER") {
       this.authService.endWorkingHour().subscribe((res: any) => {
-      console.log(res);
-
-      if (true)
+        console.log(res);
         this.authService.changeActiveFlag(false).subscribe((res: any) => {
           console.log(res);
           this.authService.logout();
         });
-
       });
-    
-    
+    } else {
+      this.authService.changeActiveFlag(false).subscribe((res: any) => {
+        console.log(res);
+        this.authService.logout();
+      });
     }
   }
-
+  
 }
