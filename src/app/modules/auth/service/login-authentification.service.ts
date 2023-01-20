@@ -98,10 +98,8 @@ export class LoginAuthentificationService {
     });
   }
 
-  logout(): void {
-    localStorage.removeItem("user");
-    this.user$.next({});
-    
+  logout (): void {
+    localStorage.removeItem("user")
+    this.user$.next({})
   }
-
 }

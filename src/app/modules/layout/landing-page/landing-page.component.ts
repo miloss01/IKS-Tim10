@@ -42,12 +42,17 @@ export class LandingPageComponent implements AfterViewInit {
 
   constructor (private readonly http: HttpClient, private readonly mapService: MapService, private readonly authService: LoginAuthentificationService) { }
 
-  ngAfterViewInit (): void {
+  ngOnInit (): void {
     this.role = this.authService.getRole()
+  }
+
+  ngAfterViewInit (): void {
+    // this.role = this.authService.getRole()
     setTimeout(() => {
       this.registerOnClick()
       this.authService.getActiveFlag().subscribe((res: any) => {
         console.log(res)
+        this.role = this.authService.getRole()
         this.isActive = res.active
         if (!this.isActive) this.isActiveLabel = 'Non active'
       })

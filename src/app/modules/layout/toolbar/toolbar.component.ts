@@ -86,22 +86,24 @@ export class ToolbarComponent implements OnInit {
             this.authService.changeActiveFlag(false).subscribe((res: any) => {
               console.log(res)
               this.authService.logout()
+              void this.router.navigate(['']).then(async () => location.reload())
             })
           })
-        } else this.authService.logout()
-        // if (this.router.url === '/') {
-        //   window.location.reload()
-        // }
+        } else {
+          this.authService.logout()
+          void this.router.navigate(['']).then(async () => location.reload())
+        }
       })
     } else {
-      //this.authService.logout();
+      //this.authService.logout()
       this.authService.changeActiveFlag(false).subscribe((res: any) => {
         console.log(res)
         this.authService.logout()
+        void this.router.navigate([''])
       })
     }
-    console.log('eeeeeeeeeeeeeeeeeeeeeeeeee')
-    console.log(this.router.url)
-    void this.router.navigate([''], { skipLocationChange: true })
+    // console.log('eeeeeeeeeeeeeeeeeeeeeeeeee')
+    // console.log(this.router.url)
+    // void this.router.navigate([''])
   }
 }

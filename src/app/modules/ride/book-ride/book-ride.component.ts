@@ -248,8 +248,6 @@ export class BookRideComponent implements AfterViewInit, OnInit {
   }
 
   addTime (): boolean {
-    console.log(this.filterDateFrom)
-    console.log(new Date(this.filterDateFrom))
     if (!this.filterDateFrom) { return false }
     this.userDate = new Date(this.filterDateFrom)
     const miliseconds: number = this.userDate.valueOf() - (new Date()).valueOf();
@@ -301,8 +299,9 @@ export class BookRideComponent implements AfterViewInit, OnInit {
       timerProgressBar: true
     })
     this.clickedEstimate = false
-
+    console.log(this.ride)
     this.rideService.addRide(this.ride).subscribe((value) => {
+      console.log(value)
       if (value == null) this.notificationService.alertNotAvailable()
     // eslint-disable-next-line n/handle-callback-err
     }, (error: Error) => {
