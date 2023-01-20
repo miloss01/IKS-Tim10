@@ -109,10 +109,10 @@ export class BookRideComponent implements AfterViewInit, OnInit {
   }
 
   invite (): void {
-    const dialogRef = this.invDialog.open(InviteDialogComponent)
+    const dialogRef = this.invDialog.open(InviteDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)
-      this.passengers = result
+      this.passengers.push(result)
     })
   }
 
@@ -296,13 +296,14 @@ export class BookRideComponent implements AfterViewInit, OnInit {
       text: 'We will update you with booking information.',
       footer: '<a href="current-ride">View ride status and details.</a>',
       timer: 2000,
-      timerProgressBar: true
-    })
+      timerProgressBar: true })
     this.clickedEstimate = false
+    console.log("BEFORE ADDING: " )
     console.log(this.ride)
     this.rideService.addRide(this.ride).subscribe((value) => {
-      console.log(value)
       if (value == null) this.notificationService.alertNotAvailable()
+      console.log("AFTER ADDING: " )
+      console.log(value)
     // eslint-disable-next-line n/handle-callback-err
     }, (error: Error) => {
       this.notificationService.alertAlreadyPending()

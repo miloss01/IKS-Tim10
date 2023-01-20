@@ -154,4 +154,5 @@ export interface VehicleResponceDTO {
 export interface RideNotificationDTO {
   message: string
   rideId: number
+  reason: string
 }
