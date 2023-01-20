@@ -75,9 +75,11 @@ export class RideDetailsDialogComponent implements OnInit {
       this.reviewService
       .getReviews(this.ride.id)
       .subscribe((fetchedReviews:RideReview[]) => {
-        this.review = fetchedReviews[0];
-        this.review.driverReview.passenger.email = fetchedReviews[0].driverReview.passenger.email;
-        this.review.vehicleReview.passenger.email = fetchedReviews[0].driverReview.passenger.email;
+        if (fetchedReviews.length != 0) {
+          this.review = fetchedReviews[0];
+          if (this.review.driverReview != null) this.review.driverReview.passenger.email = fetchedReviews[0].driverReview.passenger.email;
+          if (this.review.vehicleReview != null) this.review.vehicleReview.passenger.email = fetchedReviews[0].driverReview.passenger.email;
+        }
       });
 
       this.getDriverForDisplay();
@@ -114,7 +116,7 @@ export class RideDetailsDialogComponent implements OnInit {
   }
 
   displayReviewsOnClick(email:String) {
-    if (this.review.driverReview.passenger.email === email) {
+    if (this.review.driverReview.id != -1 && this.review.driverReview.passenger.email === email) {
       this.reviewsShow = true;
     }
     else {
