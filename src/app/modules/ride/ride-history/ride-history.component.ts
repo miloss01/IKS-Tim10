@@ -140,6 +140,7 @@ export class RideHistoryComponent implements OnInit {
       };
       this.dataSource.sortData = this.enableSortByAnyColumn();
       this.rides = res.results;
+      console.log(JSON.stringify(this.rides))
       this.length = this.rides.length;
       this.pageIteration();
       this.dataSource.sort = this.sort;

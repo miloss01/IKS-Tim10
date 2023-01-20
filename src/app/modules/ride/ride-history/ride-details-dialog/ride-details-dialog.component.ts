@@ -76,9 +76,8 @@ export class RideDetailsDialogComponent implements OnInit {
       .getReviews(this.ride.id)
       .subscribe((fetchedReviews:RideReview[]) => {
         this.review = fetchedReviews[0];
-        // SETTING EMAIL FOR DUMMY TESTING TODO - REMOVE
-        this.review.driverReview.passenger.email = "nana@DEsi.com";
-        this.review.vehicleReview.passenger.email = "nana@DEsi.com";
+        this.review.driverReview.passenger.email = fetchedReviews[0].driverReview.passenger.email;
+        this.review.vehicleReview.passenger.email = fetchedReviews[0].driverReview.passenger.email;
       });
 
       this.getDriverForDisplay();
@@ -115,7 +114,7 @@ export class RideDetailsDialogComponent implements OnInit {
   }
 
   displayReviewsOnClick(email:String) {
-    if (this.review.driverReview.passenger.email == email) {
+    if (this.review.driverReview.passenger.email === email) {
       this.reviewsShow = true;
     }
     else {
@@ -128,7 +127,7 @@ export class RideDetailsDialogComponent implements OnInit {
     let user:AppUserForRide;
     for (let i = 0 ; i < this.ride.passengers.length ; i++) {
       user = this.ride.passengers[i];
-      this.userService.getUserById(user.id)
+      this.userService.getPassengerById(user.id)
       .subscribe((fetchedUser:AppUser) => {
         this.passengersForDisplay.push(fetchedUser);
         })
@@ -136,7 +135,7 @@ export class RideDetailsDialogComponent implements OnInit {
   }
 
   getDriverForDisplay() { 
-    this.userService.getUserById(this.ride.driver.id)
+    this.userService.getDriverById(this.ride.driver.id)
       .subscribe((fetchedUser:AppUser) => {
         this.driverForDisplay = fetchedUser;
         })

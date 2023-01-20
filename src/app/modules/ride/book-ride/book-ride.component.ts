@@ -120,7 +120,7 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     const dialogRef = this.invDialog.open(InviteDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
-      this.passengers = result;
+      this.passengers.push(result);
     });
   }
 
@@ -310,8 +310,12 @@ export class BookRideComponent implements AfterViewInit, OnInit {
       timerProgressBar: true});
       this.clickedEstimate = false;
       
+      console.log("BEFORE ADDING: " )
+      console.log(this.ride)
       this.rideService.addRide(this.ride).subscribe((value) => {
           if (value == null) this.notificationService.alertNotAvailable()
+          console.log("AFTER ADDING: " )
+          console.log(value)
         }, (error: Error) => {
           this.notificationService.alertAlreadyPending();
         });

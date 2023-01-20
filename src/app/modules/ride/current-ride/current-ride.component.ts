@@ -113,7 +113,8 @@ export class CurrentRideComponent implements AfterViewInit {
         (response: any) => {
           this.ride = response.body!;
           this.status = response.body!.status;
-          console.log(this.status);
+          console.log("ACTIVE RIDE:");
+          console.log(this.ride);
           this.initMap();
       }, (error: any) => {
         this.checkAcceptedRide(this.userRole);
@@ -395,7 +396,10 @@ export class CurrentRideComponent implements AfterViewInit {
               if (this.status != 'active') this.checkAcceptedRide(this.userRole) // Not to disrupt view of active ride
               this.notificationService.snackRideAccepted()
         })
-      } else if (result.isDenied) this.onDeclineRideClick()
+      } else if (result.isDenied) {
+        this.ride.id = ride.id
+        this.onDeclineRideClick()
+      }
     })
   }
 
