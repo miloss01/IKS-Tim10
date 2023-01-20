@@ -139,6 +139,10 @@ export class RideServiceService {
     return this.http.get<Ride>(environment.apiHost + "user/" + id + "/ride")
   }
 
+  getAllUserRidesWithDates (id: number, start: string, end: string): Observable<any> {
+    return this.http.get<Ride>(environment.apiHost + "user/" + id + "/ride?sort=startTime,asc&from=" + start + "&to=" + end)
+  }
+
   getVehiclesForMap (): Observable<any> {
     return this.http.get<VehicleResponceDTO>(environment.apiHost + 'vehicle/all')
   }

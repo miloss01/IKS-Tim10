@@ -1,0 +1,27 @@
+
+<div class="container">
+  <div class="conditions">
+    <form [formGroup]="conditionFormGroup" id="condition-form">
+      <mat-radio-group aria-label="Select an option" formControlName="condition">
+        <mat-radio-button value="number-of-rides">Number of rides</mat-radio-button>
+        <mat-radio-button value="km">Kilometers</mat-radio-button>
+        <mat-radio-button value="price">Money</mat-radio-button>
+      </mat-radio-group>
+    </form>
+    <mat-form-field appearance="outline" class="select-and-date" *ngIf="isAdmin">
+      <mat-label>User email</mat-label>
+      <input matInput type="text" placeholder="User email" [(ngModel)]="userEmail">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="select-and-date">
+      <mat-label>Start time</mat-label>
+      <input matInput type="datetime-local" placeholder="Start time" [(ngModel)]="filterStartDate">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="select-and-date">
+      <mat-label>End time</mat-label>
+      <input matInput type="datetime-local" placeholder="End time" [(ngModel)]="filterEndDate">
+    </mat-form-field>
+    <button mat-button id="show-button" (click)="fetchRides()">Show</button>
+  </div>
+
+  <canvas id="myChart"></canvas>
+</div>

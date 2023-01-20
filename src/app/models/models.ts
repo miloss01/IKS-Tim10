@@ -34,6 +34,8 @@ export interface Ride {
   vehicleType?: string
   babyTransport?: boolean
   petTransport?: boolean
+  distance?: number
+  status?: string
 }
 export interface RideCreation {
   locations: DepartureDestination[]
@@ -103,6 +105,11 @@ export interface ChangeRequestResponce {
 export interface RideReview {
   vehicleReview: Review
   driverReview: Review
+}
+
+export interface RideResponseDTO {
+  totalCount: number
+  results: Ride[]
 }
 
 export interface Review {
