@@ -45,6 +45,8 @@ export interface RideCreation {
   babyTransport: boolean
   petTransport: boolean
   estimatedTimeMinutes: number
+  distance: number,
+  price: number
 }
 
 export interface AppUserForRide {

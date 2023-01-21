@@ -46,7 +46,9 @@ export class RideServiceService {
       vehicleType: ride.vehicleType,
       babyTransport: ride.babyTransport,
       petTransport: ride.petTransport,
-      estimatedTimeMinutes: ride.estimatedTimeMinutes
+      estimatedTimeMinutes: ride.estimatedTimeMinutes,
+      distance: ride.distance,
+      price: ride.price
     }, options)
   }
 
