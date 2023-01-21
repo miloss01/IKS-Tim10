@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs'
 import { DocumentDTO, Vehicle } from 'src/app/models/models'
 import { environment } from 'src/environments/environment'
+import { accountsDTO } from '../../manage-passengers/manage-passengers.component'
 import { AppUser } from '../basic-user-information/basic-user-information.component'
 
 @Injectable({
@@ -70,5 +71,13 @@ export class UserServiceService {
 
   getDriverById (id: number): Observable<AppUser> {
     return this.http.get<AppUser>(environment.apiHost + "driver/" + id)
+  }
+
+  getAllPassengers(): Observable<accountsDTO> {
+    return this.http.get<accountsDTO>(environment.apiHost + 'passenger');
+  }
+
+  getAllDrivers(): Observable<accountsDTO> {
+    return this.http.get<accountsDTO>(environment.apiHost + 'driver');
   }
 }

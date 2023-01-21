@@ -31,7 +31,9 @@
     "stompjs": "^2.3.3",
     "sweetalert2": "^11.6.16",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "@types/chart.js": "^2.9.30",
+    "chart.js": "^2.9.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.10",
