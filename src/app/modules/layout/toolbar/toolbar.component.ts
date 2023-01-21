@@ -95,7 +95,7 @@ export class ToolbarComponent implements OnInit {
         }
       })
     } else {
-      //this.authService.logout()
+      // this.authService.logout()
       this.authService.changeActiveFlag(false).subscribe((res: any) => {
         console.log(res)
         this.authService.logout()

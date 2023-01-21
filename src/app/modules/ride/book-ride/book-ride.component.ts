@@ -43,7 +43,9 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     vehicleType: '',
     babyTransport: false,
     petTransport: false,
-    estimatedTimeMinutes: 0
+    estimatedTimeMinutes: 0,
+    distance: 0,
+    price: 0
   }
 
   passengers: AppUserForRide[] = []
@@ -291,6 +293,9 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     this.addPrefrences()
     this.addPeople()
     this.ride.estimatedTimeMinutes = this.estimated_time || 0
+    this.ride.distance = this.distance
+    this.ride.price = this.estimated_price
+    console.log(this.ride.distance)
 
     void Swal.fire({title: 'Ride request sent',
       text: 'We will update you with booking information.',

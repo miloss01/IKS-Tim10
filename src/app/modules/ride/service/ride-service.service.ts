@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs'
-import { DepartureDestination, ReasonDTO, Ride, RideCreation, VehicleResponceDTO } from 'src/app/models/models'
+import { DepartureDestination, ReasonDTO, Ride, RideCreation, RideResponseDTO, VehicleResponceDTO } from 'src/app/models/models'
 import { environment } from 'src/environments/environment'
 
 @Injectable({
@@ -46,7 +46,9 @@ export class RideServiceService {
       vehicleType: ride.vehicleType,
       babyTransport: ride.babyTransport,
       petTransport: ride.petTransport,
-      estimatedTimeMinutes: ride.estimatedTimeMinutes
+      estimatedTimeMinutes: ride.estimatedTimeMinutes,
+      distance: ride.distance,
+      price: ride.price
     }, options)
   }
 
@@ -139,7 +141,15 @@ export class RideServiceService {
     return this.http.get<Ride>(environment.apiHost + "user/" + id + "/ride")
   }
 
+  getAllUserRidesWithDates (id: number, start: string, end: string): Observable<RideResponseDTO> {
+    return this.http.get<RideResponseDTO>(environment.apiHost + "user/" + id + "/ride?sort=startTime,asc&from=" + start + "&to=" + end)
+  }
+
   getVehiclesForMap (): Observable<any> {
     return this.http.get<VehicleResponceDTO>(environment.apiHost + 'vehicle/all')
+  }
+
+  getAllRides(start: string, end: string): Observable<RideResponseDTO> {
+    return this.http.get<RideResponseDTO>(environment.apiHost + "ride/getAllRides?sort=startTime,asc&from=" + start + "&to=" + end)
   }
 }
