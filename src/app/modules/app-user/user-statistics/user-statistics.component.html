@@ -20,7 +20,15 @@
       <mat-label>End time</mat-label>
       <input matInput type="datetime-local" placeholder="End time" [(ngModel)]="filterEndDate">
     </mat-form-field>
-    <button mat-button id="show-button" (click)="fetchRides()">Show</button>
+    <button mat-button class="show-button" (click)="fetchRides()">Show</button>
+  </div>
+
+  <div class="conditions" *ngIf="isAdmin">
+    <mat-checkbox [(ngModel)]="showPassengers"></mat-checkbox>
+    <p>Passengers</p>
+    <mat-checkbox [(ngModel)]="showDrivers"></mat-checkbox>
+    <p>Drivers</p>
+    <button mat-button class="show-button" (click)="fetchGroupRides()">Show group</button>
   </div>
 
   <canvas id="myChart"></canvas>

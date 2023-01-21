@@ -27,6 +27,14 @@ mat-radio-button {
   margin-right: 20px;
 }
 
-#show-button {
+.show-button {
   border: 1px solid black;
+}
+
+.param {
+  margin: 0 30px;
+}
+
+p {
+  margin: 0 20px 0 10px;
 }
