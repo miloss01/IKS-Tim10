@@ -3,9 +3,16 @@
 <div class="container">
 
   <div class="load-container">
-    <mat-form-field>
+    <mat-form-field *ngIf="isAdmin">
       <mat-label>User email</mat-label>
       <input matInput placeholder="User email" [(ngModel)]="userEmail">
+    </mat-form-field>
+
+    <mat-form-field *ngIf="!isAdmin">
+      <mat-label>Admins</mat-label>
+      <mat-select [(value)]="userEmail">
+        <mat-option *ngFor="let admin of admins" [value]="admin.email">{{admin.email}}</mat-option>
+      </mat-select>
     </mat-form-field>
   
     <button mat-button class="load-messages-btn" (click)="loadMessages()">Load</button>

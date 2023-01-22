@@ -1,10 +1,11 @@
 import { NonNullAssert } from '@angular/compiler';
 import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { AppUser, MessageReceivedDTO, MessageResponseDTO, MessageSentDTO } from 'src/app/models/models';
+import { AppUser, AppUserForRide, MessageReceivedDTO, MessageResponseDTO, MessageSentDTO } from 'src/app/models/models';
 import { AppUserService } from 'src/app/services/app-user.service';
 import { LoginAuthentificationService } from '../../auth/service/login-authentification.service';
 import { WebsocketService } from '../../ride/service/websocket.service';
 import { UserServiceService } from '../account/services/user.service';
+import { accountsDTO } from '../manage-passengers/manage-passengers.component';
 
 @Component({
   selector: 'app-chat',
@@ -16,11 +17,20 @@ export class ChatComponent implements OnInit {
   messages: MessageReceivedDTO[] = []
   userEmail: string = ""
   newMessage: string = ""
+  isAdmin: boolean = false
+  admins: AppUserForRide[] | undefined = []
 
 
   constructor(private appUserService: AppUserService, private authService: LoginAuthentificationService, private userService: UserServiceService, private socketService: WebsocketService) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+
+    let role: string = this.authService.getRole()
+    this.isAdmin = true ? role == "ADMIN" : false
+
+    if (!this.isAdmin)
+      this.admins = await this.appUserService.getAdmins().toPromise()
+
     let stompClient: any = this.socketService.initWebSocket();
     stompClient.connect({}, () => {
       let id: string = this.authService.getId()

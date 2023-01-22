@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { MessageReceivedDTO, MessageResponseDTO, MessageSentDTO, PasswordResetCodeDTO, VehicleDTO } from '../models/models';
+import { AppUserForRide, MessageReceivedDTO, MessageResponseDTO, MessageSentDTO, PasswordResetCodeDTO, VehicleDTO } from '../models/models';
 import { AppUser } from '../modules/app-user/account/basic-user-information/basic-user-information.component';
 import { accountsDTO } from '../modules/app-user/manage-passengers/manage-passengers.component';
 
@@ -47,6 +47,10 @@ export class AppUserService {
 
   getMessagesByUserId(id: number): Observable<MessageResponseDTO> {
     return this.http.get<MessageResponseDTO>(environment.apiHost + "user/" + id + "/message?sort=timeSent,asc");
+  }
+
+  getAdmins(): Observable<AppUserForRide[]> {
+    return this.http.get<AppUserForRide[]>(environment.apiHost + "user/admins");
   }
   
 }
