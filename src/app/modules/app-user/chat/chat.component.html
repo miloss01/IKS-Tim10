@@ -1,0 +1,29 @@
+
+
+<div class="container">
+
+  <div class="load-container">
+    <mat-form-field>
+      <mat-label>User email</mat-label>
+      <input matInput placeholder="User email" [(ngModel)]="userEmail">
+    </mat-form-field>
+  
+    <button mat-button class="load-messages-btn" (click)="loadMessages()">Load</button>
+  </div>
+
+  <div id="messages-container">
+    <div class="message" *ngFor="let message of this.messages" [style.align-self]="getFlexAlign(message)">
+      <p [style.background-color]="getBgColor(message)">{{message.message}}</p>
+    </div>
+  </div>
+
+  <div class="send-container">
+    <mat-form-field>
+      <mat-label>Message</mat-label>
+      <input matInput placeholder="Enter message" [(ngModel)]="newMessage">
+    </mat-form-field>
+  
+    <button mat-button class="load-messages-btn" (click)="sendMessage()">Send</button>
+  </div>
+
+</div>

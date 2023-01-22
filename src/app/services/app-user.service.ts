@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { PasswordResetCodeDTO, VehicleDTO } from '../models/models';
+import { MessageReceivedDTO, MessageResponseDTO, MessageSentDTO, PasswordResetCodeDTO, VehicleDTO } from '../models/models';
 import { AppUser } from '../modules/app-user/account/basic-user-information/basic-user-information.component';
 import { accountsDTO } from '../modules/app-user/manage-passengers/manage-passengers.component';
 
@@ -39,6 +39,14 @@ export class AppUserService {
 
   applyCode(data: PasswordResetCodeDTO): Observable<any> {
     return this.http.put(environment.apiHost + "user/resetPassword", data, { observe: "response" });
+  }
+
+  sendMessage(id: number, message: MessageSentDTO): Observable<MessageReceivedDTO> {
+    return this.http.post<MessageReceivedDTO>(environment.apiHost + "user/" + id + "/message", message);
+  }
+
+  getMessagesByUserId(id: number): Observable<MessageResponseDTO> {
+    return this.http.get<MessageResponseDTO>(environment.apiHost + "user/" + id + "/message?sort=timeSent,asc");
   }
   
 }

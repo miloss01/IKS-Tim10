@@ -20,6 +20,7 @@ import { UserStatisticsComponent } from '../modules/app-user/user-statistics/use
 import { TokenGuard } from './guard/token.guard';
 import { RoleGuard } from './guard/role.guard';
 import { UnregisteredGuard } from './guard/unregistered.guard';
+import { ChatComponent } from '../modules/app-user/chat/chat.component';
 
 const pass: string[] = ["PASSENGER"]
 const driver: string[] = ["DRIVER"]
@@ -59,6 +60,8 @@ const routes: Routes = [
   { path: 'manage-change-requests', component: ManageChangeRequestComponent, canActivate: [TokenGuard, RoleGuard ], data: {roles: admin} },
 
   { path: 'statistics', component: UserStatisticsComponent, canActivate: [TokenGuard] },
+
+  { path: 'chat', component: ChatComponent, canActivate: [TokenGuard] },
 
   { path: '**', component: LandingPageComponent }
 ];
