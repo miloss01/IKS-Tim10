@@ -12,15 +12,16 @@ import { LoginAuthentificationService } from '../service/login-authentification.
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-  constructor(private router: Router, private authService: LoginAuthentificationService, public resetPasswordDialog: MatDialog) { }
+  constructor (private readonly router: Router, private readonly authService: LoginAuthentificationService, public resetPasswordDialog: MatDialog) { }
 
   loginForm = new FormGroup({
     username: new FormControl(),
     password: new FormControl()
   })
 
-  ngOnInit (): void {
+  errorMessage: string = ''
+
+  ngOnInit(): void {
   }
 
   loginUser (): void {
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('user', JSON.stringify(res.accessToken))
       this.authService.setUser()
       console.log(this.authService.getRole())
-      if (this.authService.getRole() == "DRIVER") {
+      if (this.authService.getRole() == 'DRIVER') {
         void this.router.navigate(['/'])
         this.authService.addWorkingHour()
           .subscribe((res: any) => {
@@ -48,13 +49,46 @@ export class LoginComponent implements OnInit {
             console.log(res)
           })
       }
+    },
+    (err: any) => {
+      console.log(err)
+      this.errorMessage = err.error.message
     })
   }
+    //   "email": this.loginForm.value.username,
+    //   "password": this.loginForm.value.password
+    // }).subscribe(
+    //   (response: any) => {
+    //     console.log(response);
+    //     localStorage.setItem('user', JSON.stringify(response.accessToken));
+    //     this.authService.setUser();
+    //     console.log(this.authService.getRole());
+    //     this.router.navigate(['/book-ride']);
+      
+    //     if (this.authService.getRole() == "DRIVER"){
+    //       this.authService.addWorkingHour().subscribe((res: any) => {
+    //         this.authService.changeActiveFlag(true).subscribe((res: any) => {
+    //           console.log(res);
+    //         });
+    //       });
 
-  goToRegister(): void {this.router.navigate(['/register-account']);}
+    //     } else {
+    //       this.authService.changeActiveFlag(true)
+    //       .subscribe((res: any) => {
+    //         console.log(res);
+    //       });
+    //     }
+    //   },
+    //   (err: any) => {
+    //     console.log(err)
+    //     this.errorMessage = err.error.message
+    //   });
+    
 
-  openResetPasswordDialog(): void {
-    const dialog = this.resetPasswordDialog.open(ResetPasswordDialogComponent);
+
+  goToRegister (): void { this.router.navigate(['/register-account']) }
+
+  openResetPasswordDialog (): void {
+    const dialog = this.resetPasswordDialog.open(ResetPasswordDialogComponent)
   }
-
 }

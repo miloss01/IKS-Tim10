@@ -21,6 +21,7 @@
       <input matInput type="datetime-local" placeholder="End time" [(ngModel)]="filterEndDate">
     </mat-form-field>
     <button mat-button class="show-button" (click)="fetchRides()">Show</button>
+    <button mat-button class="pdf-button" (click)="exportToPdf()">To PDF</button>
   </div>
 
   <div class="conditions" *ngIf="isAdmin">

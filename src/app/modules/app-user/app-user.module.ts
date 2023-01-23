@@ -23,6 +23,7 @@ import { NotesComponent } from './manage-passengers/notes/notes.component';
 import { ManageChangeRequestComponent } from './manage-change-request/manage-change-request.component';
 import { ChangeRequestInfoComponent } from './change-request-info/change-request-info.component';
 import { UserStatisticsComponent } from './user-statistics/user-statistics.component';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [RegisterAccountComponent, 
@@ -40,7 +41,8 @@ import { UserStatisticsComponent } from './user-statistics/user-statistics.compo
     NotesComponent,
     ManageChangeRequestComponent,
     ChangeRequestInfoComponent,
-    UserStatisticsComponent],
+    UserStatisticsComponent,
+    ChatComponent],
   imports: [
     CommonModule,
     AppRoutingModule,
