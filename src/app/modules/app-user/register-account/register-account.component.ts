@@ -20,6 +20,8 @@ export class RegisterAccountComponent implements OnInit {
     confirmPassword: new FormControl()
   })
 
+  errorMessage: string = ""
+
   constructor(private router: Router, private appUserService: AppUserService) { }
 
   ngOnInit(): void {
@@ -27,6 +29,12 @@ export class RegisterAccountComponent implements OnInit {
 
   registerAccount(): void {
       console.log("Value of form: " + JSON.stringify(this.registerAccountForm.value));
+
+      if (this.registerAccountForm.value.password != this.registerAccountForm.value.confirmPassword) {
+        this.errorMessage = "Passwords don't match"
+        return
+      }
+
       this.appUserService
       .addPassenger({
         name: this.registerAccountForm.value.name,
@@ -36,9 +44,20 @@ export class RegisterAccountComponent implements OnInit {
         address: this.registerAccountForm.value.address,
         password: this.registerAccountForm.value.password,
       })
-      .subscribe((res: any) => {
-        console.log(JSON.stringify(res));
-      });
+      .subscribe(
+        (res: any) => {
+          console.log(JSON.stringify(res));
+          this.errorMessage = ""
+        },
+        (err: any) => {
+          console.log(err)
+          if (err.error.message != undefined) {
+            this.errorMessage = err.error.message
+            return
+          }
+          this.errorMessage = err.error
+        }
+      );
   }
 
 }

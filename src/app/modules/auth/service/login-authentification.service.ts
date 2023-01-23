@@ -25,9 +25,7 @@ export class LoginAuthentificationService {
   }
 
   login(auth: any): Observable<any> {
-
     return this.http.post<string>(environment.apiHost + "user/login", auth);
-
   }
 
   changeActiveFlag(activee:boolean): Observable<any>{
