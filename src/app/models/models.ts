@@ -117,6 +117,11 @@ export interface Review {
   passenger : AppUserForRide;
 }
 
+export interface ReviewRequest {
+  comment : string
+  rating : number
+}
+
 
 export interface DriverDTO {
   id: number | null;

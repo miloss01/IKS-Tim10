@@ -14,6 +14,7 @@ import { InviteDialogComponent } from './dialogs/invite-dialog/invite-dialog.com
 import { CancelDialogComponent } from './dialogs/cancel-dialog/cancel-dialog.component';
 import { ResetPasswordDialogComponent } from './dialogs/reset-password-dialog/reset-password-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReviewDialogComponent } from './dialogs/review-dialog/review-dialog.component';
 
 @NgModule({
   declarations: [LandingPageComponent, 
@@ -23,6 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     InviteDialogComponent,
     CancelDialogComponent,
     ResetPasswordDialogComponent,
+    ReviewDialogComponent,
     ],
   imports: [
     CommonModule,

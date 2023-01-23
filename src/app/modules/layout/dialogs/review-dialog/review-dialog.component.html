@@ -1,0 +1,41 @@
+<div mat-dialog-content>
+    <h2>Leave a review for driver and vehicle</h2>
+    
+    <div id="driver-review">
+        <mat-form-field appearance="outline">
+          <mat-label>Driver comment</mat-label>
+          <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="3"
+                cdkAutosizeMaxRows="8" [(ngModel)]="driverComment"></textarea>
+        </mat-form-field>
+        <button class="rating" mat-icon-button [color]="color" *ngFor="let ratingId of driverRatingArr;index as i" [id]="'star_'+i" (click)="onClick(i+1, 'DRIVER')" [matTooltip]="getRating(ratingId)" matTooltipPosition="above">
+            <mat-icon>
+              {{showIcon(i, 'DRIVER')}}
+            </mat-icon>
+        </button>    
+    </div>
+
+
+    <div id="vehicle-review">
+        <mat-form-field appearance="outline">
+            <mat-label>Vehicle comment</mat-label>
+            <textarea matInput
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="3"
+                  cdkAutosizeMaxRows="8" [(ngModel)]="vehicleComment"></textarea>
+          </mat-form-field>
+          <button class="rating" mat-icon-button [color]="color" *ngFor="let ratingId of vehicleRatingArr;index as i" [id]="'star_'+i" (click)="onClick(i+1, 'VEHICLE')" [matTooltip]="getRating(ratingId)" matTooltipPosition="above">
+            <mat-icon>
+              {{showIcon(i, 'VEHICLE')}}
+            </mat-icon>
+        </button>   
+    </div>
+
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onCancelClick()">Cancel</button>
+    <button mat-button (click)="onSendClick()" style="background-color: #24ED80;">Send</button>
+</div>
