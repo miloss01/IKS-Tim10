@@ -187,3 +187,8 @@ export interface MessageSentDTO {
   type: string
   rideId: number
 }
+
+export interface ChangePasswordDTO {
+  newPassword: string
+  oldPassword: string
+}
