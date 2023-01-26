@@ -16,6 +16,7 @@ import { DriverAccountDetailsComponent } from '../modules/app-user/manage-driver
 import { PassengerAccountDetailsComponent } from '../modules/app-user/manage-passengers/account-details/passenger-account-details.component';
 import { ManageChangeRequestComponent } from '../modules/app-user/manage-change-request/manage-change-request.component';
 import { ChangeRequestInfoComponent } from '../modules/app-user/change-request-info/change-request-info.component';
+import { FavoriteRoutesComponent } from '../modules/app-user/favorite-routes/favorite-routes.component';
 
 const routes: Routes = [
   {path:'register-account', component: RegisterAccountComponent},
@@ -32,6 +33,7 @@ const routes: Routes = [
   {path: 'driver-account-details', component: DriverAccountDetailsComponent},
   {path: 'passenger-account-details', component: PassengerAccountDetailsComponent},
   {path: 'manage-change-requests', component: ManageChangeRequestComponent},
+  {path: 'favorite-routes', component: FavoriteRoutesComponent},
   {path: '**', component: LandingPageComponent }
 ];
 

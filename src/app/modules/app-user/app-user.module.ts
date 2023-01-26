@@ -22,6 +22,7 @@ import { PassengerAccountDetailsComponent } from './manage-passengers/account-de
 import { NotesComponent } from './manage-passengers/notes/notes.component';
 import { ManageChangeRequestComponent } from './manage-change-request/manage-change-request.component';
 import { ChangeRequestInfoComponent } from './change-request-info/change-request-info.component';
+import { FavoriteRoutesComponent } from './favorite-routes/favorite-routes.component';
 
 @NgModule({
   declarations: [RegisterAccountComponent, 
@@ -38,7 +39,8 @@ import { ChangeRequestInfoComponent } from './change-request-info/change-request
     PassengerAccountDetailsComponent,
     NotesComponent,
     ManageChangeRequestComponent,
-    ChangeRequestInfoComponent],
+    ChangeRequestInfoComponent,
+    FavoriteRoutesComponent],
   imports: [
     CommonModule,
     AppRoutingModule,

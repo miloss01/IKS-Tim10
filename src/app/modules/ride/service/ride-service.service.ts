@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DepartureDestination, ReasonDTO, Ride, RideCreation } from 'src/app/models/models';
+import { DepartureDestination, FavoriteRouteDTO, ReasonDTO, Ride, RideCreation } from 'src/app/models/models';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -119,6 +119,29 @@ export class RideServiceService {
 
   getAllUserRides(id: number) : Observable<any> {
     return this.http.get<Ride>(environment.apiHost + "user/" + id + "/ride");
+  }
+
+  getFavoriteRoutes(): Observable<any> {
+    return this.http.get<FavoriteRouteDTO[]>(environment.apiHost + "ride/favorites")
+  }
+
+  saveFavoriteRoute(favorite: FavoriteRouteDTO) : Observable<any> {
+    const options: any = {
+      responseType: 'json',
+    };
+    return this.http.post<FavoriteRouteDTO>(environment.apiHost + "ride/favorites", {
+      favoriteName: favorite.favoriteName,
+      locations: favorite.locations,
+      passengers: favorite.passengers,
+      vehicleType: favorite.vehicleType,
+      babyTransport: favorite.babyTransport,
+      petTransport: favorite.petTransport  
+    }, options);
+
+  }
+
+  deleteFavoriteRoute(favorite: FavoriteRouteDTO) : Observable<any> {
+    return this.http.delete<string>(environment.apiHost + "ride/favorites/" + favorite.id);
   }
 
 }

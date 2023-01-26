@@ -146,3 +146,13 @@ export interface PasswordResetCodeDTO {
   newPassword: string | null,
   code: string | null
 }
+
+export interface FavoriteRouteDTO {
+  id: number | null,
+  favoriteName: string,
+  locations: DepartureDestination[],
+  passengers: AppUserForRide[],
+  vehicleType: string,
+  babyTransport: boolean,
+  petTransport: boolean
+}
