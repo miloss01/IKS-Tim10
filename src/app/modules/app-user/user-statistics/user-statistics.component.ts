@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as Chart from 'chart.js';
+import jsPDF from 'jspdf';
 import { AppUser, Ride, RideResponseDTO } from 'src/app/models/models';
 import { LoginAuthentificationService } from '../../auth/service/login-authentification.service';
 import { RideServiceService } from '../../ride/service/ride-service.service';
@@ -41,6 +42,14 @@ export class UserStatisticsComponent implements OnInit {
   ngOnInit(): void {
     if (this.authService.getRole() == "ADMIN")
       this.isAdmin = true
+  }
+
+  exportToPdf(): void {
+    let canvas = document.getElementById("myChart") as HTMLCanvasElement
+    let pdf = new jsPDF("l", "px", "a4");
+
+    pdf.addImage(canvas, "PNG", 0, 0, 0, 0);
+    pdf.save("download.pdf");
   }
 
   convertDateUsrani(date: string): string {

@@ -31,8 +31,14 @@ mat-radio-button {
   border: 1px solid black;
 }
 
+.pdf-button {
+  background-color: rgb(162, 211, 147);
+  border: 1px solid black;
+  margin-left: 10px;
+}
+
 .param {
-  margin: 0 30px;
+  margin: 0 20px;
 }
 
 p {
