@@ -4,7 +4,7 @@
       <h2>NEW DRIVER REGISTRATION</h2>
     </div>
     
-    <form [formGroup]="registerDriverForm" (ngSubmit)="registerDriver()" fxLayout="column">
+    <form [formGroup]="registerDriverForm" fxLayout="column">
         <div class="app-reg-col">
           <div class="app-form-sectioning"> 
             <p>Personal information</p>
@@ -78,7 +78,9 @@
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between end">
-          <button color="primary" type="submit" mat-raised-button>CREATE ACCOUNT</button>
+          <p>{{errorMessage}}</p>
+          <button color="primary" (click)="registerDriver()" mat-raised-button>CREATE ACCOUNT</button>
+          <button color="primary" (click)="addVehicle()" mat-raised-button>ADD VEHICLE</button>
         </div>
     
       </form>

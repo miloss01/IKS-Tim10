@@ -15,6 +15,7 @@ import { AppUserModule } from './modules/app-user/app-user.module';
 import { RideModule } from './modules/ride/ride.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Interceptor } from './infrastructure/interceptor/interceptor.interceptor';
+import { ErrorInterceptor } from './infrastructure/interceptor/error-interceptor';
 
 
 @NgModule({
@@ -43,6 +44,11 @@ import { Interceptor } from './infrastructure/interceptor/interceptor.intercepto
       useClass: Interceptor,
       multi: true,
     },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: ErrorInterceptor,
+    //   multi: true,
+    // }
   ],
   bootstrap: [AppComponent]
 })

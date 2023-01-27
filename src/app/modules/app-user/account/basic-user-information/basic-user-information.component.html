@@ -1,7 +1,8 @@
 <div class="container">
     <img src={{user.profilePicture}} alt="profilePicture">
-    <mat-icon *ngIf="isDriverOrPassenger" class="icon" onclick="changePicture()">edit</mat-icon>
+    <mat-icon *ngIf="isDriverOrPassenger" class="icon" (click)="changePicture()">edit</mat-icon>
     <!--<button class="btn">Button</button>-->
+    <input id="pic_btn" type="file" style="visibility: hidden;">
 </div>
 <form [formGroup]="changingInformationForm" (ngSubmit)="submitChanges()" class="oneElementPerRow">
 

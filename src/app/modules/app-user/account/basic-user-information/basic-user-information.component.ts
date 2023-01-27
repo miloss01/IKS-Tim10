@@ -22,7 +22,7 @@ export class BasicUserInformationComponent implements OnInit {
     telephoneNumber: '0653531317',
     email: 'sandra@gmail.com',
     address: 'Novi Sad',
-    profilePicture: 'https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg.jpg?resize=768,512'
+    profilePicture: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'
   }
 
   role: string = ''
@@ -47,9 +47,9 @@ export class BasicUserInformationComponent implements OnInit {
     adress: new FormControl()
   })
 
-  ngOnInit(): void {
-    this.role = this.userAuthentificationService.getRole();
-    if (this.userAuthentificationService.getRole() == "ADMIN") {
+  ngOnInit (): void {
+    this.role = this.userAuthentificationService.getRole()
+    if (this.userAuthentificationService.getRole() === 'ADMIN') {
       this.userService.selectedValue$.subscribe((value) => {
         this.user.id = value
         this.route.params.subscribe((params) => {
@@ -110,7 +110,23 @@ export class BasicUserInformationComponent implements OnInit {
       })
   }
 
-  changePicture (): void {}
+  async changePicture(): Promise<void> {
+    let btn: any = document.querySelector('#pic_btn');
+
+    btn?.addEventListener('input', async (event: any) => {
+      // console.log(btn.files[0].value);
+      this.user.profilePicture = String(await this.toBase64(btn.files[0]));
+    });
+
+    btn.click();
+  }
+
+  toBase64 = (file: any) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
 
   openResetPasswordDialog (): void {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

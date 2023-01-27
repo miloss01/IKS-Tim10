@@ -1,149 +1,152 @@
 export interface Location {
-  address: string;
-  latitude: number;
-  longitude: number;
+  address: string
+  latitude: number
+  longitude: number
 }
 
 export interface DepartureDestination {
-  departure: Location;
-  destination: Location;
+  departure: Location
+  destination: Location
 }
 
 export interface EstimateDataDTO {
-  locations: DepartureDestination[];
-  vehicleType?: string;
-  babyTransport?: boolean;
-  petTransport?: boolean;
-  distance: number;
+  locations: DepartureDestination[]
+  vehicleType?: string
+  babyTransport?: boolean
+  petTransport?: boolean
+  distance: number
 }
 
 export interface VehicleType {
-  value: string;
-  viewValue: string;
+  value: string
+  viewValue: string
 }
 
 export interface Ride {
-  id: number;
-  locations: DepartureDestination[];
-  startTime: string;
-  endTime: string;
-  totalCost: number;
-  driver: AppUserForRide;
-  passengers: AppUserForRide[];
-  estimatedTimeInMinutes?: number;
-  vehicleType?: string;
-  babyTransport?: boolean;
-  petTransport?: boolean;
+  id: number
+  locations: DepartureDestination[]
+  startTime: string
+  endTime: string
+  totalCost: number
+  driver: AppUserForRide
+  passengers: AppUserForRide[]
+  estimatedTimeInMinutes?: number
+  vehicleType?: string
+  babyTransport?: boolean
+  petTransport?: boolean
+  distance?: number
+  status?: string
 }
 export interface RideCreation {
-  locations: DepartureDestination[];
-  startTime: string;
-  passengers: AppUserForRide[];
-  vehicleType: string;
-  babyTransport: boolean;
-  petTransport: boolean;
-  estimatedTimeMinutes: number;
+  locations: DepartureDestination[]
+  startTime: string
+  passengers: AppUserForRide[]
+  vehicleType: string
+  babyTransport: boolean
+  petTransport: boolean
+  estimatedTimeMinutes: number
+  distance: number,
+  price: number
 }
 
-
 export interface AppUserForRide {
-  id: number;
+  id: number
   email: string
 }
 
 export interface AppUser {
-  id: number;
-  name: string,
-  surname: string,
-  telephoneNumber: string,
-  email: string,
-  address: string,
+  id: number
+  name: string
+  surname: string
+  telephoneNumber: string
+  email: string
+  address: string
   profilePicture: string
 }
 
 export interface ReasonDTO {
-  reason: string;
+  reason: string
 }
 
-
-export interface DocumentDTO{
-  id: number,
-  name: string,
-  documentImage: string,
+export interface DocumentDTO {
+  id: number
+  name: string
+  documentImage: string
   driverId: number
 }
 
 export interface Vehicle {
-  id: number,
-  driverId: number,
-  vehicleType: string,
-  model: string,
-  licenseNumber: string,
-  currentLocation: LocationDTO,
-  passengerSeats: number;
-  babyTransport: boolean,
+  id: number
+  driverId: number
+  vehicleType: string
+  model: string
+  licenseNumber: string
+  currentLocation: LocationDTO
+  passengerSeats: number
+  babyTransport: boolean
   petTransport: boolean
 }
 
 export interface LocationDTO {
-  address: string,
-  latitude: number;
+  address: string
+  latitude: number
   longitude: number
 }
 
 export interface ChangeRequest {
-  userDTO: AppUser;
-  vehicleDTO: Vehicle;
-  date: String;
+  userDTO: AppUser
+  vehicleDTO: Vehicle
+  date: String
 }
 
-export interface ChangeRequestResponce{
-  numberOfRequests: number;
-  requestDTOS: ChangeRequest[];
+export interface ChangeRequestResponce {
+  numberOfRequests: number
+  requestDTOS: ChangeRequest[]
 }
 
 export interface RideReview {
-  vehicleReview : Review;
-  driverReview : Review;
+  vehicleReview: Review
+  driverReview: Review
+}
+
+export interface RideResponseDTO {
+  totalCount: number
+  results: Ride[]
 }
 
 export interface Review {
-  id : number;
-
-  rating : number;
-
-  comment : string;
-   
-  passenger : AppUserForRide;
+  id: number
+  rating: number
+  comment: string
+  passenger: AppUserForRide
 }
 
-
 export interface DriverDTO {
-  id: number | null;
-  name: string,
-  surname: string,
-  telephoneNumber: string,
-  email: string,
-  address: string,
-  profilePicture: string,
+  id: number | null
+  name: string
+  surname: string
+  telephoneNumber: string
+  email: string
+  address: string
+  profilePicture: string
   password: string
 }
 
 export interface VehicleDTO {
-  id: number | null,
-  driverId: number | null,
-  vehicleType: string,
-  model: string,
-  licenseNumber: string,
-  currentLocation: Location,
-  passengerSeats: number,
-  babyTransport: boolean,
+  id: number | null
+  driverId: number | null
+  vehicleType: string
+  model: string
+  licenseNumber: string
+  currentLocation: Location
+  passengerSeats: number
+  babyTransport: boolean
   petTransport: boolean
 }
 
 export interface PasswordResetCodeDTO {
-  email: string | null,
-  newPassword: string | null,
+  email: string | null
+  newPassword: string | null
   code: string | null
 }
 
@@ -155,4 +158,41 @@ export interface FavoriteRouteDTO {
   vehicleType: string,
   babyTransport: boolean,
   petTransport: boolean
+}
+
+export interface VehicleForMap {
+  currentLocation: LocationDTO
+  active: boolean
+}
+
+export interface VehicleResponceDTO {
+  size: number
+  vehicles: VehicleForMap[]
+}
+
+export interface RideNotificationDTO {
+  message: string
+  rideId: number
+}
+
+export interface MessageReceivedDTO {
+  id: number
+  timeOfSending: string
+  senderId: number
+  receiverId: number
+  message: string
+  type: string
+  rideId: number
+}
+
+export interface MessageResponseDTO {
+  totalCount: number
+  results: MessageReceivedDTO[]
+}
+
+export interface MessageSentDTO {
+  receiverId: number
+  message: string
+  type: string
+  rideId: number
 }

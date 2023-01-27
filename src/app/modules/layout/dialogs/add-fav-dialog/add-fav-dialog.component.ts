@@ -39,7 +39,11 @@ export class AddFavDialogComponent implements OnInit {
     this.favorite.favoriteName = this.name
     this.rideService.saveFavoriteRoute(this.favorite).subscribe(res => {
       this.snackBar.open("Favorite saved!", "Close");
-    })
+      this.dialogRef.close();
+    },
+     err => {
+      this.snackBar.open("Number of favorites can't exceed 10.", "Close");
+    }) 
   }
 
 }

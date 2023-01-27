@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit {
     password: new FormControl()
   })
 
+  errorMessage: string = ""
+
   ngOnInit(): void {
   }
 
@@ -27,17 +29,32 @@ export class LoginComponent implements OnInit {
     this.authService.login({
       "email": this.loginForm.value.username,
       "password": this.loginForm.value.password
-    }).subscribe((res: any) => {
-      console.log(res);
-      localStorage.setItem('user', JSON.stringify(res.accessToken));
-      this.authService.setUser();
-      console.log(this.authService.getRole());
-      this.router.navigate(['/book-ride']);
-      this.authService.changeActiveFlag(true)
-    .subscribe((res: any) => {
-      console.log(res);
-    });
-    });
+    }).subscribe(
+      (response: any) => {
+        console.log(response);
+        localStorage.setItem('user', JSON.stringify(response.accessToken));
+        this.authService.setUser();
+        console.log(this.authService.getRole());
+        this.router.navigate(['/book-ride']);
+      
+        if (this.authService.getRole() == "DRIVER"){
+          this.authService.addWorkingHour().subscribe((res: any) => {
+            this.authService.changeActiveFlag(true).subscribe((res: any) => {
+              console.log(res);
+            });
+          });
+
+        } else {
+          this.authService.changeActiveFlag(true)
+          .subscribe((res: any) => {
+            console.log(res);
+          });
+        }
+      },
+      (err: any) => {
+        console.log(err)
+        this.errorMessage = err.error.message
+      });
     
   }
 
