@@ -145,7 +145,19 @@ export class RideDetailsDialogComponent implements OnInit {
   }
 
   onClickRideAgain() {
-    this.rideService.setbookAgainValue(this.ride.locations);
+    if (this.ride.vehicleType == undefined) this.ride.vehicleType = "standard"
+    if (this.ride.babyTransport == undefined) this.ride.babyTransport = false
+    if (this.ride.petTransport == undefined) this.ride.petTransport = false
+    let favorite : FavoriteRouteDTO = {
+      id: null,
+      favoriteName: '',
+      locations: this.ride.locations,
+      passengers: this.ride.passengers,
+      vehicleType: this.ride.vehicleType,
+      babyTransport: this.ride.babyTransport,
+      petTransport: this.ride.petTransport
+    }
+    this.rideService.setbookAgainValue(favorite);
     this.dialogRef.close();
     this.router.navigate(['/book-ride']);
   }

@@ -11,7 +11,15 @@ export class RideServiceService {
   private readonly value$ = new BehaviorSubject<any>({})
   selectedValue$ = this.value$.asObservable()
 
-  private readonly bookAgainValue$ = new BehaviorSubject<any>({})
+  private readonly bookAgainValue$ = new BehaviorSubject<FavoriteRouteDTO>({
+      id: null,  
+      favoriteName: "",
+      locations: [],
+      passengers: [],
+      vehicleType: 'standard',
+      babyTransport: false,
+      petTransport: false  
+  })
   selectedBookAgainValue$ = this.bookAgainValue$.asObservable()
 
   constructor (private readonly http: HttpClient) { }
@@ -20,8 +28,8 @@ export class RideServiceService {
     this.value$.next(test)
   }
 
-  setbookAgainValue (locations: DepartureDestination[]): void {
-    this.bookAgainValue$.next(locations);
+  setbookAgainValue (val : FavoriteRouteDTO): void {
+    this.bookAgainValue$.next(val);
   }
 
   getRideById (id: number): Observable<Ride> {

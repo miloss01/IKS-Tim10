@@ -39,7 +39,7 @@ export class FavoriteRoutesComponent implements OnInit {
   }
 
   clickRideAgain(favorite: FavoriteRouteDTO): void {
-    this.rideService.setbookAgainValue(favorite.locations);
+    this.rideService.setbookAgainValue(favorite);
     this.router.navigate(['/book-ride']);
   }
 
