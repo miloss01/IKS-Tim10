@@ -39,7 +39,9 @@ export class MapComponent implements AfterViewInit {
     this.routeControl = L.Routing.control({})
 
     L.Marker.prototype.options.icon = L.icon({
-      iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png'
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/7606/7606169.png',
+      iconSize: [40, 40],
+      iconAnchor: [18, 36]
     })
     if (this.item) this.loadMarkers()
   }
