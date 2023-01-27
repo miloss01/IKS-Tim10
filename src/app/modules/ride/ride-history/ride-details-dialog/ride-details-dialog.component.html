@@ -9,7 +9,7 @@
         <!-- <p class="app-ride-attribute">Mileage: {{ride}} RSD</p> -->
         
     </div>
-    <div class="app-ride-details-col-right">
+    <div class="app-ride-details-col-right" *ngIf="role == 'PASSENGER'">
         <button mat-button id="btn-add-fav" (click)="onClickFavorite()">ADD TO FAVORITES</button>
     </div>
     <div *ngIf="role == 'PASSENGER'">
