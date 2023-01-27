@@ -3,9 +3,10 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, mergeMap } from 'rxjs';
-import { AppUser, AppUserForRide, Ride, RideReview } from 'src/app/models/models';
+import { AppUser, AppUserForRide, Ride, RideReview, FavoriteRouteDTO } from 'src/app/models/models';
 import { UserServiceService } from 'src/app/modules/app-user/account/services/user.service';
 import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service';
+import { AddFavDialogComponent } from 'src/app/modules/layout/dialogs/add-fav-dialog/add-fav-dialog.component';
 import { MapComponent } from 'src/app/modules/layout/map/map.component';
 import { MapService } from 'src/app/modules/layout/services/map.service';
 import { ReviewService, RideReviewsDTO } from '../../review/service/review.service';
@@ -55,6 +56,7 @@ export class RideDetailsDialogComponent implements OnInit {
     private authService : LoginAuthentificationService,
     private snackBar: MatSnackBar,
     private rideService : RideServiceService,
+    public addFavDialog : MatDialog,
     private route: ActivatedRoute) {
       this.ride = data["ride"];
       this.role = authService.getRole();
@@ -146,6 +148,28 @@ export class RideDetailsDialogComponent implements OnInit {
     this.rideService.setbookAgainValue(this.ride.locations);
     this.dialogRef.close();
     this.router.navigate(['/book-ride']);
+  }
+
+  onClickFavorite() {
+    if (this.ride.vehicleType == undefined) this.ride.vehicleType = "standard"
+    if (this.ride.babyTransport == undefined) this.ride.babyTransport = false
+    if (this.ride.petTransport == undefined) this.ride.petTransport = false
+
+    let favorite : FavoriteRouteDTO = {
+      id: null,
+      favoriteName: '',
+      locations: this.ride.locations,
+      passengers: this.ride.passengers,
+      vehicleType: this.ride.vehicleType,
+      babyTransport: this.ride.babyTransport,
+      petTransport: this.ride.petTransport
+    }
+    const addFavDialog = this.addFavDialog.open(AddFavDialogComponent, {
+      width: '320px',
+      height: '220px',
+      data: { favorite: favorite }
+    });
+
   }
 
 }

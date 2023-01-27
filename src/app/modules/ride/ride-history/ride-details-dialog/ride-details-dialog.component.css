@@ -130,3 +130,8 @@ button {
     letter-spacing: 0.5em;
     margin-top: 6vh !important;
 }
+
+#btn-add-fav {
+    width: 10vw;
+    font-size: 0.8em !important;
+}

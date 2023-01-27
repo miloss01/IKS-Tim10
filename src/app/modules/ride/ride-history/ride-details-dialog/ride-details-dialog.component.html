@@ -5,9 +5,12 @@
     <div class="app-ride-details-col-left">
         <p class="app-ride-attribute"><mat-icon>location_on</mat-icon>{{ride.locations[0].departure.address}}</p>
         <p class="app-ride-attribute"><mat-icon>location_searching</mat-icon>{{ride.locations[0].destination.address}}</p>
+        <p class="app-ride-attribute">Price: {{ride.totalCost}} RSD</p>
+        <!-- <p class="app-ride-attribute">Mileage: {{ride}} RSD</p> -->
+        
     </div>
     <div class="app-ride-details-col-right">
-        <p class="app-ride-attribute">Price: {{ride.totalCost}} RSD</p>
+        <button mat-button id="btn-add-fav" (click)="onClickFavorite()">ADD TO FAVORITES</button>
     </div>
     <div *ngIf="role == 'PASSENGER'">
         <button mat-button id="btn-ride-again" (click)="onClickRideAgain()">RIDE AGAIN</button>
