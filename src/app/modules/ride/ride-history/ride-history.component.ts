@@ -66,7 +66,7 @@ export class RideHistoryComponent implements OnInit {
     });
   }
 
-  convertToDate(string : string) : Date {
+  public convertToDate(string : string) : Date {
     const tokens = string.split(" ");
     const dates = tokens[0].split(".");
     const times = tokens[1].split(":")
@@ -140,7 +140,6 @@ export class RideHistoryComponent implements OnInit {
       };
       this.dataSource.sortData = this.enableSortByAnyColumn();
       this.rides = res.results;
-      console.log(JSON.stringify(this.rides))
       this.length = this.rides.length;
       this.pageIteration();
       this.dataSource.sort = this.sort;

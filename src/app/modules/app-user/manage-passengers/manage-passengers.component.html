@@ -6,11 +6,11 @@
             <mat-card>
                 <mat-card-header>
                     <div class="app-reg-col-name">
-                        <mat-card-title><a [routerLink]="['../passenger-account', acc.id]"> {{acc.name}} {{acc.surname}} </a></mat-card-title>
+                        <mat-card-title>{{acc.name}} {{acc.surname}}</mat-card-title>
                         <mat-card-subtitle>passenger</mat-card-subtitle>
                     </div>
                     <div class="app-reg-col-pic">
-                        <img mat-card-sm-image src="https://images.unsplash.com/photo-1518415692216-ce36b914890f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTJ8fHBlcnNvbnxlbnwwfDJ8MHx8&auto=format&fit=crop&w=600&q=60" >
+                        <img mat-card-sm-image src={{acc.profilePicture}} >
                     </div>
                   <mat-card-title-group>
                 </mat-card-title-group>

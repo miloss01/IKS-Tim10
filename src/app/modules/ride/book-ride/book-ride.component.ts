@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '
 import { FormControl, FormGroup } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { InviteDialogComponent } from '../../layout/dialogs/invite-dialog/invite-dialog.component'
-import { AppUserForRide, RideCreation, EstimateDataDTO } from 'src/app/models/models'
+import { AppUserForRide, RideCreation, EstimateDataDTO, DepartureDestination } from 'src/app/models/models'
 import { MapComponent } from 'src/app/modules/layout/map/map.component'
 import { map, mergeMap } from 'rxjs'
 import { MapService } from '../../layout/services/map.service'
@@ -97,11 +97,17 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     private readonly authService: LoginAuthentificationService
   ) { }
 
-  locationsFromBookAgain: any | undefined
+  departureFromBookAgain: string = ""
+  destinationFromBookAgain: string = ""
 
   ngOnInit (): void {
     this.rideService.selectedBookAgainValue$.subscribe((value) => {
-      this.locationsFromBookAgain = value
+      console.log('ride again')
+      this.departureFromBookAgain = value.locations[0].departure.address
+      this.destinationFromBookAgain = value.locations[0].destination.address
+      this.vehicleType = value.vehicleType.toUpperCase()
+      this.petsTransport = value.petTransport
+      this.babyTransport = value.babyTransport
     })
     this.userService.isBlocked(this.userAuthentificationService.getId())
       .subscribe((value) => {
@@ -302,7 +308,8 @@ export class BookRideComponent implements AfterViewInit, OnInit {
       text: 'We will update you with booking information.',
       footer: '<a href="current-ride">View ride status and details.</a>',
       timer: 2000,
-      timerProgressBar: true })
+      timerProgressBar: true
+    })
     this.clickedEstimate = false
     console.log("BEFORE ADDING: " )
     console.log(this.ride)

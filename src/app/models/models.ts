@@ -121,6 +121,11 @@ export interface Review {
   passenger: AppUserForRide
 }
 
+export interface ReviewRequest {
+  comment : string
+  rating : number
+}
+
 export interface DriverDTO {
   id: number | null
   name: string
@@ -148,6 +153,16 @@ export interface PasswordResetCodeDTO {
   email: string | null
   newPassword: string | null
   code: string | null
+}
+
+export interface FavoriteRouteDTO {
+  id: number | null,
+  favoriteName: string,
+  locations: DepartureDestination[],
+  passengers: AppUserForRide[],
+  vehicleType: string,
+  babyTransport: boolean,
+  petTransport: boolean
 }
 
 export interface VehicleForMap {

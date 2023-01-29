@@ -1,0 +1,32 @@
+<div id="app-favroutes-page">
+    <h2>Favorite routes</h2>
+    <mat-divider></mat-divider>
+    <div class="grid">
+        <div *ngFor="let favorite of favorites">
+            <mat-card>
+                <mat-card-header class="locations" >
+                    <div class="title">
+                        <mat-card-title>{{favorite.favoriteName}}</mat-card-title>
+                        <button mat-button id="delete-btn" (click)="clickDelete(favorite)"><mat-icon>delete</mat-icon></button>
+                    </div>
+                    <div class="locations">
+                        <mat-card-subtitle>From: {{favorite.locations[0].departure.address}}</mat-card-subtitle>
+                        <mat-card-subtitle>To: {{favorite.locations[0].destination.address}}</mat-card-subtitle>
+                    </div>
+                    </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content>
+                    <h3>Preferences</h3>
+                    <p *ngIf="favorite.vehicleType==='standard'"><mat-icon>directions_car</mat-icon>Standard vehicle</p>
+                    <p *ngIf="favorite.vehicleType==='luxury'"><mat-icon>looks</mat-icon>Luxury vehicle</p>
+                    <p *ngIf="favorite.vehicleType==='van'"><mat-icon>directions_bus</mat-icon>Van vehicle</p>
+                    <p *ngIf="favorite.babyTransport===true"><mat-icon>child_friendly</mat-icon>Baby on board</p>
+                    <p *ngIf="favorite.petTransport===true"><mat-icon>pets</mat-icon>Pets on board</p>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button mat-button (click)="clickRideAgain(favorite)" >RIDE AGAIN</button>
+                  </mat-card-actions>
+              </mat-card>
+        </div>
+    </div>
+</div>
