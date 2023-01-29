@@ -116,13 +116,12 @@ export class BookRideComponent implements AfterViewInit, OnInit {
       })
   }
 
-
-  invite(): void {
-    const dialogRef = this.invDialog.open(InviteDialogComponent);
+  invite (): void {
+    const dialogRef = this.invDialog.open(InviteDialogComponent)
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-      this.passengers.push(result);
-    });
+      console.log(result)
+      this.passengers.push(...result)
+    })
   }
 
   estimate (): void {
@@ -242,7 +241,7 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     if (this.isBlocked) {
       void Swal.fire({
         title: 'Ride cant be booked',
-        text: 'You are blocked and do to our security policy can not book a ride.', 
+        text: 'You are blocked and do to our security policy can not book a ride.',
         icon: 'error'
       })
       return
@@ -257,11 +256,9 @@ export class BookRideComponent implements AfterViewInit, OnInit {
   }
 
   addTime (): boolean {
-    console.log(this.filterDateFrom)
-    console.log(new Date(this.filterDateFrom))
     if (!this.filterDateFrom) { return false }
     this.userDate = new Date(this.filterDateFrom)
-    const miliseconds: number = this.userDate.valueOf() - (new Date()).valueOf();
+    const miliseconds: number = this.userDate.valueOf() - (new Date()).valueOf()
     if (miliseconds > 18000000 || miliseconds < 0) { return false }
     this.filterDateFrom.replace('T', ' ')
     this.ride.startTime = this.filterDateFrom
@@ -301,6 +298,7 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     }
     this.addPrefrences()
     this.addPeople()
+    console.log(this.ride.passengers)
     this.ride.estimatedTimeMinutes = this.estimated_time || 0
     this.ride.distance = this.distance
     this.ride.price = this.estimated_price
@@ -313,11 +311,15 @@ export class BookRideComponent implements AfterViewInit, OnInit {
       timerProgressBar: true
     })
     this.clickedEstimate = false
-
+    console.log("BEFORE ADDING: " )
+    console.log(this.ride)
     this.rideService.addRide(this.ride).subscribe((value) => {
       if (value == null) this.notificationService.alertNotAvailable()
+      console.log("AFTER ADDING: " )
+      console.log(value)
     // eslint-disable-next-line n/handle-callback-err
     }, (error: Error) => {
+      console.log(error.message)
       this.notificationService.alertAlreadyPending()
     })
   }

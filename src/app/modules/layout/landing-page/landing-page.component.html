@@ -20,6 +20,10 @@
         </mat-form-field>
         <button mat-button type="submit" class="submit-btn">Estimate</button>
       </form>
+      <div *ngIf="this.role == 'DRIVER'" class="toogle-div">
+        <p class="label-for-toogle">Your status:</p>
+        <mat-button-toggle [checked]="isActive" (change)="onCheckChange()">{{isActiveLabel}}</mat-button-toggle> 
+      </div>
     </div>
 
     <div class="calculated-data">

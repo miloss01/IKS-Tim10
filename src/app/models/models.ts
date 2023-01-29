@@ -45,7 +45,7 @@ export interface RideCreation {
   babyTransport: boolean
   petTransport: boolean
   estimatedTimeMinutes: number
-  distance: number,
+  distance: number
   price: number
 }
 
@@ -201,4 +201,9 @@ export interface MessageSentDTO {
   message: string
   type: string
   rideId: number
+}
+
+export interface ChangePasswordDTO {
+  newPassword: string
+  oldPassword: string
 }

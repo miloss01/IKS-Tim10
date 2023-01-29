@@ -4,7 +4,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs'
-import { DocumentDTO, Vehicle } from 'src/app/models/models'
+import { ChangePasswordDTO, DocumentDTO, Vehicle } from 'src/app/models/models'
 import { environment } from 'src/environments/environment'
 import { accountsDTO } from '../../manage-passengers/manage-passengers.component'
 import { AppUser } from '../basic-user-information/basic-user-information.component'
@@ -79,11 +79,26 @@ export class UserServiceService {
     return this.http.get<AppUser>(environment.apiHost + "driver/" + id)
   }
 
-  getAllPassengers(): Observable<accountsDTO> {
-    return this.http.get<accountsDTO>(environment.apiHost + 'passenger');
+  getAllPassengers (): Observable<accountsDTO> {
+    return this.http.get<accountsDTO>(environment.apiHost + 'passenger')
   }
 
-  getAllDrivers(): Observable<accountsDTO> {
-    return this.http.get<accountsDTO>(environment.apiHost + 'driver');
+  getAllDrivers (): Observable<accountsDTO> {
+    return this.http.get<accountsDTO>(environment.apiHost + 'driver')
+  }
+
+  changePassword (changePasswordDTO: ChangePasswordDTO, id: number): Observable<any> {
+    const options: any = {
+      responseType: 'text'
+    }
+
+    return this.http.put<string>(
+      environment.apiHost + 'user/' + id + '/changePassword',
+      {
+        newPassword: changePasswordDTO.newPassword,
+        oldPassword: changePasswordDTO.oldPassword
+      },
+      options
+    )
   }
 }

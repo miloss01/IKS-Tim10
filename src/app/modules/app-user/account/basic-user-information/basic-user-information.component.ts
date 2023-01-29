@@ -6,6 +6,7 @@ import { LoginAuthentificationService } from 'src/app/modules/auth/service/login
 import { UserServiceService } from '../services/user.service'
 import { MatDialog } from '@angular/material/dialog'
 import { ResetPasswordDialogComponent } from 'src/app/modules/layout/dialogs/reset-password-dialog/reset-password-dialog.component'
+import { ChangePasswordDialogComponent } from 'src/app/modules/layout/dialogs/change-password-dialog/change-password-dialog.component'
 
 @Component({
   selector: 'app-basic-user-information',
@@ -30,7 +31,7 @@ export class BasicUserInformationComponent implements OnInit {
   constructor (
     private readonly route: ActivatedRoute,
     private readonly userService: UserServiceService,
-    public resetPasswordDialog: MatDialog,
+    public changePasswordDialog: MatDialog,
     private readonly router: Router,
     private readonly userAuthentificationService: LoginAuthentificationService) {
     // this.imageSrc = "http://t3.gstatic.com/licensed-image?q=tbn:ANd9GcS-OZTPpZNsnOchlOMmYsSeMprn5sYU4kdOZGPL0_ksM2nHGegFrzLhGlQMBF-amQqPRFs4DzbLrI_o5gA";
@@ -130,7 +131,7 @@ export class BasicUserInformationComponent implements OnInit {
 
   openResetPasswordDialog (): void {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const dialog = this.resetPasswordDialog.open(ResetPasswordDialogComponent)
+    const dialog = this.changePasswordDialog.open(ChangePasswordDialogComponent)
   }
 }
 

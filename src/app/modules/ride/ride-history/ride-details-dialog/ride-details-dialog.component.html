@@ -60,7 +60,7 @@
             </div>
     </div>
 
-    <button mat-button id="btn-leave-review" (click)="onClickLeaveReview()">LEAVE A REVIEW</button>
+    <button *ngIf="role == 'PASSENGER'" mat-button id="btn-leave-review" (click)="onClickLeaveReview()">LEAVE A REVIEW</button>
 
 </div>
 

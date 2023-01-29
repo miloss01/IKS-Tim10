@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { RideNotificationDTO } from 'src/app/models/models'
+import { RideNotificationService } from '../../app-user/notification/service/ride-notification.service'
+import { LoginAuthentificationService } from '../../auth/service/login-authentification.service'
+import { WebsocketService } from '../../ride/service/websocket.service'
 import { MatDialog } from '@angular/material/dialog';
-import { RideNotificationDTO } from 'src/app/models/models';
-import { RideNotificationService } from '../../app-user/notification/service/ride-notification.service';
-import { LoginAuthentificationService } from '../../auth/service/login-authentification.service';
-import { WebsocketService } from '../../ride/service/websocket.service';
-import { ReviewDialogComponent } from '../dialogs/review-dialog/review-dialog.component';
+import { ReviewDialogComponent } from '../dialogs/review-dialog/review-dialog.component'
 
 @Component({
   selector: 'app-toolbar',
@@ -13,25 +14,26 @@ import { ReviewDialogComponent } from '../dialogs/review-dialog/review-dialog.co
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {
+  user: any
 
-  user: any;
-
-  constructor(private authService: LoginAuthentificationService,
+  constructor (private authService: LoginAuthentificationService,
     private socketService: WebsocketService,
     private notificationService: RideNotificationService,
+    private readonly router: Router,
+    private route: ActivatedRoute,
     public reviewDialog: MatDialog
     ) {}
 
   badgeHidden: boolean = true
 
-  hideMatBadge(): void {
-    this.badgeHidden = true;
+  hideMatBadge (): void {
+    this.badgeHidden = true
   }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
     this.authService.userState$.subscribe((res: any) => {
-      this.user = res;
-      console.log(this.user);
+      this.user = res
+      console.log(this.user)
     })
   }
 
@@ -39,7 +41,6 @@ export class ToolbarComponent implements OnInit {
     const stompClient: any = this.socketService.initWebSocket()
 
     stompClient.connect({}, () => {
-
       console.log('trenutno je ulogovan (iz connect): ' + this.authService.getId());
 
       stompClient.subscribe('/ride-notification-driver-request/' + this.authService.getId(), (message: { body: string }) => {
@@ -83,24 +84,38 @@ export class ToolbarComponent implements OnInit {
         })
       }
     })
-
   }
 
-  logout(): void {
+  logout (): void {
+    // this.authService.logout()
     if (this.authService.getRole() == "DRIVER") {
-      this.authService.endWorkingHour().subscribe((res: any) => {
-        console.log(res);
-        this.authService.changeActiveFlag(false).subscribe((res: any) => {
-          console.log(res);
-          this.authService.logout();
-        });
-      });
+      this.authService.getActiveFlag().subscribe((res: any) => {
+        console.log(res)
+        const isActive: boolean = res.active
+        if (isActive) {
+          this.authService.endWorkingHour().subscribe((res: any) => {
+            console.log(res)
+            this.authService.changeActiveFlag(false).subscribe((res: any) => {
+              console.log(res)
+              this.authService.logout()
+              void this.router.navigate(['']).then(async () => location.reload())
+            })
+          })
+        } else {
+          this.authService.logout()
+          void this.router.navigate(['']).then(async () => location.reload())
+        }
+      })
     } else {
+      // this.authService.logout()
       this.authService.changeActiveFlag(false).subscribe((res: any) => {
-        console.log(res);
-        this.authService.logout();
-      });
+        console.log(res)
+        this.authService.logout()
+        void this.router.navigate([''])
+      })
     }
+    // console.log('eeeeeeeeeeeeeeeeeeeeeeeeee')
+    // console.log(this.router.url)
+    // void this.router.navigate([''])
   }
-  
 }

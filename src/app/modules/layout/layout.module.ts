@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddFavDialogComponent } from './dialogs/add-fav-dialog/add-fav-dialog.component';
 import { ReviewDialogComponent } from './dialogs/review-dialog/review-dialog.component';
 import { PanicDialogComponent } from './dialogs/panic-dialog/panic-dialog.component';
+import { ChangePasswordDialogComponent } from './dialogs/change-password-dialog/change-password-dialog.component';
 
 @NgModule({
   declarations: [LandingPageComponent, 
@@ -29,6 +30,7 @@ import { PanicDialogComponent } from './dialogs/panic-dialog/panic-dialog.compon
     AddFavDialogComponent,
     ReviewDialogComponent,
     PanicDialogComponent,
+    ChangePasswordDialogComponent,
     ],
   imports: [
     CommonModule,

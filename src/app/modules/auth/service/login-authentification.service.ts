@@ -30,7 +30,10 @@ export class LoginAuthentificationService {
 
   changeActiveFlag(activee:boolean): Observable<any>{
     return this.http.put<string>(environment.apiHost + "user/changeActiveFlag/" + this.getId(), {active: activee});
+  }
 
+  getActiveFlag (): Observable<any> {
+    return this.http.get<string>(environment.apiHost + "user/activeFlag/" + this.getId())
   }
 
   addWorkingHour(): Observable<any>{
@@ -93,10 +96,8 @@ export class LoginAuthentificationService {
     });
   }
 
-  logout(): void {
-    localStorage.removeItem("user");
-    this.user$.next({});
-    
+  logout (): void {
+    localStorage.removeItem("user")
+    this.user$.next({})
   }
-
 }
