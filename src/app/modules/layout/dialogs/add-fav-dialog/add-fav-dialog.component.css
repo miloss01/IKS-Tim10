@@ -1,4 +1,4 @@
-::ng-deep mat-form-field {
+mat-form-field {
     margin-top: 2vh !important;
     width: 100% !important;
 }
