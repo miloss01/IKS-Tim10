@@ -121,6 +121,11 @@ export interface Review {
   passenger: AppUserForRide
 }
 
+export interface ReviewRequest {
+  comment : string
+  rating : number
+}
+
 export interface DriverDTO {
   id: number | null
   name: string
@@ -173,6 +178,7 @@ export interface VehicleResponceDTO {
 export interface RideNotificationDTO {
   message: string
   rideId: number
+  reason: string
 }
 
 export interface MessageReceivedDTO {

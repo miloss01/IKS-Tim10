@@ -116,12 +116,13 @@ export class BookRideComponent implements AfterViewInit, OnInit {
       })
   }
 
-  invite (): void {
-    const dialogRef = this.invDialog.open(InviteDialogComponent)
+
+  invite(): void {
+    const dialogRef = this.invDialog.open(InviteDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
-      this.passengers = result
-    })
+      console.log(result);
+      this.passengers.push(result);
+    });
   }
 
   estimate (): void {

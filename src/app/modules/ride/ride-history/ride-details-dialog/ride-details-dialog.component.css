@@ -60,7 +60,6 @@ h2{
     font-size: 1.5em;
     margin-bottom: 0vh !important;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-
 }
 
 .app-ride-review-comment {
@@ -134,4 +133,18 @@ button {
 #btn-add-fav {
     width: 10vw;
     font-size: 0.8em !important;
+}
+
+#btn-leave-review {
+    color:black !important;
+    background-color: rgb(248, 248, 248) !important;
+    width: 20vw;
+    height: 2.75em;
+    letter-spacing: 0.4em;
+    margin-top: 6vh !important;
+    margin-bottom: 15vh;
+}
+
+::ng-deep button#btn-leave-review:hover {
+    background-color: white !important;
 }
