@@ -71,16 +71,36 @@ export class ToolbarComponent implements OnInit {
           });
         }
       })
+
+      if (this.authService.getRole() == "ADMIN") {
+        console.log("Ulog admin")
+        stompClient.subscribe('/ride-notification-panic', (message: { body: string }) => {
+          this.badgeHidden = true
+          const notification: RideNotificationDTO = JSON.parse(message.body)
+          console.log(JSON.stringify(notification))
+          this.notificationService.setUpdated(notification)
+          this.notificationService.alertPanic(notification.message)
+        })
+      }
     })
 
   }
 
   logout(): void {
-    this.authService.changeActiveFlag(false)
-    .subscribe((res: any) => {
-      console.log(res);
-    });
-    this.authService.logout();
+    if (this.authService.getRole() == "DRIVER") {
+      this.authService.endWorkingHour().subscribe((res: any) => {
+        console.log(res);
+        this.authService.changeActiveFlag(false).subscribe((res: any) => {
+          console.log(res);
+          this.authService.logout();
+        });
+      });
+    } else {
+      this.authService.changeActiveFlag(false).subscribe((res: any) => {
+        console.log(res);
+        this.authService.logout();
+      });
+    }
   }
-
+  
 }

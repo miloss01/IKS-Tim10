@@ -25,13 +25,23 @@ export class LoginAuthentificationService {
   }
 
   login(auth: any): Observable<any> {
-
     return this.http.post<string>(environment.apiHost + "user/login", auth);
-
   }
 
   changeActiveFlag(activee:boolean): Observable<any>{
     return this.http.put<string>(environment.apiHost + "user/changeActiveFlag/" + this.getId(), {active: activee});
+
+  }
+
+  addWorkingHour(): Observable<any>{
+    let currentDate = new Date();
+    return this.http.post<string>(environment.apiHost + "driver/"+ this.getId() + "/working-hour", {start: currentDate.toISOString().replace('T', ' ').substring(0, 19)});
+
+  }
+
+  endWorkingHour(): Observable<any>{
+    let currentDate = new Date();
+    return this.http.post<string>(environment.apiHost + "driver/"+ this.getId() + "/working-hour", {end: currentDate.toISOString().replace('T', ' ').substring(0, 19)});
 
   }
 

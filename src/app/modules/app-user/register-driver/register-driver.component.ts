@@ -34,6 +34,10 @@ export class RegisterDriverComponent implements OnInit {
     kids: new FormControl(false)
   })
 
+  errorMessage: string = ""
+  driverId: number = 0
+  driverName: string = ""
+
   constructor(private appUserService: AppUserService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
@@ -49,8 +53,41 @@ export class RegisterDriverComponent implements OnInit {
       telephoneNumber: this.registerDriverForm.value.phone,
       email: this.registerDriverForm.value.email,
       address: this.registerDriverForm.value.address,
-      profilePicture: "",
+      profilePicture: "https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg.jpg?resize=768,512",
       password: this.registerDriverForm.value.password
+    }
+
+    console.log(driver);
+
+    this.appUserService.addDriver(driver).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.driverId = res.id
+        this.driverName = res.name
+        this.errorMessage = ""
+      },
+      (err: any) => {
+        console.log(err)
+        if (err.error.message != undefined) {
+          this.errorMessage = err.error.message
+          return
+        }
+        this.errorMessage = err.error
+      }
+    );
+
+      // this.appUserService
+      // .addPassenger(this.registerDriverForm.value)
+      // .subscribe((res: any) => {
+      //   console.log(JSON.stringify(res));
+      // });
+  }
+
+  addVehicle(): void {
+
+    if (this.driverId == 0) {
+      this.errorMessage = "You must add driver before creating vehicle"
+      return
     }
 
     let vehicle: VehicleDTO = {
@@ -69,22 +106,22 @@ export class RegisterDriverComponent implements OnInit {
       petTransport: this.registerDriverForm.value.pets!
     }
 
-    console.log(driver);
-    console.log(vehicle);
-
-    this.appUserService.addDriver(driver).subscribe((res: any) => {
-      console.log(res);
-      this.appUserService.setDriverVehicle(Number(res.id), vehicle).subscribe((res: any) => {
+    this.appUserService.setDriverVehicle(Number(this.driverId), vehicle).subscribe(
+      (res: any) => {
         console.log(res);
-        this.snackBar.open(`Successfully added driver: ${driver.name} with vehicle (${res.id}) ${res.model}`, "Close");
-      });
-    });
+        this.errorMessage = ""
+        this.snackBar.open(`Successfully added driver: ${this.driverName} with vehicle (${res.id}) ${res.model}`, "Close");
+      },
+      (err: any) => {
+        console.log(err)
+        if (err.error.message != undefined) {
+          this.errorMessage = err.error.message
+          return
+        }
+        this.errorMessage = err.error
+      }
+    );
 
-      // this.appUserService
-      // .addPassenger(this.registerDriverForm.value)
-      // .subscribe((res: any) => {
-      //   console.log(JSON.stringify(res));
-      // });
   }
 
 }

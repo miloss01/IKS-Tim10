@@ -2,7 +2,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, mergeMap } from 'rxjs';
-import { EstimateDataDTO, LocationDTO, RideNotificationDTO, Ride } from 'src/app/models/models';
+import { EstimateDataDTO, LocationDTO, RideNotificationDTO, Ride, ReasonDTO } from 'src/app/models/models';
 import { MapComponent } from '../../layout/map/map.component';
 import { MapService } from '../../layout/services/map.service';
 import { RideServiceService } from '../service/ride-service.service';
@@ -16,6 +16,7 @@ import { ridesDTO } from '../ride-history/ride-history.component';
 import { RideNotificationService } from '../../app-user/notification/service/ride-notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CancelDialogComponent } from '../../layout/dialogs/cancel-dialog/cancel-dialog.component';
+import { PanicDialogComponent } from '../../layout/dialogs/panic-dialog/panic-dialog.component';
 
 @Component({
   selector: 'app-current-ride',
@@ -73,7 +74,8 @@ export class CurrentRideComponent implements AfterViewInit {
     private rideService: RideServiceService,
     private socketService: WebsocketService,
     private notificationService: RideNotificationService,
-    public declineDialog: MatDialog) { }
+    public declineDialog: MatDialog,
+    public panicDialog: MatDialog) { }
 
   userRole: string = "";
   userId: number = -1;
@@ -240,10 +242,9 @@ export class CurrentRideComponent implements AfterViewInit {
   }
 
   panicRide() {
-    this.rideService.raisePanic(this.ride.id)
-    .subscribe((res: any) => {
-      console.log(res);
-  });
+    const dialogRef = this.panicDialog.open(PanicDialogComponent, {
+      data: {rideId: this.ride.id}
+    });
   }
 
   private initMap() {

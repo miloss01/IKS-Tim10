@@ -42,6 +42,7 @@ export class LandingPageComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     setTimeout(()=> {
       this.registerOnClick();
+      
     }, 1000);
   }
 

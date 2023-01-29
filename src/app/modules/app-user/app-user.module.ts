@@ -22,6 +22,8 @@ import { PassengerAccountDetailsComponent } from './manage-passengers/account-de
 import { NotesComponent } from './manage-passengers/notes/notes.component';
 import { ManageChangeRequestComponent } from './manage-change-request/manage-change-request.component';
 import { ChangeRequestInfoComponent } from './change-request-info/change-request-info.component';
+import { UserStatisticsComponent } from './user-statistics/user-statistics.component';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [RegisterAccountComponent, 
@@ -38,7 +40,9 @@ import { ChangeRequestInfoComponent } from './change-request-info/change-request
     PassengerAccountDetailsComponent,
     NotesComponent,
     ManageChangeRequestComponent,
-    ChangeRequestInfoComponent],
+    ChangeRequestInfoComponent,
+    UserStatisticsComponent,
+    ChatComponent],
   imports: [
     CommonModule,
     AppRoutingModule,

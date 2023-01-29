@@ -16,27 +16,59 @@ import { DriverAccountDetailsComponent } from '../modules/app-user/manage-driver
 import { PassengerAccountDetailsComponent } from '../modules/app-user/manage-passengers/account-details/passenger-account-details.component';
 import { ManageChangeRequestComponent } from '../modules/app-user/manage-change-request/manage-change-request.component';
 import { ChangeRequestInfoComponent } from '../modules/app-user/change-request-info/change-request-info.component';
+import { UserStatisticsComponent } from '../modules/app-user/user-statistics/user-statistics.component';
+import { TokenGuard } from './guard/token.guard';
+import { RoleGuard } from './guard/role.guard';
+import { UnregisteredGuard } from './guard/unregistered.guard';
+import { ChatComponent } from '../modules/app-user/chat/chat.component';
+
+const pass: string[] = ["PASSENGER"]
+const driver: string[] = ["DRIVER"]
+const admin: string[] = ["ADMIN"]
+const pass_driver: string[] = ["PASSENGER", "DRIVER"]
+const pass_admin: string[] = ["PASSENGER", "ADMIN"]
+const driver_admin: string[] = ["DRIVER", "ADMIN"]
+const all: string[] = ["PASSENGER", "DRIVER", "ADMIN"]
 
 const routes: Routes = [
-  {path:'register-account', component: RegisterAccountComponent},
-  {path:'login', component: LoginComponent},
-  {path:'register-driver', component: RegisterDriverComponent},
-  {path: 'passenger-account', component: PassengerUserInfoComponent},
-  {path: "driver-account", component: DriverUserInfoComponent},
-  {path: 'book-ride', component: BookRideComponent},
-  {path: 'manage-drivers', component: ManageDriversComponent},
-  {path: 'manage-passengers', component: ManagePassengersComponent},
-  {path: "ride-request", component:RideRequestComponent},
-  {path: 'current-ride', component: CurrentRideComponent},
-  {path: 'ride-history', component: RideHistoryComponent},
-  {path: 'driver-account-details', component: DriverAccountDetailsComponent},
-  {path: 'passenger-account-details', component: PassengerAccountDetailsComponent},
-  {path: 'manage-change-requests', component: ManageChangeRequestComponent},
-  {path: '**', component: LandingPageComponent }
+  { path: 'register-account', component: RegisterAccountComponent, canActivate: [UnregisteredGuard] },
+
+  { path: 'login', component: LoginComponent, canActivate: [UnregisteredGuard] },
+
+  { path: 'register-driver', component: RegisterDriverComponent, canActivate: [TokenGuard, RoleGuard], data: {roles: admin} },
+
+  { path: 'passenger-account', component: PassengerUserInfoComponent, canActivate: [TokenGuard, RoleGuard], data: {roles: pass} },
+
+  { path: "driver-account", component: DriverUserInfoComponent, canActivate: [TokenGuard, RoleGuard], data: {roles: driver} },
+  // nije namesteno, jer se za sada driver i admin ovde vracaju
+  { path: 'book-ride', component: BookRideComponent, canActivate: [TokenGuard] },
+
+  { path: 'manage-drivers', component: ManageDriversComponent, canActivate: [TokenGuard, RoleGuard], data: {roles: admin} },
+
+  { path: 'manage-passengers', component: ManagePassengersComponent, canActivate: [TokenGuard, RoleGuard], data: {roles: admin} },
+  // nisam siguran za sta je komponenta
+  { path: "ride-request", component:RideRequestComponent, canActivate: [TokenGuard] },
+
+  { path: 'current-ride', component: CurrentRideComponent, canActivate: [TokenGuard, RoleGuard], data: {roles: pass_driver} },
+  // nisam siguran da li ce i admin ici na ovu stranicu
+  { path: 'ride-history', component: RideHistoryComponent, canActivate: [TokenGuard] },
+  // nisam siguran da li je ovo samo za admina
+  { path: 'driver-account-details', component: DriverAccountDetailsComponent, canActivate: [TokenGuard] },
+  // nisam siguran da li je ovo samo za admina
+  { path: 'passenger-account-details', component: PassengerAccountDetailsComponent, canActivate: [TokenGuard] },
+
+  { path: 'manage-change-requests', component: ManageChangeRequestComponent, canActivate: [TokenGuard, RoleGuard ], data: {roles: admin} },
+
+  { path: 'statistics', component: UserStatisticsComponent, canActivate: [TokenGuard] },
+
+  { path: 'chat', component: ChatComponent, canActivate: [TokenGuard] },
+
+  { path: '**', component: LandingPageComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [TokenGuard, RoleGuard, UnregisteredGuard]
 })
 export class AppRoutingModule { }

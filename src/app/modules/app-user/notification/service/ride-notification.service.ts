@@ -124,5 +124,15 @@ export class RideNotificationService {
     })
   }
 
+  alertPanic (content: string): void {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Someone panicked during ride!',
+      text: content,
+      confirmButtonText: 'OK',
+      confirmButtonColor: '#6A7A9E',
+    })
+  }
+
 
 }
