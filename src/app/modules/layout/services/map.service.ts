@@ -102,7 +102,7 @@ export class MapService {
   }
 
   estimateData(req: any): Observable<any> {
-    return this.http.post<string>(environment.apiHost + "unregisteredUser", req);
+    return this.http.post<string>(environment.apiHost + "unregisteredUser", req)
   }
 
 }

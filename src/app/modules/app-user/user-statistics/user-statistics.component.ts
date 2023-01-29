@@ -348,7 +348,7 @@ export class UserStatisticsComponent implements OnInit {
     for (let email of stat.keys()) {
       let sum: number = stat.get(email)!.reduce(function(a, b) { return a + b; }, 0)
       let obj = {
-        "label": `${email} (${sum}/${(sum / dates.length).toFixed(2)})`,
+        "label": `${email} (SUM(${sum.toFixed(2)})/AVG(${(sum / dates.length).toFixed(2)}))`,
         "borderColor": `rgba(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},1)`,
         "fill": true,
         "data": stat.get(email)

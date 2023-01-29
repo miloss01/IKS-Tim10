@@ -35,7 +35,7 @@
             <p class="app-ride-details"> Kilometers travelled: {{kilometers_travelled}}km </p>
         </div>
         <div class="app-ride-details-col-right">
-            <p class="app-ride-details"> {{estimated_price}} RSD</p>
+            <p class="app-ride-details"> {{ride.totalCost}} RSD</p>
         </div>
 
         <div class="ride-buttons">
@@ -52,7 +52,7 @@
                 <button mat-button *ngIf="(status=='accepted' || status=='pending') && userRole=='DRIVER'" id="cancel-ride-btn" mat-raised-button (click)="onDeclineRideClick()">CANCEL RIDE</button>
             </div>
             <button mat-button *ngIf="status=='active' && userRole=='DRIVER'" id="end-ride-btn" mat-raised-button (click)="endRide()">END RIDE</button>
-            <button mat-button (click)="showMarkerssss()">Simulate vehicle</button>
+            <!-- <button mat-button (click)="showMarkerssss()">Simulate vehicle</button> -->
         </div>
     </div>
     

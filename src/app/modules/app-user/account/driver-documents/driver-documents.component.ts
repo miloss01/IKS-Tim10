@@ -12,6 +12,7 @@ import { UserServiceService } from '../services/user.service'
 
 export class DriverDocumentsComponent implements OnInit {
   documents: DocumentDTO[] = []
+  role: string = ''
 
   constructor (
     private readonly route: ActivatedRoute,
@@ -25,6 +26,7 @@ export class DriverDocumentsComponent implements OnInit {
         .getDriverDocuments(this.authentificationService.getId())
         .subscribe((fetchedDocuments: DocumentDTO[]) => {
           this.documents = fetchedDocuments
+          this.role = this.authentificationService.getRole()
           console.log('DRIVER DOCUMENTS COMPONENT - Fetched Documents for User with id' + JSON.stringify(this.documents))
         })
     })

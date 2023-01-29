@@ -25,7 +25,7 @@ export class UserServiceService {
   getUser (id: number): Observable<AppUser> {
     let params = new HttpParams()
     params = params.append('id', id)
-    return this.http.get<AppUser>(environment.apiHost + "user/1" + id, { params })
+    return this.http.get<AppUser>(environment.apiHost + "user/1", { params })
   }
 
   getVechicle (id: number): Observable<Vehicle> {

@@ -289,7 +289,7 @@ export class BookRideComponent implements AfterViewInit, OnInit {
       destination: {
         address: this.estimateDataFormGroup.value.destination,
         latitude: this.forRouteControl.desLat,
-        longitude: this.forRouteControl.depLon
+        longitude: this.forRouteControl.desLon
       }
     }]
     if (!this.addTime()) {

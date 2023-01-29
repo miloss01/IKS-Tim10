@@ -5,8 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service'
 import { UserServiceService } from '../services/user.service'
 import { MatDialog } from '@angular/material/dialog'
-import { ResetPasswordDialogComponent } from 'src/app/modules/layout/dialogs/reset-password-dialog/reset-password-dialog.component'
 import { ChangePasswordDialogComponent } from 'src/app/modules/layout/dialogs/change-password-dialog/change-password-dialog.component'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'app-basic-user-information',
@@ -26,12 +26,14 @@ export class BasicUserInformationComponent implements OnInit {
     profilePicture: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'
   }
 
+  mail: string = ''
   role: string = ''
 
   constructor (
     private readonly route: ActivatedRoute,
     private readonly userService: UserServiceService,
     public changePasswordDialog: MatDialog,
+    private readonly snackBar: MatSnackBar,
     private readonly router: Router,
     private readonly userAuthentificationService: LoginAuthentificationService) {
     // this.imageSrc = "http://t3.gstatic.com/licensed-image?q=tbn:ANd9GcS-OZTPpZNsnOchlOMmYsSeMprn5sYU4kdOZGPL0_ksM2nHGegFrzLhGlQMBF-amQqPRFs4DzbLrI_o5gA";
@@ -50,6 +52,7 @@ export class BasicUserInformationComponent implements OnInit {
 
   ngOnInit (): void {
     this.role = this.userAuthentificationService.getRole()
+    this.mail = this.userAuthentificationService.getEmail()
     if (this.userAuthentificationService.getRole() === 'ADMIN') {
       this.userService.selectedValue$.subscribe((value) => {
         this.user.id = value
@@ -105,9 +108,13 @@ export class BasicUserInformationComponent implements OnInit {
     this.userService
       .saveChanges(this.user, this.userAuthentificationService.getId())
       .subscribe((res: any) => {
-        console.log(res)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        this.router.navigate(['passenger-account'])
+        this.snackBar.open('Saved changes!', 'Close')
+        void this.router.navigate(['passenger-account'])
+        if (this.mail !== this.changingInformationForm.get('email')?.value) {
+          this.snackBar.open('Email changed! we had to log you out', 'Close')
+          this.userAuthentificationService.logout()
+          void this.router.navigate([''])
+        }
       })
   }
 

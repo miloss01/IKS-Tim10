@@ -12,6 +12,16 @@ a{
   margin-left: 4vh;
 }
 
+.widebutton {
+  width: 100%;
+  text-align: left;
+  font-size: 4vh;
+  padding-left: 0%;
+  margin-bottom: 3vh;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
 @media (max-width: 850px){
   .alignDiv{
     margin-left: 13%;
