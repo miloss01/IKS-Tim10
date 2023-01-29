@@ -14,6 +14,8 @@ import { InviteDialogComponent } from './dialogs/invite-dialog/invite-dialog.com
 import { CancelDialogComponent } from './dialogs/cancel-dialog/cancel-dialog.component';
 import { ResetPasswordDialogComponent } from './dialogs/reset-password-dialog/reset-password-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AddFavDialogComponent } from './dialogs/add-fav-dialog/add-fav-dialog.component';
+import { ReviewDialogComponent } from './dialogs/review-dialog/review-dialog.component';
 import { PanicDialogComponent } from './dialogs/panic-dialog/panic-dialog.component';
 
 @NgModule({
@@ -24,6 +26,8 @@ import { PanicDialogComponent } from './dialogs/panic-dialog/panic-dialog.compon
     InviteDialogComponent,
     CancelDialogComponent,
     ResetPasswordDialogComponent,
+    AddFavDialogComponent,
+    ReviewDialogComponent,
     PanicDialogComponent,
     ],
   imports: [

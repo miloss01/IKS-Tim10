@@ -1,13 +1,16 @@
-<div mat-dialog-content id="dialog-container">
+<div mat-dialog-content>
     <div class="app-ride-map-container">
         <app-map></app-map>
     </div>
     <div class="app-ride-details-col-left">
         <p class="app-ride-attribute"><mat-icon>location_on</mat-icon>{{ride.locations[0].departure.address}}</p>
         <p class="app-ride-attribute"><mat-icon>location_searching</mat-icon>{{ride.locations[0].destination.address}}</p>
-    </div>
-    <div class="app-ride-details-col-right">
         <p class="app-ride-attribute">Price: {{ride.totalCost}} RSD</p>
+        <!-- <p class="app-ride-attribute">Mileage: {{ride}} RSD</p> -->
+        
+    </div>
+    <div class="app-ride-details-col-right" *ngIf="role == 'PASSENGER'">
+        <button mat-button id="btn-add-fav" (click)="onClickFavorite()">ADD TO FAVORITES</button>
     </div>
     <div *ngIf="role == 'PASSENGER'">
         <button mat-button id="btn-ride-again" (click)="onClickRideAgain()">RIDE AGAIN</button>
@@ -18,7 +21,7 @@
         <mat-divider></mat-divider>
         <div *ngIf="driverForDisplay != undefined">
             <div id="app-ride-driver-picture">
-                <img src="https://images.unsplash.com/photo-1626397859727-6d15fb78d8ec?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8ZHJpdmVyfGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60"/>
+                <img src="{{driverForDisplay.profilePicture}}"/>
             </div>
             <div id="app-ride-driver-name">
                 <p class="app-ride-attribute">{{driverForDisplay.name}} {{driverForDisplay.surname}}</p>
@@ -34,7 +37,7 @@
         <div *ngFor="let passenger of passengersForDisplay">
             <div>
                 <div id="app-ride-passenger-picture">
-                    <img src="https://images.unsplash.com/photo-1518415692216-ce36b914890f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTR8fHBlcnNvbnxlbnwwfDJ8MHx8&auto=format&fit=crop&w=500&q=60" >
+                    <img src="{{passenger.profilePicture}}" >
                 </div>
                 <div id="app-ride-passenger-name">
                     <p class="app-ride-attribute">{{passenger.name}} {{passenger.surname}}</p>
@@ -43,14 +46,21 @@
                 <div id="app-ride-passenger-reviewbtn">
                     <button mat-button id="btn-show-reviews" (click)="displayReviewsOnClick(passenger.email)">Show reviews</button>
                 </div>
-                <div class="app-ride-review" *ngIf="reviewsShow==true && passenger.email === review.driverReview.passenger.email && review.driverReview.id!=-1">
-                    <p><mat-icon>thumbs_up_down</mat-icon>Passenger gave driver rating <span class="rating">{{review.driverReview.rating}} </span>  and commented:</p>
-                    <p class="app-ride-review-comment"> {{review.driverReview.comment}}</p>
-                    <p><mat-icon>directions_car</mat-icon>Passenger gave the vehicle rating <span class="rating">{{review.vehicleReview.rating}} </span>  and commented:</p>
-                    <p class="app-ride-review-comment"> {{review.vehicleReview.comment}} </p>
+                <div class="app-ride-review" *ngIf="reviewsShow==true && (passenger.email === review.driverReview.passenger.email || passenger.email === review.driverReview.passenger.email) ">
+                    <div *ngIf="review.driverReview != null">
+                        <p><mat-icon>thumbs_up_down</mat-icon>Passenger gave driver rating <span class="rating">{{review.driverReview.rating}} </span>  and commented:</p>
+                        <p class="app-ride-review-comment"> {{review.driverReview.comment}}</p>
+                    </div>
+                    <div *ngIf="review.vehicleReview != null">
+                        <p><mat-icon>directions_car</mat-icon>Passenger gave the vehicle rating <span class="rating">{{review.vehicleReview.rating}} </span>  and commented:</p>
+                        <p class="app-ride-review-comment"> {{review.vehicleReview.comment}} </p>
+                    </div>
                 </div>
             </div>
             </div>
-        </div>
+    </div>
+
+    <button mat-button id="btn-leave-review" (click)="onClickLeaveReview()">LEAVE A REVIEW</button>
+
 </div>
 

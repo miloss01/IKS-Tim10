@@ -22,6 +22,7 @@ import { PassengerAccountDetailsComponent } from './manage-passengers/account-de
 import { NotesComponent } from './manage-passengers/notes/notes.component';
 import { ManageChangeRequestComponent } from './manage-change-request/manage-change-request.component';
 import { ChangeRequestInfoComponent } from './change-request-info/change-request-info.component';
+import { FavoriteRoutesComponent } from './favorite-routes/favorite-routes.component';
 import { UserStatisticsComponent } from './user-statistics/user-statistics.component';
 import { ChatComponent } from './chat/chat.component';
 
@@ -41,6 +42,7 @@ import { ChatComponent } from './chat/chat.component';
     NotesComponent,
     ManageChangeRequestComponent,
     ChangeRequestInfoComponent,
+    FavoriteRoutesComponent,
     UserStatisticsComponent,
     ChatComponent],
   imports: [

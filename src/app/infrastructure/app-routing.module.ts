@@ -21,6 +21,7 @@ import { TokenGuard } from './guard/token.guard';
 import { RoleGuard } from './guard/role.guard';
 import { UnregisteredGuard } from './guard/unregistered.guard';
 import { ChatComponent } from '../modules/app-user/chat/chat.component';
+import { FavoriteRoutesComponent } from '../modules/app-user/favorite-routes/favorite-routes.component';
 
 const pass: string[] = ["PASSENGER"]
 const driver: string[] = ["DRIVER"]
@@ -56,6 +57,8 @@ const routes: Routes = [
   { path: 'driver-account-details', component: DriverAccountDetailsComponent, canActivate: [TokenGuard] },
   // nisam siguran da li je ovo samo za admina
   { path: 'passenger-account-details', component: PassengerAccountDetailsComponent, canActivate: [TokenGuard] },
+
+  {path: 'favorite-routes', component: FavoriteRoutesComponent, canActivate: [TokenGuard, RoleGuard], data: {roles: pass}},
 
   { path: 'manage-change-requests', component: ManageChangeRequestComponent, canActivate: [TokenGuard, RoleGuard ], data: {roles: admin} },
 

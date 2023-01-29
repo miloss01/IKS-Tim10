@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs'
-import { DepartureDestination, ReasonDTO, Ride, RideCreation, RideResponseDTO, VehicleResponceDTO } from 'src/app/models/models'
+import { DepartureDestination, FavoriteRouteDTO, ReasonDTO, Ride, RideCreation, RideResponseDTO, VehicleResponceDTO } from 'src/app/models/models'
 import { environment } from 'src/environments/environment'
 
 @Injectable({
@@ -11,7 +11,15 @@ export class RideServiceService {
   private readonly value$ = new BehaviorSubject<any>({})
   selectedValue$ = this.value$.asObservable()
 
-  private readonly bookAgainValue$ = new BehaviorSubject<any>({})
+  private readonly bookAgainValue$ = new BehaviorSubject<FavoriteRouteDTO>({
+      id: null,  
+      favoriteName: "",
+      locations: [],
+      passengers: [],
+      vehicleType: 'standard',
+      babyTransport: false,
+      petTransport: false  
+  })
   selectedBookAgainValue$ = this.bookAgainValue$.asObservable()
 
   constructor (private readonly http: HttpClient) { }
@@ -20,8 +28,8 @@ export class RideServiceService {
     this.value$.next(test)
   }
 
-  setbookAgainValue (locations: DepartureDestination[]): void {
-    this.bookAgainValue$.next(locations);
+  setbookAgainValue (val : FavoriteRouteDTO): void {
+    this.bookAgainValue$.next(val);
   }
 
   getRideById (id: number): Observable<Ride> {
@@ -139,6 +147,29 @@ export class RideServiceService {
 
   getAllUserRides (id: number): Observable<any> {
     return this.http.get<Ride>(environment.apiHost + "user/" + id + "/ride")
+  }
+
+  getFavoriteRoutes(): Observable<any> {
+    return this.http.get<FavoriteRouteDTO[]>(environment.apiHost + "ride/favorites")
+  }
+
+  saveFavoriteRoute(favorite: FavoriteRouteDTO) : Observable<any> {
+    const options: any = {
+      responseType: 'json',
+    };
+    return this.http.post<FavoriteRouteDTO>(environment.apiHost + "ride/favorites", {
+      favoriteName: favorite.favoriteName,
+      locations: favorite.locations,
+      passengers: favorite.passengers,
+      vehicleType: favorite.vehicleType,
+      babyTransport: favorite.babyTransport,
+      petTransport: favorite.petTransport  
+    }, options);
+
+  }
+
+  deleteFavoriteRoute(favorite: FavoriteRouteDTO) : Observable<any> {
+    return this.http.delete<string>(environment.apiHost + "ride/favorites/" + favorite.id);
   }
 
   getAllUserRidesWithDates (id: number, start: string, end: string): Observable<RideResponseDTO> {

@@ -23,7 +23,9 @@ export class UserServiceService {
   }
 
   getUser (id: number): Observable<AppUser> {
-    return this.http.get<AppUser>(environment.apiHost + "passenger/" + id)
+    let params = new HttpParams()
+    params = params.append('id', id)
+    return this.http.get<AppUser>(environment.apiHost + "user/1" + id, { params })
   }
 
   getVechicle (id: number): Observable<Vehicle> {
@@ -61,6 +63,10 @@ export class UserServiceService {
     let params = new HttpParams()
     params = params.append('id', id)
     return this.http.get<AppUser>(environment.apiHost + "user/1", { params })
+  }
+
+  getPassengerById (id: number): Observable<AppUser> {
+    return this.http.get<AppUser>(environment.apiHost + "passenger/" + id)
   }
 
   getUserByEmail (email: string): Observable<AppUser> {

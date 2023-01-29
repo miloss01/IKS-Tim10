@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '
 import { FormControl, FormGroup } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { InviteDialogComponent } from '../../layout/dialogs/invite-dialog/invite-dialog.component'
-import { AppUserForRide, RideCreation, EstimateDataDTO } from 'src/app/models/models'
+import { AppUserForRide, RideCreation, EstimateDataDTO, DepartureDestination } from 'src/app/models/models'
 import { MapComponent } from 'src/app/modules/layout/map/map.component'
 import { map, mergeMap } from 'rxjs'
 import { MapService } from '../../layout/services/map.service'
@@ -97,11 +97,17 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     private readonly authService: LoginAuthentificationService
   ) { }
 
-  locationsFromBookAgain: any | undefined
+  departureFromBookAgain: string = ""
+  destinationFromBookAgain: string = ""
 
   ngOnInit (): void {
     this.rideService.selectedBookAgainValue$.subscribe((value) => {
-      this.locationsFromBookAgain = value
+      console.log('ride again')
+      this.departureFromBookAgain = value.locations[0].departure.address
+      this.destinationFromBookAgain = value.locations[0].destination.address
+      this.vehicleType = value.vehicleType.toUpperCase()
+      this.petsTransport = value.petTransport
+      this.babyTransport = value.babyTransport
     })
     this.userService.isBlocked(this.userAuthentificationService.getId())
       .subscribe((value) => {
@@ -110,12 +116,13 @@ export class BookRideComponent implements AfterViewInit, OnInit {
       })
   }
 
-  invite (): void {
-    const dialogRef = this.invDialog.open(InviteDialogComponent)
+
+  invite(): void {
+    const dialogRef = this.invDialog.open(InviteDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
-      this.passengers = result
-    })
+      console.log(result);
+      this.passengers.push(result);
+    });
   }
 
   estimate (): void {

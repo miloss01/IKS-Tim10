@@ -3,9 +3,11 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, mergeMap } from 'rxjs';
-import { AppUser, AppUserForRide, Ride, RideReview } from 'src/app/models/models';
+import { AppUser, AppUserForRide, Ride, RideReview, FavoriteRouteDTO } from 'src/app/models/models';
 import { UserServiceService } from 'src/app/modules/app-user/account/services/user.service';
 import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service';
+import { AddFavDialogComponent } from 'src/app/modules/layout/dialogs/add-fav-dialog/add-fav-dialog.component';
+import { ReviewDialogComponent } from 'src/app/modules/layout/dialogs/review-dialog/review-dialog.component';
 import { MapComponent } from 'src/app/modules/layout/map/map.component';
 import { MapService } from 'src/app/modules/layout/services/map.service';
 import { ReviewService, RideReviewsDTO } from '../../review/service/review.service';
@@ -32,13 +34,15 @@ export class RideDetailsDialogComponent implements OnInit {
       comment: "",
       passenger: {id:-1, email: ""}
     }
-  };
+  }
 
-  public reviewsShow : boolean = false;
+  public reviewsShow : boolean = false
 
-  public passengersForDisplay : AppUser[] = [];
+  public passengersForDisplay : AppUser[] = []
 
-  public driverForDisplay : AppUser | undefined;
+  public driverForDisplay : AppUser | undefined
+
+  public canLeaveReview : boolean = false
   
   @ViewChild(MapComponent, {static : true}) map : MapComponent | undefined;
 
@@ -55,7 +59,9 @@ export class RideDetailsDialogComponent implements OnInit {
     private authService : LoginAuthentificationService,
     private snackBar: MatSnackBar,
     private rideService : RideServiceService,
-    private route: ActivatedRoute) {
+    public addFavDialog : MatDialog,
+    private route: ActivatedRoute,
+    public reviewDialog: MatDialog) {
       this.ride = data["ride"];
       this.role = authService.getRole();
   }
@@ -72,17 +78,10 @@ export class RideDetailsDialogComponent implements OnInit {
       this.initMap();
     }, 1000);
     this.route.params.subscribe((params) => {
-      this.reviewService
-      .getReviews(this.ride.id)
-      .subscribe((fetchedReviews:RideReview[]) => {
-        this.review = fetchedReviews[0];
-        // SETTING EMAIL FOR DUMMY TESTING TODO - REMOVE
-        this.review.driverReview.passenger.email = "nana@DEsi.com";
-        this.review.vehicleReview.passenger.email = "nana@DEsi.com";
-      });
-
+      this.getReviewsForDisplay();
       this.getDriverForDisplay();
       this.getPassengersForDisplay();
+      this.checkCanLeaveReview();
     })
   }
   
@@ -115,7 +114,7 @@ export class RideDetailsDialogComponent implements OnInit {
   }
 
   displayReviewsOnClick(email:String) {
-    if (this.review.driverReview.passenger.email == email) {
+    if (this.review.driverReview.id != -1 && this.review.driverReview.passenger.email === email) {
       this.reviewsShow = true;
     }
     else {
@@ -128,7 +127,7 @@ export class RideDetailsDialogComponent implements OnInit {
     let user:AppUserForRide;
     for (let i = 0 ; i < this.ride.passengers.length ; i++) {
       user = this.ride.passengers[i];
-      this.userService.getUserById(user.id)
+      this.userService.getPassengerById(user.id)
       .subscribe((fetchedUser:AppUser) => {
         this.passengersForDisplay.push(fetchedUser);
         })
@@ -136,16 +135,90 @@ export class RideDetailsDialogComponent implements OnInit {
   }
 
   getDriverForDisplay() { 
-    this.userService.getUserById(this.ride.driver.id)
+    this.userService.getDriverById(this.ride.driver.id)
       .subscribe((fetchedUser:AppUser) => {
         this.driverForDisplay = fetchedUser;
         })
   }
 
   onClickRideAgain() {
-    this.rideService.setbookAgainValue(this.ride.locations);
+    if (this.ride.vehicleType == undefined) this.ride.vehicleType = "standard"
+    if (this.ride.babyTransport == undefined) this.ride.babyTransport = false
+    if (this.ride.petTransport == undefined) this.ride.petTransport = false
+    let favorite : FavoriteRouteDTO = {
+      id: null,
+      favoriteName: '',
+      locations: this.ride.locations,
+      passengers: this.ride.passengers,
+      vehicleType: this.ride.vehicleType,
+      babyTransport: this.ride.babyTransport,
+      petTransport: this.ride.petTransport
+    }
+    this.rideService.setbookAgainValue(favorite);
     this.dialogRef.close();
     this.router.navigate(['/book-ride']);
+  }
+
+  onClickFavorite() {
+    if (this.ride.vehicleType == undefined) this.ride.vehicleType = "standard"
+    if (this.ride.babyTransport == undefined) this.ride.babyTransport = false
+    if (this.ride.petTransport == undefined) this.ride.petTransport = false
+
+    let favorite : FavoriteRouteDTO = {
+      id: null,
+      favoriteName: '',
+      locations: this.ride.locations,
+      passengers: this.ride.passengers,
+      vehicleType: this.ride.vehicleType,
+      babyTransport: this.ride.babyTransport,
+      petTransport: this.ride.petTransport
+    }
+    const addFavDialog = this.addFavDialog.open(AddFavDialogComponent, {
+      width: '320px',
+      height: '220px',
+      data: { favorite: favorite }
+    });
+  }
+
+  getReviewsForDisplay() {
+    this.reviewService
+      .getReviews(this.ride.id)
+      .subscribe((fetchedReviews:RideReview[]) => {
+        if (fetchedReviews.length != 0) {
+          this.review = fetchedReviews[0];
+          console.log(fetchedReviews)
+          if (this.review.driverReview != null) this.review.driverReview = fetchedReviews[0].driverReview;
+          if (this.review.vehicleReview != null) this.review.vehicleReview = fetchedReviews[0].vehicleReview;
+        }
+      });
+  }
+
+  onClickLeaveReview() {
+    if (this.checkCanLeaveReview()) {
+      const rideDetailsDialog = this.reviewDialog.open(ReviewDialogComponent, {
+        width: '700px',
+        height: '400px',
+        data: { rideId: this.ride.id } 
+      });
+    } else {
+      this.snackBar.open("Reviews can only be left up to 3 days after ride has ended.", "Close");
+    }
+  }
+
+  private checkCanLeaveReview() : boolean {
+    // Up to 3 days after the ride has ended
+    let tokens = this.ride.endTime.split(" ")
+    let dates = tokens[0].split(".")
+    let times = tokens[1].split(":")
+    let endTime = new Date(+dates[2], +dates[1]-1, +dates[0], +times[0], +times[1])
+    let nowTime = new Date()
+
+    let endTimeMilli = endTime.valueOf();
+    let threeDaysAfterMilli = endTimeMilli + (1000 * 60 * 60 * 24 * 3)
+    let threeDaysAfter = new Date(threeDaysAfterMilli);
+    console.log(endTime)
+    console.log(threeDaysAfter)
+    return nowTime < endTime
   }
 
 }

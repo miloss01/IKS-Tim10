@@ -1,0 +1,39 @@
+h2{
+    font-size: 1.5em;
+    margin-bottom: 3vh !important;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+button {
+    vertical-align: bottom;
+    margin-left: 28vw;
+    width: 8vw;
+}
+
+textarea {
+    width: 20vw !important;
+}
+
+.rating {
+    width: 2vw !important;
+    margin-left: 0vw !important;
+}
+
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: #6A7A9E !important;
+}
+
+/* mat-label focused style */
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+    color: black !important ;
+}
+
+#driver-review, #vehicle-review {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    vertical-align: middle;
+    padding-left: 2vw;
+    padding-right: 4vw;
+}
