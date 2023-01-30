@@ -110,7 +110,9 @@ export class BasicUserInformationComponent implements OnInit {
       .subscribe((res: any) => {
         this.snackBar.open('Saved changes!', 'Close')
         void this.router.navigate(['passenger-account'])
-        if (this.mail !== this.changingInformationForm.get('email')?.value) {
+        console.log(this.mail)
+        console.log(this.changingInformationForm.get('email')?.value)
+        if (this.mail !== this.changingInformationForm.get('email')?.value && this.changingInformationForm.get('email')?.value != null) {
           this.snackBar.open('Email changed! we had to log you out', 'Close')
           this.userAuthentificationService.logout()
           void this.router.navigate([''])
