@@ -43,10 +43,10 @@ export class RegisterDriverComponent implements OnInit {
 
   registerDriver (): void {
     console.log('Value of form: ' + JSON.stringify(this.registerDriverForm.value))
-    if (!this.registerDriverForm.valid) {
-      this.errorMessage = 'Form not valid'
-      return
-    }
+    // if (!this.registerDriverForm.valid) {
+    //   this.errorMessage = 'Form not valid'
+    //   return
+    // }
 
     const driver: DriverDTO = {
       id: null,
@@ -90,10 +90,10 @@ export class RegisterDriverComponent implements OnInit {
       this.errorMessage = 'You must add driver before creating vehicle'
       return
     }
-    if (!this.registerDriverForm.valid) {
-      this.errorMessage = 'Form not valid'
-      return
-    }
+    // if (!this.registerDriverForm.valid) {
+    //   this.errorMessage = 'Form not valid'
+    //   return
+    // }
     const vehicle: VehicleDTO = {
       id: null,
       driverId: null,

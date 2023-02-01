@@ -13,7 +13,7 @@ export class RegisterAccountComponent implements OnInit {
     name: new FormControl('', Validators.required),
     surname: new FormControl('', Validators.required),
     telephoneNumber: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.email),
+    email: new FormControl('', [Validators.email, Validators.required]),
     address: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
     confirmPassword: new FormControl('', Validators.required)
