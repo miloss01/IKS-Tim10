@@ -78,11 +78,11 @@ export class RegisterDriverComponent implements OnInit {
       }
     )
 
-      // this.appUserService
-      // .addPassenger(this.registerDriverForm.value)
-      // .subscribe((res: any) => {
-      //   console.log(JSON.stringify(res));
-      // });
+    // this.appUserService
+    // .addPassenger(this.registerDriverForm.value)
+    // .subscribe((res: any) => {
+    //   console.log(JSON.stringify(res));
+    // });
   }
 
   addVehicle (): void {
