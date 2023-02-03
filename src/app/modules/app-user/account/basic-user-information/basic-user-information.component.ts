@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Component, OnInit, Output, EventEmitter } from '@angular/core'
-import { FormControl, FormGroup } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service'
 import { UserServiceService } from '../services/user.service'
 import { MatDialog } from '@angular/material/dialog'
-import { ResetPasswordDialogComponent } from 'src/app/modules/layout/dialogs/reset-password-dialog/reset-password-dialog.component'
 import { ChangePasswordDialogComponent } from 'src/app/modules/layout/dialogs/change-password-dialog/change-password-dialog.component'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'app-basic-user-information',
@@ -26,12 +26,14 @@ export class BasicUserInformationComponent implements OnInit {
     profilePicture: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'
   }
 
+  mail: string = ''
   role: string = ''
 
   constructor (
     private readonly route: ActivatedRoute,
     private readonly userService: UserServiceService,
     public changePasswordDialog: MatDialog,
+    private readonly snackBar: MatSnackBar,
     private readonly router: Router,
     private readonly userAuthentificationService: LoginAuthentificationService) {
     // this.imageSrc = "http://t3.gstatic.com/licensed-image?q=tbn:ANd9GcS-OZTPpZNsnOchlOMmYsSeMprn5sYU4kdOZGPL0_ksM2nHGegFrzLhGlQMBF-amQqPRFs4DzbLrI_o5gA";
@@ -41,15 +43,16 @@ export class BasicUserInformationComponent implements OnInit {
   isDriverOrPassenger = true
 
   changingInformationForm = new FormGroup({
-    name: new FormControl(),
-    lastName: new FormControl(),
-    telephone: new FormControl(),
-    email: new FormControl(),
-    adress: new FormControl()
+    name: new FormControl('', Validators.required),
+    lastName: new FormControl('', Validators.required),
+    telephone: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.email),
+    adress: new FormControl('', Validators.required)
   })
 
   ngOnInit (): void {
     this.role = this.userAuthentificationService.getRole()
+    this.mail = this.userAuthentificationService.getEmail()
     if (this.userAuthentificationService.getRole() === 'ADMIN') {
       this.userService.selectedValue$.subscribe((value) => {
         this.user.id = value
@@ -69,27 +72,32 @@ export class BasicUserInformationComponent implements OnInit {
           .getUserById(this.userAuthentificationService.getId())
           .subscribe((fetchedUser: AppUser) => {
             this.user = fetchedUser
+            this.changingInformationForm.patchValue({
+              name: this.user.name,
+              lastName: this.user.surname,
+              telephone: this.user.telephoneNumber,
+              email: this.user.email,
+              adress: this.user.address
+            })
           })
       })
     }
   }
 
   submitChanges (): void {
+    console.log(this.changingInformationForm.value)
+    if (!this.changingInformationForm.valid) return
+    console.log(this.changingInformationForm.value)
     if (this.changingInformationForm.get('name')?.value) {
-      this.user.name = this.changingInformationForm.get('name')?.value
+      this.user.name = this.changingInformationForm.value.name ?? this.user.name
     }
-    if (this.changingInformationForm.get('lastName')?.value) {
-      this.user.surname = this.changingInformationForm.get('lastName')?.value
-    }
-    if (this.changingInformationForm.get('telephone')?.value) {
-      this.user.telephoneNumber = this.changingInformationForm.get('telephone')?.value
-    }
-    if (this.changingInformationForm.get('email')?.value) {
-      this.user.email = this.changingInformationForm.get('email')?.value
-    }
-    if (this.changingInformationForm.get('adress')?.value) {
-      this.user.address = this.changingInformationForm.get('adress')?.value
-    }
+    this.user.surname = this.changingInformationForm.value.lastName ?? this.user.surname
+
+    this.user.telephoneNumber = this.changingInformationForm.value.telephone ?? this.user.telephoneNumber
+
+    this.user.email = this.changingInformationForm.value.email ?? this.user.email
+
+    this.user.address = this.changingInformationForm.value.adress ?? this.user.address
     if (this.role === 'PASSENGER') {
       this.passengerSubmit()
     } else {
@@ -105,28 +113,34 @@ export class BasicUserInformationComponent implements OnInit {
     this.userService
       .saveChanges(this.user, this.userAuthentificationService.getId())
       .subscribe((res: any) => {
-        console.log(res)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        this.router.navigate(['passenger-account'])
+        this.snackBar.open('Saved changes!', 'Close')
+        void this.router.navigate(['passenger-account'])
+        console.log(this.mail)
+        console.log(this.changingInformationForm.get('email')?.value)
+        if (this.mail !== this.changingInformationForm.get('email')?.value && this.changingInformationForm.get('email')?.value != null) {
+          this.snackBar.open('Email changed! we had to log you out', 'Close')
+          this.userAuthentificationService.logout()
+          void this.router.navigate([''])
+        }
       })
   }
 
-  async changePicture(): Promise<void> {
+  async changePicture (): Promise<void> {
     let btn: any = document.querySelector('#pic_btn');
 
     btn?.addEventListener('input', async (event: any) => {
       // console.log(btn.files[0].value);
       this.user.profilePicture = String(await this.toBase64(btn.files[0]));
-    });
+    })
 
-    btn.click();
+    btn.click()
   }
 
   toBase64 = (file: any) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = error => reject(error)
   });
 
   openResetPasswordDialog (): void {

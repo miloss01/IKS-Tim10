@@ -43,7 +43,11 @@ export class LoginComponent implements OnInit {
               })
           })
       } else {
-        void this.router.navigate(['/book-ride'])
+        if (this.authService.getRole() == 'ADMIN') {
+          void this.router.navigate(['/'])
+        } else {
+          void this.router.navigate(['/book-ride'])
+        }
         this.authService.changeActiveFlag(true)
           .subscribe((res: any) => {
             console.log(res)

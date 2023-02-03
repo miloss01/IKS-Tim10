@@ -173,7 +173,8 @@ export class CurrentRideComponent implements AfterViewInit {
   startRide (): void {
     this.rideService.startRide(this.ride.id).subscribe(
       (response: any) => {
-        this.checkActiveRide(this.userRole);
+        this.checkActiveRide(this.userRole)
+        this.showMarkerssss()
       }
     )
   }
@@ -321,6 +322,8 @@ export class CurrentRideComponent implements AfterViewInit {
     if (this.routeMarker)
         this.routeMarker.removeFrom(this.map?.getMap());
     this.routeMarker = new L.Marker([location.latitude, location.longitude], {icon: this.redIcon}).addTo(this.map?.getMap());
+    this.time_elapsed += 2;
+    this.kilometers_travelled = Number((this.kilometers_travelled + 0.9).toFixed(2));
   }
 
   showMarkers(i: number): void {
@@ -368,8 +371,6 @@ export class CurrentRideComponent implements AfterViewInit {
 
       })
 
-      this.time_elapsed += 2;
-      this.kilometers_travelled = Number((this.kilometers_travelled + 0.9).toFixed(2));
 
     }, 2000);
   }

@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '
 import { FormControl, FormGroup } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { InviteDialogComponent } from '../../layout/dialogs/invite-dialog/invite-dialog.component'
-import { AppUserForRide, RideCreation, EstimateDataDTO, DepartureDestination } from 'src/app/models/models'
+import { AppUserForRide, RideCreation, EstimateDataDTO } from 'src/app/models/models'
 import { MapComponent } from 'src/app/modules/layout/map/map.component'
 import { map, mergeMap } from 'rxjs'
 import { MapService } from '../../layout/services/map.service'
@@ -97,8 +97,8 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     private readonly authService: LoginAuthentificationService
   ) { }
 
-  departureFromBookAgain: string = ""
-  destinationFromBookAgain: string = ""
+  departureFromBookAgain: string = ''
+  destinationFromBookAgain: string = ''
 
   ngOnInit (): void {
     this.rideService.selectedBookAgainValue$.subscribe((value) => {
@@ -289,7 +289,7 @@ export class BookRideComponent implements AfterViewInit, OnInit {
       destination: {
         address: this.estimateDataFormGroup.value.destination,
         latitude: this.forRouteControl.desLat,
-        longitude: this.forRouteControl.depLon
+        longitude: this.forRouteControl.desLon
       }
     }]
     if (!this.addTime()) {
@@ -299,23 +299,24 @@ export class BookRideComponent implements AfterViewInit, OnInit {
     this.addPrefrences()
     this.addPeople()
     console.log(this.ride.passengers)
-    this.ride.estimatedTimeMinutes = this.estimated_time || 0
+    this.ride.estimatedTimeMinutes = this.estimated_time ?? 0
     this.ride.distance = this.distance
     this.ride.price = this.estimated_price
     console.log(this.ride.distance)
 
-    void Swal.fire({title: 'Ride request sent',
+    void Swal.fire({
+      title: 'Ride request sent',
       text: 'We will update you with booking information.',
       footer: '<a href="current-ride">View ride status and details.</a>',
       timer: 2000,
       timerProgressBar: true
     })
     this.clickedEstimate = false
-    console.log("BEFORE ADDING: " )
+    console.log('BEFORE ADDING: ')
     console.log(this.ride)
     this.rideService.addRide(this.ride).subscribe((value) => {
       if (value == null) this.notificationService.alertNotAvailable()
-      console.log("AFTER ADDING: " )
+      console.log('AFTER ADDING: ')
       console.log(value)
     // eslint-disable-next-line n/handle-callback-err
     }, (error: Error) => {

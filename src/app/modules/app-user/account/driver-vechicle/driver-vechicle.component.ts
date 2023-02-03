@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 import { Component, OnInit, Output, EventEmitter } from '@angular/core'
-import { FormControl, FormGroup } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router'
 import { LoginAuthentificationService } from 'src/app/modules/auth/service/login-authentification.service'
 import { ManageDriversService } from '../../manage-drivers/service/manage-drivers.service'
@@ -33,9 +33,9 @@ export class DriverVechicleComponent implements OnInit {
   }
 
   changingInformationForm = new FormGroup({
-    carName: new FormControl(),
-    lisencePlate: new FormControl(),
-    numberOfSeats: new FormControl()
+    carName: new FormControl('', Validators.required),
+    lisencePlate: new FormControl('', Validators.required),
+    numberOfSeats: new FormControl(0, Validators.required)
   })
 
   constructor (
@@ -68,6 +68,11 @@ export class DriverVechicleComponent implements OnInit {
           .getVehicleById(this.userAuthentificationService.getId())
           .subscribe((fetchedVechicle: Vehicle) => {
             this.vehicle = fetchedVechicle
+            this.changingInformationForm.patchValue({
+              carName: this.vehicle.model,
+              lisencePlate: this.vehicle.licenseNumber,
+              numberOfSeats: this.vehicle.passengerSeats
+            })
             console.log('DRIVER VEHICLE COMPONENT - Fetched Vehicle for User with id ' + this.userAuthentificationService.getId() + ', ' + JSON.stringify(fetchedVechicle))
           })
       })
@@ -84,14 +89,18 @@ export class DriverVechicleComponent implements OnInit {
   }
 
   saveChanges (): void {
+    console.log(this.changingInformationForm.value)
+    if (!this.changingInformationForm.valid) {
+      return
+    }
     if (this.changingInformationForm.get('carName')?.value) {
-      this.vehicle.model = this.changingInformationForm.get('carName')?.value
+      this.vehicle.model = this.changingInformationForm.value.carName ?? ''
     }
     if (this.changingInformationForm.get('lisencePlate')?.value) {
-      this.vehicle.licenseNumber = this.changingInformationForm.get('lisencePlate')?.value
+      this.vehicle.licenseNumber = this.changingInformationForm.value.lisencePlate ?? ''
     }
     if (this.changingInformationForm.get('numberOfSeats')?.value) {
-      this.vehicle.passengerSeats = this.changingInformationForm.get('numberOfSeats')?.value
+      this.vehicle.passengerSeats = this.changingInformationForm.value.numberOfSeats ?? 0
     }
     this.vehicleEvent.emit(this.vehicle)
   }
