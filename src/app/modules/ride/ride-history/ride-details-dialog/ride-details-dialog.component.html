@@ -5,7 +5,9 @@
     <div class="app-ride-details-col-left">
         <p class="app-ride-attribute"><mat-icon>location_on</mat-icon>{{ride.locations[0].departure.address}}</p>
         <p class="app-ride-attribute"><mat-icon>location_searching</mat-icon>{{ride.locations[0].destination.address}}</p>
-        <p class="app-ride-attribute">Price: {{ride.totalCost}} RSD</p>
+        <p class="app-ride-attribute"><b>Price:</b> {{ride.totalCost}} RSD</p>
+        <p class="app-ride-attribute"><b>Distance:</b> {{ride.distance}} km</p>
+
         <!-- <p class="app-ride-attribute">Mileage: {{ride}} RSD</p> -->
         
     </div>
