@@ -1,0 +1,69 @@
+<div class="app-page">
+
+  <div class="reg-header"> 
+    <div class="app-reg-col " >
+      <div class="app-reg-instruction"> 
+        <h2>Welcome to UBER Registration</h2>
+        <p>MAKE A NEW ACCOUNT</p>
+      </div>
+    </div>
+    <div class="app-reg-col" >
+      <img src="https://images.unsplash.com/photo-1619722087489-f0b1a6fdbc6d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8ZmVtYWxlJTIwZHJpdmVyfGVufDB8fDB8fA%3D%3D&w=1000&q=80"/>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+  
+  <form [formGroup]="registerAccountForm" (ngSubmit)="registerAccount()" fxLayout="column">
+    <div class="app-reg-col" >
+        <div class="app-form-sectioning"> 
+          <p>Personal information</p>
+          <mat-divider></mat-divider>
+        </div>
+          <mat-form-field>
+              <mat-label>Name</mat-label>
+              <input matInput type="text" name="name" formControlName="name" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Last Name</mat-label>
+              <input matInput type="text" name="surname" formControlName="surname" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Phone Number</mat-label>
+              <input matInput type="text" name="telephoneNumber" formControlName="telephoneNumber"/>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Address</mat-label>
+              <input matInput type="text" name="address" formControlName="address"/>
+            </mat-form-field>
+      </div>
+      
+      <div class="app-reg-col">
+        
+        <div class="app-form-sectioning">
+          <p>Account credentials</p>
+          <mat-divider></mat-divider>
+        </div>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput type="text" name="email" formControlName="email" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput type="password" name="password" formControlName="password" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput type="password" name="confirmPassword" formControlName="confirmPassword" />
+          </mat-form-field>
+          <p>{{errorMessage}}</p>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between end">
+        <button color="primary" type="submit" mat-raised-button>CREATE ACCOUNT</button>
+      </div>
+      <a id="already-have-account" routerLink="/login" routerLinkActive="active">ALREADY HAVE AN ACCOUNT? LOG IN HERE</a>
+  
+    </form>
+  
+    
+</div>

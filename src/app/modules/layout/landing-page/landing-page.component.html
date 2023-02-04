@@ -1,0 +1,41 @@
+<div class="main-landing">
+  <div class="map-container">
+    <!-- <img src="assets/map.png" alt="nesto"> -->
+    <app-map [item]=true></app-map>
+  </div>
+
+  <div class="right-form">
+    <div class="form-params">
+      <p class="form-title">Check out time and price<br> for your route</p>
+      <form [formGroup]="estimateDataFormGroup" class="form-container" (ngSubmit)="estimate()">
+        <mat-form-field appearance="outline">
+          <mat-label>Departure</mat-label>
+          <mat-icon matPrefix class="input-icon">location_on</mat-icon>
+          <input matInput name="departure" formControlName="departure">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Destination</mat-label>
+          <mat-icon matPrefix class="input-icon">flag</mat-icon>
+          <input matInput name="destination" formControlName="destination">
+        </mat-form-field>
+        <button mat-button type="submit" class="submit-btn">Estimate</button>
+      </form>
+      <div *ngIf="this.role == 'DRIVER'" class="toogle-div">
+        <p class="label-for-toogle">Your status:</p>
+        <mat-button-toggle [checked]="isActive" (change)="onCheckChange()">{{isActiveLabel}}</mat-button-toggle> 
+      </div>
+    </div>
+
+    <div class="calculated-data">
+      <div class="data">
+        <p>Estimated time: </p>
+        <p>{{estimated_time}}min</p>
+      </div>
+      <div class="data">
+        <p>Estimated price: </p>
+        <p>${{estimated_price}}</p>
+      </div>
+    </div>
+  </div>
+
+</div>

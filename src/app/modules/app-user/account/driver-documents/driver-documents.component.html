@@ -1,0 +1,10 @@
+<div class="alignDiv" *ngIf="role=='DRIVER'">
+    <button mat-button [routerLink]="['/statistics']" class="widebutton">
+        Ride statistics
+        <mat-icon>launch</mat-icon>
+    </button>
+    <h2>Documents</h2>
+    <div *ngFor="let document of documents">
+        <p>{{document.name}}:<a href="">{{document.documentImage}}</a></p>
+    </div>
+</div>

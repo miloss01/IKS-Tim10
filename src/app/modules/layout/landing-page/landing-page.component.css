@@ -1,0 +1,102 @@
+
+body {
+  background-color: #EAECE9;
+}
+
+.map-container {
+  width: 60%;
+  height: 70vh;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: white;
+  border-radius: 5px;
+}
+
+.form-title {
+  text-transform: uppercase;
+  font-size: larger;
+  margin-bottom: 30px;
+}
+
+.main-landing {
+  display: flex;
+  flex-direction: row;
+  /* background-color: aqua; */
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin: 10vh 0 0 0;
+}
+
+.right-form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 30px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.submit-btn {
+  background-color: #24ED80;
+}
+
+.calculated-data {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* background-color: red; */
+}
+
+.data {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.form-params {
+  display: flex;
+  flex-direction: column;
+}
+
+.move-right {
+  text-align: end;
+}
+
+.input-icon {
+  margin-right: 10px;
+}
+.toogle-div{
+  margin: 4vh 0;
+  display: flex;
+}
+
+.label-for-toogle{
+  padding-top: 14px;
+  width: 50%;
+}
+
+mat-button-toggle {
+  border: 1px rgba(0,0,0,0) solid !important;
+  width: 50%;
+  padding: 0 5px !important;
+  z-index: 3 !important;
+}
+
+mat-button-toggle:hover {
+  border: 1px #000 solid !important;
+  background-color: #24ed7e2a !important;
+  border-radius: 5px !important;
+}
+
+.mat-button-toggle-checked {
+  box-shadow: 0 0 30px #000 !important;
+  border: 1px #000 solid !important;
+  border-radius: 5px !important;
+  background-color: #24ed7e2a !important;
+}
+
+

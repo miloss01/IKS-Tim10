@@ -1,0 +1,83 @@
+.flex-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+}
+.flex-elem{
+    width: 50%;
+    margin-bottom: 5vh;
+    
+}
+.flex-elem2{
+    width: 50%;
+    margin-bottom: 5vh;
+}
+
+@media (max-width: 850px) {
+    .flex-elem{
+        width: 100%;
+        margin-bottom: 5vh;
+    }
+
+    .flex-elem2{
+        width: 100%;
+        margin-bottom: 5vh;
+    }
+}
+
+.app-page {
+    padding-bottom: 20vh;
+    margin-right: 10vw;
+    margin-left: 7vw;
+}
+
+button {
+    width: 100%;
+    text-align: left;
+    font-size: 3.5vh;
+    padding-left: 10px;
+    margin-top: 5vh;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: rgb(248, 248, 248) ;
+  }
+
+  
+  button:hover {
+    background-color: #babfc20a;
+  }
+
+
+  mat-icon{
+    margin-left: 2vh;
+    margin-right: 1vh;
+    padding-bottom: .5vh;
+    font-size: 3.5vh;
+  }
+
+.small-button {
+    text-align: center;
+    font-size: 3vh;
+    letter-spacing: 0.2em;
+    line-height: 4.5vh;
+
+}
+
+#block-button, #unblock-button {
+    background-color: #f44122;
+    color: white;
+    text-align: center;
+    margin-bottom: 8vh;
+    font-size: 3vh;
+    width: 20vw;
+}
+
+#notes-button {
+    background-color: rgb(242, 242, 242);
+    color: black;
+}
+
+::ng-deep.mat-form-field-disabled {
+    color: rgb(54, 54, 54);
+}

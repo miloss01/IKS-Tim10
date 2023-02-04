@@ -1,0 +1,49 @@
+<div class="app-ridehistory-page">
+    <h2>Ride history</h2>
+    <mat-divider></mat-divider>
+
+    <table
+        mat-table
+        [dataSource]="dataSource"
+        class="mat-elevation-z8"
+        matSort
+        *ngIf="rides"
+    >
+
+        <ng-container matColumnDef="departure">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Departure Location</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.locations[0].departure.address }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="destination">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Destination Location</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.locations[0].destination.address }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="startTime">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ride Started At </th>
+            <td mat-cell *matCellDef="let element">{{ element.startTime }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="endTime">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ride Ended At</th>
+            <td mat-cell *matCellDef="let element">{{ element.endTime }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" class="pointer" (click)="viewRideDetails(row)"></tr>
+    
+    </table>
+    <mat-paginator
+        [length]="length"
+        [pageIndex]="currentPage"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[1, 2, 10, 25, 50]"
+        showFirstLastButtons
+        (page)="handlePage($event)"
+    ></mat-paginator>
+
+</div>

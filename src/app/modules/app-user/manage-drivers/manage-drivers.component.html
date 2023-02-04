@@ -1,0 +1,34 @@
+<div class="app-manacc-page">
+    <h2>Managing driver accounts</h2>
+    <mat-divider></mat-divider>
+    <div class="grid">
+        <mat-card>
+            <mat-card-title>
+                <mat-card-title><a [routerLink]="['../register-driver']"> + Register new driver</a></mat-card-title>
+            </mat-card-title>
+          </mat-card>
+        <div *ngFor="let acc of accounts">
+            <mat-card>
+                <mat-card-header>
+                    <div class="app-reg-col-name">
+                        <mat-card-title><a [routerLink]="['../driver-account', acc.id]"> {{acc.name}} {{acc.surname}} </a></mat-card-title>
+                        <mat-card-subtitle>driver</mat-card-subtitle>
+                    </div>
+                    <div class="app-reg-col-pic">
+                        <img mat-card-sm-image src={{acc.profilePicture}}/>
+                    </div>
+                    <mat-card-title-group>
+                    </mat-card-title-group>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content>
+                    <p>{{acc.email}}</p>
+                    <p>{{acc.telephoneNumber}}</p>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button mat-button (click)="viewDetails(acc.id)">VIEW PROFILE DETAILS</button>
+                  </mat-card-actions>
+              </mat-card>
+        </div>
+    </div>
+</div>

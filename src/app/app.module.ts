@@ -1,41 +1,51 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core'
+import { BrowserModule } from '@angular/platform-browser'
+import { AppRoutingModule } from './infrastructure/app-routing.module'
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './infrastructure/material/material.module';
+import { AppComponent } from './app.component'
+import { NoopAnimationsModule } from '@angular/platform-browser/animations'
+import { MaterialModule } from './infrastructure/material/material.module'
 
-import { LoginComponent } from './components/login/login.component';
-import { RouterModule } from '@angular/router';
-
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-
-import { RegisterAccountComponent } from './components/register-account/register-account.component';
-import { HomeComponent } from './components/home/home.component';
-
-import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field'
+import { AuthModule } from './modules/auth/auth.module'
+import { LayoutModule } from './modules/layout/layout.module'
+import { AppUserModule } from './modules/app-user/app-user.module'
+import { RideModule } from './modules/ride/ride.module'
+import { HTTP_INTERCEPTORS } from '@angular/common/http'
+import { Interceptor } from './infrastructure/interceptor/interceptor.interceptor'
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterAccountComponent,
-    ToolbarComponent,
-    LandingPageComponent,
-    HomeComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     NoopAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule
+    AppRoutingModule,
+    MaterialModule,
+    AuthModule,
+    LayoutModule,
+    AppUserModule,
+    RideModule
   ],
-  providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: {
+        appearance: 'outline'
+      }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: Interceptor,
+      multi: true
+    }
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: ErrorInterceptor,
+    //   multi: true,
+    // }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

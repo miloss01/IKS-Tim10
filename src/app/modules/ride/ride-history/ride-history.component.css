@@ -1,0 +1,36 @@
+tr.pointer {
+    cursor: pointer;
+}
+
+ table {
+    width: 100%;
+}
+
+.app-ridehistory-page {
+    margin: 10vh;
+    padding-bottom: 10vh;
+}
+
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+h2 {
+    margin-top: 10vh;
+    font-size: 3em;
+    margin-bottom: 5vh;
+    line-height: 1.3em;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+
+table{
+    margin-top: 1vh;
+}
+
+th {
+    color: black;
+    font-size: 1.1em;
+}
+

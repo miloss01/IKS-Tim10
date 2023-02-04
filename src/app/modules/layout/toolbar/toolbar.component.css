@@ -1,0 +1,42 @@
+.toolbar_color {
+  background-color: black;
+}
+
+mat-toolbar{
+  margin-bottom: 10vh;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.white-text {
+  color: white;
+}
+
+.red-text {
+  color: red;
+}
+
+.center-text {
+  margin: 0 auto;
+  /* text-align: center; */
+}
+
+.bigger-text {
+  font-size: larger;
+}
+
+.manage-menu-btn {
+  width: 100% !important;
+  text-align: right;
+}
+
+.mat-menu-panel {
+  width: 20% !important;
+}
+
+::ng-deep .mat-badge-content {
+  background-color: rgb(72, 121, 122);
+  color: white;
+}
