@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
-import { Router } from '@angular/router'
 import { AppUserService } from 'src/app/services/app-user.service'
 
 @Component({
@@ -21,13 +20,13 @@ export class RegisterAccountComponent implements OnInit {
 
   errorMessage: string = ''
 
-  constructor (private readonly router: Router, private readonly appUserService: AppUserService) { }
+  constructor (private readonly appUserService: AppUserService) { }
 
   ngOnInit (): void {
   }
 
   registerAccount (): void {
-    console.log("Value of form: " + JSON.stringify(this.registerAccountForm.value))
+    console.log('Value of form: ' + JSON.stringify(this.registerAccountForm.value))
 
     if (this.registerAccountForm.value.password !== this.registerAccountForm.value.confirmPassword) {
       this.errorMessage = "Passwords don't match"
