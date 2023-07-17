@@ -1,7 +1,7 @@
-# STOCXS
+# Transportation app frontend
 
-Project for course Client Side Engineering. 
-Angular-based frontend of web application for providing transportation services ([Backend link](https://github.com/miloss01/ISS-Tim10)). 
+Project for course Client Side Engineering.  
+Angular-based frontend of web application for providing transportation services ([Backend link](https://github.com/miloss01/ISS-Tim10)).  
 Focus of project is creating a user-friendly interface for seamlessly connecting passengers with drivers. Main functionalities include requesting rides and following real time information of ride currently in progress.
 
 ## Technologies
@@ -19,14 +19,14 @@ Project is created with:
 ## Features
 
 * User registration
-* Ride booking
+* Ride booking  
 	Passengers can specify pickup and drop off locations with additional ride preferences and invite additional passenger.
 	Drivers can accept or decline ride requests.
-* Real-Time vehicle location tracking
+* Real-Time vehicle location tracking  
 	Includes tracking available vehicles on map, and following driver's location for ride currently in progress.
 	Passengers can contact admins in case of emergency.
 * Driver rating and reviews
-* Driver verification by admin user
+* Driver verification by admin user  
 	Includes reviewing account changes made by drivers.
 * Ride history overview
 * Driver earnings and reports
