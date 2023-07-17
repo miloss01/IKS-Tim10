@@ -3,6 +3,7 @@
 Project for course Client Side Engineering.  
 Angular-based frontend of web application for providing transportation services ([Backend link](https://github.com/miloss01/ISS-Tim10)).  
 Focus of project is creating a user-friendly interface for seamlessly connecting passengers with drivers. Main functionalities include requesting rides and following real time information of ride currently in progress.
+Project was developed using agile methodologies, emphasizing collaboration, and iterative development.
 
 ## Technologies
 
@@ -34,6 +35,7 @@ Project is created with:
 ## Key learnings
 * Map integration and location handling
 * Web sockets for real-time communication
+* Iterative development cycles (sprints)
 
 ## Setup
 
