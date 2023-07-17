@@ -1,27 +1,48 @@
-# IKSUberTim10
+# STOCXS
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.10.
+Project for course Client Side Engineering. 
+Angular-based frontend of web application for providing transportation services ([Backend link](https://github.com/miloss01/ISS-Tim10)). 
+Focus of project is creating a user-friendly interface for seamlessly connecting passengers with drivers. Main functionalities include requesting rides and following real time information of ride currently in progress.
 
-## Development server
+## Technologies
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Project is created with:
 
-## Code scaffolding
+* Angular: 14.2.10
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Libraries
+- Angular Material: 13.0.0
+- Leaflet: 1.9.3
+- SweetAlert: 11.6.16
+- Chart.js: 2.9.4
 
-## Build
+## Features
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+* User registration
+* Ride booking
+	Passengers can specify pickup and drop off locations with additional ride preferences and invite additional passenger.
+	Drivers can accept or decline ride requests.
+* Real-Time vehicle location tracking
+	Includes tracking available vehicles on map, and following driver's location for ride currently in progress.
+	Passengers can contact admins in case of emergency.
+* Driver rating and reviews
+* Driver verification by admin user
+	Includes reviewing account changes made by drivers.
+* Ride history overview
+* Driver earnings and reports
 
-## Running unit tests
+## Key learnings
+* Map integration and location handling
+* Web sockets for real-time communication
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Setup
 
-## Running end-to-end tests
+1. Clone repository and run npm install to install dependencies.
+2. Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. 
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
+## Credits
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+* Milos Stojanovic ([github link](https://github.com/miloss01))
+* Selena Milutin ([github link](https://github.com/SelenaMilutin))
+* Katarina Spremic ([github link](https://github.com/s-katarina))
